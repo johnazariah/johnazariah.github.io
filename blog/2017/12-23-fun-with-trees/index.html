@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Monkeying Around : Fun with Trees</title>
+    <meta name="description" />
+    
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="alternate" href="https://johnazariah.github.io//rss.xml" title="John Azariah's Blog" type="application/rss+xml">
+    <link rel="shortcut icon" href="https://johnazariah.github.io//favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://johnazariah.github.io//css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <!-- FSharp.Formatting Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://johnazariah.github.io//fsharp.formatting/tooltips.css" />
+    <script type="text/javascript" src="https://johnazariah.github.io//fsharp.formatting/tooltips.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body class="post-template nav-closed">
+
+    <div class="nav">
+        
+        <a class="subscribe-button icon-feed" href="https://johnazariah.github.io//rss.xml">Subscribe</a>
+    </div>
+    <span class="nav-cover"></span>
+
+    <div class="site-wrapper">
+
+        
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav clearfix">
+        <a class="blog-logo" href="https://johnazariah.github.io/">Home</a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Monkeying Around : Fun with Trees</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2017-12-23T00:00:01">2017-12-23T00:00:01</time>
+                   on trees; functional data structures; immutable; free monad
+            </section>
+        </header>
+
+        <section class="post-content">
+          
+<p>Trees, like lists, are powerful, ubiquitous data structures. Also, like lists, they are recursively defined.</p>
+<h2>A Naive Solution</h2>
+<p>At first blush, a reasonable way of defining a tree might be:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span> {
+    <span class="i">Tag</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>
+    <span class="i">Children</span> <span class="o">:</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="i">list</span>
+}
+</code></pre></td>
+</tr>
+</table>
+<p>This looks clean and elegant, but we immediately find it restrictive when we want to actually create a nested and branched structure. Unless we always build the tree up from the leaves towards the root, we need more sophisticated ways of walking the structure, and this leads to an interesting problem.</p>
+<p>Specifically, if we need to introduce a reference to the parent of a given node, things get out of hand very quickly. This is the equivalent of trying to building a doubly-linked list with immutable data structures - which turns out to be a very difficult problem to solve.</p>
+<h2>An Object Lesson</h2>
+<p>But F# is a multi-paradigm language, and we can sacrifice immutability to get bi-directional links.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
+<span class="l">45: </span>
+<span class="l">46: </span>
+<span class="l">47: </span>
+<span class="l">48: </span>
+<span class="l">49: </span>
+<span class="l">50: </span>
+<span class="l">51: </span>
+<span class="l">52: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Tree</span> <span class="o">=</span>
+    <span class="k">type</span> <span class="i">NodeId</span> <span class="o">=</span> | <span class="i">Id</span> <span class="k">of</span> <span class="i">string</span>
+
+    [&lt;<span class="i">AutoOpen</span>&gt;]
+    <span class="k">module</span> <span class="k">internal</span> <span class="i">Node</span> <span class="o">=</span>
+        [&lt;<span class="i">AbstractClass</span>&gt;]
+        <span class="k">type</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> () <span class="o">=</span> <span class="k">class</span>
+            <span class="k">member</span> <span class="k">val</span> <span class="k">private</span> <span class="i">_children</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="i">list</span> <span class="o">=</span> [] <span class="k">with</span> <span class="i">get</span>, <span class="i">set</span> 
+            <span class="k">member</span> <span class="k">internal</span> <span class="i">this</span><span class="o">.</span><span class="i">Children</span> 
+                <span class="k">with</span> <span class="i">get</span> () <span class="o">=</span> <span class="i">this</span><span class="o">.</span><span class="i">_children</span>
+                <span class="k">and</span>  <span class="i">set</span> <span class="i">ns</span> <span class="o">=</span> <span class="i">this</span><span class="o">.</span><span class="i">_children</span> <span class="o">&lt;-</span> <span class="i">ns</span>
+            <span class="k">abstract</span> <span class="k">member</span> <span class="i">Level</span> <span class="o">:</span> <span class="i">int</span>
+        <span class="k">end</span>
+
+        <span class="k">type</span> <span class="i">Root</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> () <span class="o">=</span> <span class="k">class</span>
+            <span class="k">inherit</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> ()
+            <span class="k">override</span> <span class="i">this</span><span class="o">.</span><span class="i">Level</span> <span class="o">=</span> <span class="n">0</span>
+        <span class="k">end</span>
+
+        <span class="k">type</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> (<span class="i">id</span><span class="o">:</span> <span class="i">NodeId</span>, <span class="i">value</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span>, <span class="i">parent</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>) <span class="o">=</span> <span class="k">class</span>
+            <span class="k">inherit</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> ()
+            <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Id</span>     <span class="o">=</span> <span class="i">id</span>
+            <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Parent</span> <span class="o">=</span> <span class="i">parent</span>
+            <span class="k">member</span> <span class="k">val</span> <span class="i">Value</span>   <span class="o">=</span> <span class="i">value</span> <span class="k">with</span> <span class="i">get</span>, <span class="i">set</span>
+            <span class="k">override</span> <span class="i">this</span><span class="o">.</span><span class="i">Level</span>  <span class="o">=</span> <span class="i">parent</span><span class="o">.</span><span class="i">Level</span> <span class="o">+</span> <span class="n">1</span>
+        <span class="k">end</span>
+        
+    <span class="k">type</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> () <span class="o">=</span> <span class="k">class</span>
+        <span class="k">let</span> <span class="i">root</span> <span class="o">=</span> <span class="i">Root</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> ()
+        <span class="k">member</span> <span class="k">private</span> <span class="i">this</span><span class="o">.</span><span class="i">Root</span> <span class="o">=</span> <span class="i">root</span>
+        <span class="k">member</span> <span class="k">val</span> <span class="k">private</span> <span class="i">this</span><span class="o">.</span><span class="i">Current</span> <span class="o">=</span> <span class="i">root</span>
+
+        <span class="c">// Modify the tag of the current node</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">ModifyValue</span> <span class="i">f</span>   <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+
+        <span class="c">// Push a child on to the current node and make it the current node</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">PushChild</span>  <span class="i">name</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+
+        <span class="c">// Add a sibling to the current node and make it the current node</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">AddSibling</span> <span class="i">name</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+
+        <span class="c">// Pop to the parent of this node and make it the current node</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Pop</span> <span class="i">l</span>           <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+
+        <span class="c">// Other modification operations elided...</span>
+
+        <span class="c">// Visit this tree in pre-order starting at the root</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">VisitPreOrder</span> <span class="i">f</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+
+        <span class="c">// Visit the path to the root from the current node</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">VisitToRoot</span>   <span class="i">f</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+    <span class="k">end</span>
+</code></pre></td>
+</tr>
+</table>
+<p>We note the following immediately:</p>
+<ol>
+<li>This is a familiar coding pattern. It's entirely conceivable that you would see similar code in C# or Java.</li>
+<li>We are taking advantage of F#'s module system to encapsulate the <code>Node</code> and <code>Tree</code> data structures, hiding implementation details, and exposing just the operations we wish to provide</li>
+<li>We are full-blown object-oriented and mutable at this point, so we are obliged to address several concerns that immutable data structures obviate.</li>
+<li>The <code>Current</code> member is modified only whilst tree-building, and serves as the starting point for the <code>VisitToRoot</code> operation.</li>
+<li><code>VisitPreOrder</code> and <code>VisitToRoot</code> must each have their own way of traversing the tree without modifying either <code>Root</code> or <code>Current</code>. Traversing the tree should necessarily be a read-only operation.</li>
+</ol>
+<p>This solution may suffice for some cases, but we're going to consider a situation where immutablity is actually something we need for the purposes of the domain. For example, let's say we're building the tree as part of an operation, and we want to ensure that the tree returns to its original state if that operation fails. Keeping track of the tree as it grows, and being able to roll-back to a given state, is not something that is pleasant to do correctly when mutability is in the picture - and doubly so when concurrency and mutability meet as part of the problem.</p>
+<p>So we are faced with an interesting quandary - having the ability to <code>VisitToRoot</code> or <code>Pop</code> requires bi-directional linking - which is hard to do with immutable data structures; and having the ability to check-point and roll-back tree-modification operations is difficult to do correctly without immutable data structures! What do we do?</p>
+<h2>Painting By Numbers</h2>
+<p>What if, instead of actually creating and modifying a tree like we were taught in CS 101, we simply keep track of the list of tree-modification instructions as a kind of program? This list would have to support a limited form of mutability in that the only way to modify the list would be to append to it, but the existing contents of the list could never change.</p>
+<p>When the tree needs to be visited, we take the list of instructions and interpret them to build a tree using the mutable approach, but since the contents of the list at this point is fixed, the tree that we create from it, is, in some sense, constant even though it contains mutable parts. Indeed, the only operations that the tree needs to support from that point on are (possibly repeated) traversals.</p>
+<p>This approach is quite a powerful one, and can be applied to a variety of problems. We could, in fact, generalize the pattern completely in other languages that allow abstraction over types, and this forms the general principle behind what is known as the 'Free Monad'. However, since the concept is quite powerful, we are going to explore the concept concretely, and leave the abstraction of the pattern to Haskell and Scala programmers!</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Tree</span> <span class="o">=</span>
+    <span class="c">// other members elided ...</span>
+
+    <span class="k">type</span> <span class="k">internal</span> <span class="i">ConstructOperation</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span>
+    | <span class="i">PushChild</span>   <span class="k">of</span> <span class="i">NodeId</span> <span class="o">*</span> <span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span>
+    | <span class="i">AddSibling</span>  <span class="k">of</span> <span class="i">NodeId</span> <span class="o">*</span> <span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span>
+    | <span class="i">ModifyValue</span> <span class="k">of</span> (<span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span>)
+    | <span class="i">Pop</span>         <span class="k">of</span> <span class="i">int</span> <span class="i">option</span>
+
+    <span class="k">type</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> () <span class="o">=</span> <span class="k">class</span>
+        <span class="k">member</span> <span class="k">val</span> <span class="k">private</span> <span class="i">ops</span> <span class="o">:</span> <span class="i">ConstructOperation</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="i">list</span> <span class="o">=</span> [] <span class="k">with</span> <span class="i">get</span>, <span class="i">set</span>
+
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">PushChild</span>    <span class="i">x</span> <span class="o">=</span>
+            <span class="i">this</span><span class="o">.</span><span class="i">ops</span> <span class="o">&lt;-</span> <span class="i">PushChild</span> <span class="i">x</span> <span class="o">::</span> <span class="i">this</span><span class="o">.</span><span class="i">ops</span>; <span class="i">this</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">AddSibling</span>   <span class="i">x</span> <span class="o">=</span> 
+            <span class="i">this</span><span class="o">.</span><span class="i">ops</span> <span class="o">&lt;-</span> <span class="i">AddSibling</span> <span class="i">x</span> <span class="o">::</span> <span class="i">this</span><span class="o">.</span><span class="i">ops</span>; <span class="i">this</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">ModifyValue</span>  <span class="i">x</span> <span class="o">=</span>
+            <span class="i">this</span><span class="o">.</span><span class="i">ops</span> <span class="o">&lt;-</span> <span class="i">ModifyValue</span> <span class="i">x</span> <span class="o">::</span> <span class="i">this</span><span class="o">.</span><span class="i">ops</span>; <span class="i">this</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Pop</span>         <span class="o">?</span><span class="i">x</span> <span class="o">=</span>
+            <span class="i">this</span><span class="o">.</span><span class="i">ops</span> <span class="o">&lt;-</span> <span class="i">ConstructOperation</span><span class="o">.</span><span class="i">Pop</span> <span class="i">x</span> <span class="o">::</span> <span class="i">this</span><span class="o">.</span><span class="i">ops</span>; <span class="i">this</span>
+    <span class="k">end</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Of course, this is all well and good to build up a list of operations, but this doesn't actually build a tree - and we aren't really able to traverse the tree in any meaningful way.</p>
+<p>One sneaky thing we have done is to build the list in reverse. This ensures that each operation is processed in constant-time.</p>
+<p>In order to build the tree, we start with a single node, and fold over the list processing each node in turn. We want the result of the fold to be the tree with bi-directional links.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="k">rec</span> <span class="i">applyOp</span> <span class="i">op</span> (<span class="i">node</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>)  <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span> 
+    <span class="k">match</span> <span class="i">op</span> <span class="k">with</span>
+
+    <span class="c">// Push a child on to the given node and return it        </span>
+    | <span class="i">PushChild</span> (<span class="i">x</span>, <span class="i">v</span>) <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span class="i">child</span> <span class="o">=</span> <span class="i">Node</span> (<span class="i">x</span>, <span class="i">v</span>, <span class="i">node</span>)
+        <span class="i">node</span><span class="o">.</span><span class="i">Children</span> <span class="o">&lt;-</span> <span class="k">upcast</span> <span class="i">child</span> <span class="o">::</span> <span class="i">node</span><span class="o">.</span><span class="i">Children</span>
+        <span class="k">upcast</span> <span class="i">child</span>
+
+    <span class="c">// Add a sibling to the given node and return it</span>
+    | <span class="i">AddSibling</span> (<span class="i">x</span>, <span class="i">v</span>) <span class="k">-&gt;</span>
+        <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
+        | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span>
+            <span class="k">let</span> <span class="i">sibling</span> <span class="o">=</span> <span class="i">Node</span>(<span class="i">x</span>, <span class="i">v</span>, <span class="i">n</span><span class="o">.</span><span class="i">Parent</span>)
+            <span class="i">n</span><span class="o">.</span><span class="i">Parent</span><span class="o">.</span><span class="i">Children</span> <span class="o">&lt;-</span> <span class="k">upcast</span> <span class="i">sibling</span> <span class="o">::</span> <span class="i">n</span><span class="o">.</span><span class="i">Parent</span><span class="o">.</span><span class="i">Children</span>
+            <span class="k">upcast</span> <span class="i">sibling</span>
+        | _ <span class="k">-&gt;</span> <span class="i">failwith</span> <span class="s">&quot;Cannot add sibling to root&quot;</span>
+
+    <span class="c">// Modify the tag of the given node and return it</span>
+    | <span class="i">ModifyValue</span> <span class="i">f</span> <span class="k">-&gt;</span> 
+        <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
+        | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span>
+            <span class="i">n</span><span class="o">.</span><span class="i">Value</span> <span class="o">&lt;-</span> <span class="i">f</span> <span class="i">n</span><span class="o">.</span><span class="i">Value</span>
+            <span class="k">upcast</span> <span class="i">n</span>
+        | _ <span class="k">-&gt;</span> <span class="i">failwith</span> <span class="s">&quot;Cannot modify value of root&quot;</span>
+
+    <span class="c">// Pop (recursively) to an ancestor of this node and return it</span>
+    | <span class="i">ConstructOperation</span><span class="o">.</span><span class="i">Pop</span> <span class="i">l</span> <span class="k">-&gt;</span>
+        <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
+        | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span> 
+            <span class="k">let</span> <span class="i">level</span> <span class="o">=</span> <span class="i">l</span> <span class="o">|&gt;</span> <span class="i">Option</span><span class="o">.</span><span class="i">defaultValue</span> (<span class="i">n</span><span class="o">.</span><span class="i">Level</span> <span class="o">-</span> <span class="n">1</span>)
+            <span class="k">if</span> (<span class="i">n</span><span class="o">.</span><span class="i">Parent</span><span class="o">.</span><span class="i">Level</span> <span class="o">=</span> <span class="i">level</span>) <span class="k">then</span>
+                <span class="i">n</span><span class="o">.</span><span class="i">Parent</span>
+            <span class="k">elif</span> (<span class="i">n</span><span class="o">.</span><span class="i">Level</span> <span class="o">&gt;</span> <span class="i">level</span>) <span class="k">then</span>
+                <span class="i">applyOp</span> (<span class="i">ConstructOperation</span><span class="o">.</span><span class="i">Pop</span> (<span class="i">Some</span> <span class="i">level</span>)) (<span class="i">n</span><span class="o">.</span><span class="i">Parent</span>)
+            <span class="k">else</span>
+                <span class="i">failwith</span> <span class="s">&quot;How did we get here?&quot;</span>
+        | _ <span class="k">-&gt;</span> <span class="i">failwith</span> <span class="s">&quot;Cannot pop root&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>This function takes an operation <code>op</code> and applies it to a given node, returning a result. The signature of the function has been chosen to align with one of the folding functions, so if we start with a list of operations and a root node, we should be able to build up a full tree from the list, and end up pointing to the <em>current</em> node.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">current</span> <span class="o">=</span> <span class="i">List</span><span class="o">.</span><span class="i">foldBack</span> <span class="i">applyOp</span> <span class="i">ops</span> (<span class="k">upcast</span> (<span class="i">Root</span>()))
+</code></pre></td>
+</tr>
+</table>
+<p>Of course, we will want to also have a handle to the root of the tree, so we can do traversals like a pre-order walk. We can get that by recursively walking up from the current position until we hit a root node.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">visitRoot</span> <span class="i">start</span> <span class="o">=</span> 
+    <span class="k">let</span> <span class="k">rec</span> <span class="i">visit</span> (<span class="i">node</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>) <span class="o">=</span>
+        <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
+        | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span> <span class="i">seq</span> {
+                <span class="k">yield</span> <span class="i">node</span>
+                <span class="k">yield!</span> <span class="i">visit</span> <span class="i">n</span><span class="o">.</span><span class="i">Parent</span>
+            }
+        | <span class="o">:?</span> <span class="i">Root</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">r</span> <span class="k">-&gt;</span> <span class="i">seq</span> { <span class="k">yield</span> <span class="i">node</span> }
+        | _ <span class="k">-&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">empty</span>
+    <span class="i">visit</span> <span class="i">start</span>
+
+<span class="k">let</span> <span class="i">last</span> <span class="o">=</span> <span class="i">visitRoot</span> <span class="i">current</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">last</span> 
+<span class="k">let</span> <span class="i">root</span> <span class="o">=</span> <span class="i">last</span> <span class="o">:?&gt;</span> <span class="i">Root</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Now, since we have started with a fixed list of operations, the <code>current</code> and <code>root</code> values represent a fixed tree. We can keep this pair in a structure that represents the "tree" version of the operations/</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Tree</span> <span class="o">=</span>
+    <span class="c">// other members elided...</span>
+
+    <span class="k">type</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> () <span class="o">=</span> <span class="k">class</span>
+        <span class="c">// other members elided...</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">Build</span> () <span class="o">=</span> <span class="i">TreeCursor</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> (<span class="i">this</span><span class="o">.</span><span class="i">ops</span>)
+    <span class="k">end</span>
+
+    <span class="k">and</span> <span class="i">TreeCursor</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">internal</span> (<span class="i">ops</span>) <span class="o">=</span> <span class="k">class</span>
+        <span class="k">let</span> <span class="k">rec</span> <span class="i">applyOp</span> <span class="i">op</span> (<span class="i">node</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>)  <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+        <span class="k">let</span> <span class="i">current</span> <span class="o">=</span> <span class="i">List</span><span class="o">.</span><span class="i">foldBack</span> <span class="i">applyOp</span> <span class="i">ops</span> (<span class="k">upcast</span> (<span class="i">Root</span>()))
+        <span class="k">let</span> <span class="i">visitRoot</span> <span class="i">start</span> <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
+        <span class="k">let</span> <span class="i">root</span> <span class="o">=</span> <span class="i">visitRoot</span> <span class="i">current</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">last</span> <span class="o">:?&gt;</span> <span class="i">Root</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>
+    <span class="k">end</span>
+</code></pre></td>
+</tr>
+</table>
+<p>While it might seem like a good idea to use a record for this, it might be better to use a class instead, because we don't want to expose the actual <code>current</code> and <code>root</code> members.</p>
+<p>In fact, by using appropriate privacy modifiers on the constructor, we can make both the <code>Tree&lt;'a&gt;</code> and <code>TreeCursor&lt;'a&gt;</code> classes totally opaque - hiding the entire data structures within and only providing a clean programmatic interface to them.</p>
+<p>Also, since a <code>TreeCursor</code> instance represents a <code>Tree</code> fixed at a given point, the only meaningful thing we can do to a <code>TreeCursor</code> is to traverse it, which leads to a very interesting observation. Since the tree is fixed, its traversals are <em>also</em> fixed. Which means we only have to traverse it once and build up a list of things we saw in the traversal, and then we can play back the traversal operations and process the tree in any way we choose.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Tree</span> <span class="o">=</span>
+    <span class="c">// other members elided...</span>
+
+    <span class="k">type</span> <span class="i">VisitOperation</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span>
+        | <span class="i">VisitRoot</span>
+        | <span class="i">VisitChild</span> <span class="k">of</span> <span class="i">NodeId</span>
+        | <span class="i">ReadValue</span>  <span class="k">of</span> <span class="i">NodeId</span> <span class="o">*</span> <span class="o">&#39;</span><span class="i">a</span> <span class="i">option</span>
+        | <span class="i">Pop</span>
+
+    <span class="k">type</span> <span class="i">TreeCursor</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">internal</span> (<span class="i">ops</span>) <span class="o">=</span> <span class="k">class</span>
+        <span class="c">// other members elided...</span>
+
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">PathToRoot</span> <span class="o">=</span> 
+            <span class="k">let</span> <span class="i">readValue</span> (<span class="i">nb</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>) <span class="o">=</span> 
+                <span class="k">match</span> <span class="i">nb</span> <span class="k">with</span>
+                | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span> <span class="i">ReadValue</span> (<span class="i">n</span><span class="o">.</span><span class="i">Id</span>, <span class="i">n</span><span class="o">.</span><span class="i">Value</span>)
+                | _ <span class="k">-&gt;</span> <span class="i">VisitRoot</span> 
+            <span class="i">visitRoot</span> <span class="i">current</span> <span class="o">|&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">map</span> <span class="i">readValue</span>
+        
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">PreOrderPath</span> <span class="o">=</span>
+            <span class="k">let</span> <span class="k">rec</span> <span class="i">visit</span> (<span class="i">node</span> <span class="o">:</span> <span class="i">NodeBase</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>) <span class="o">=</span>
+                <span class="i">seq</span> {
+                    <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
+                    | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span> <span class="k">yield</span> <span class="i">ReadValue</span> (<span class="i">n</span><span class="o">.</span><span class="i">Id</span>, <span class="i">n</span><span class="o">.</span><span class="i">Value</span>)
+                    | _ <span class="k">-&gt;</span> <span class="k">yield!</span> <span class="i">Seq</span><span class="o">.</span><span class="i">empty</span>
+
+                    <span class="k">for</span> <span class="i">child</span> <span class="k">in</span> <span class="i">node</span><span class="o">.</span><span class="i">Children</span> <span class="o">|&gt;</span> <span class="i">List</span><span class="o">.</span><span class="i">rev</span> <span class="k">do</span>
+                        <span class="k">match</span> <span class="i">child</span> <span class="k">with</span>
+                        | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">c</span> <span class="k">-&gt;</span> 
+                            <span class="k">yield!</span> <span class="i">seq</span> {
+                                <span class="k">yield</span> <span class="i">VisitChild</span> <span class="i">c</span><span class="o">.</span><span class="i">Id</span>
+                                <span class="k">yield!</span> <span class="i">visit</span> <span class="i">child</span>
+                                <span class="k">yield</span> <span class="i">VisitOperation</span><span class="o">.</span><span class="i">Pop</span>
+                            }
+                        | _ <span class="k">-&gt;</span> <span class="k">yield!</span> <span class="i">Seq</span><span class="o">.</span><span class="i">empty</span>
+                }
+            <span class="i">visit</span> <span class="i">root</span>
+    <span class="k">end</span>
+</code></pre></td>
+</tr>
+</table>
+<p>In the code snippet above, we have defined two interesting traversals - one starts at the current node and walks back to the root, and the other starts at the root and traverses the whole tree "pre-order".</p>
+<p>Each traversal results in a fixed sequence of <code>VisitOperation&lt;'a&gt;</code> for future use.</p>
+<p>Tree traversals are best represented as folds. This is actually a much broader topic of discussion, but folding over trees can build all kinds of other data structures - including other trees, and allow for tree-rewriting.</p>
+<p>In our case, we can traverse the tree, and then fold over it, as follows:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Tree</span> <span class="o">=</span>
+    <span class="c">// other members elided...</span>
+
+    <span class="k">type</span> <span class="i">TreeCursor</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">internal</span> (<span class="i">ops</span>) <span class="o">=</span> <span class="k">class</span>
+        <span class="c">// other members elided...</span>
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">VisitRoot</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">o</span><span class="o">&gt;</span> 
+            (<span class="i">processor</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">o</span> <span class="k">-&gt;</span> <span class="i">VisitOperation</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">o</span>)
+            (<span class="i">seed</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">o</span>) <span class="o">=</span>
+                <span class="i">Seq</span><span class="o">.</span><span class="i">fold</span> <span class="i">processor</span> <span class="i">seed</span> <span class="i">this</span><span class="o">.</span><span class="i">PathToRoot</span> 
+
+        <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">VisitPreOrder</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">o</span><span class="o">&gt;</span>
+            (<span class="i">processor</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">o</span> <span class="k">-&gt;</span> <span class="i">VisitOperation</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">o</span>)
+            (<span class="i">seed</span> <span class="o">:</span> <span class="o">&#39;</span><span class="i">o</span>) <span class="o">=</span> 
+                <span class="i">Seq</span><span class="o">.</span><span class="i">fold</span> <span class="i">processor</span> <span class="i">seed</span> <span class="i">this</span><span class="o">.</span><span class="i">PreOrderPath</span>
+    <span class="k">end</span>
+</code></pre></td>
+</tr>
+</table>
+<p>And there we have it.</p>
+<p>We have implemented a traditional tree which affords the benefits of immutable data structures (like check-pointing), whilst allowing for efficient tree traversals using parent-pointers, and functionally separating out the traversal concerns from the tree-node processing concerns.</p>
+<p>And in less than 130 lines of code!</p>
+<h2>Soup's Up!</h2>
+<p>Let's build an example to see how this can be used:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">Tree</span><span class="o">&lt;</span><span class="i">string</span><span class="o">&gt;</span> ()
+
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">PushChild</span>  (<span class="i">Id</span> <span class="s">&quot;a&quot;</span>,  <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">PushChild</span>  (<span class="i">Id</span> <span class="s">&quot;b&quot;</span>,  <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">PushChild</span>  (<span class="i">Id</span> <span class="s">&quot;b1&quot;</span>, <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">AddSibling</span> (<span class="i">Id</span> <span class="s">&quot;b2&quot;</span>, <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">Pop</span> ()
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">AddSibling</span> (<span class="i">Id</span> <span class="s">&quot;c&quot;</span>,  <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">PushChild</span>  (<span class="i">Id</span> <span class="s">&quot;c1&quot;</span>, <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">AddSibling</span> (<span class="i">Id</span> <span class="s">&quot;c2&quot;</span>, <span class="i">None</span>)
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">Pop</span> ()
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">Pop</span> ()
+    <span class="k">let</span> <span class="i">t</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">PushChild</span>  (<span class="i">Id</span> <span class="s">&quot;d&quot;</span>,  <span class="i">None</span>)
+</code></pre></td>
+</tr>
+</table>
+<p>At this point, we have represented the building of a nested structure in an idiomatic manner, but the internal representation is simply a list of operations describing the building of the structure, rather than the structure itself.</p>
+<p>We can then create the tree structure - with bi-directional links - at a fixed point in time, allowing us to traverse the tree.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="k">let</span> <span class="i">tc</span> <span class="o">=</span> <span class="i">t</span><span class="o">.</span><span class="i">Build</span> ()
+</code></pre></td>
+</tr>
+</table>
+<p>Now let's write a function to process each node as we encounter it in the traversal.</p>
+<p>The signature of this function matches the signature used by a folding function, which allows us to fold over the list of visit operations and build up a composite value.</p>
+<p>In our case, we want to build up a string containing a textual representation of the path in the traversal.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="k">let</span> <span class="i">printNode</span> <span class="i">res</span> <span class="i">curr</span> <span class="o">=</span> 
+        <span class="k">let</span> <span class="i">c</span> <span class="o">=</span> 
+            <span class="k">match</span> <span class="i">curr</span> <span class="k">with</span>
+            | <span class="i">ReadValue</span> (<span class="i">id</span>, <span class="i">vo</span>) <span class="k">-&gt;</span> <span class="i">sprintf</span> <span class="s">&quot;%s%s&quot;</span> <span class="i">id</span><span class="o">.</span><span class="i">unapply</span> (<span class="i">vo</span> <span class="o">|&gt;</span> <span class="i">Option</span><span class="o">.</span><span class="i">map</span> (<span class="i">sprintf</span> <span class="s">&quot; (%A)&quot;</span>) <span class="o">|&gt;</span> <span class="i">Option</span><span class="o">.</span><span class="i">defaultValue</span> <span class="s">&quot;&quot;</span>)
+            | <span class="i">VisitRoot</span>          <span class="k">-&gt;</span> <span class="s">&quot;|&quot;</span>
+            | <span class="i">VisitChild</span> <span class="i">id</span>      <span class="k">-&gt;</span> <span class="s">&quot;↓&quot;</span>
+            | <span class="i">VisitOperation</span><span class="o">.</span><span class="i">Pop</span> <span class="k">-&gt;</span> <span class="s">&quot;↑&quot;</span>
+        <span class="i">sprintf</span> <span class="s">&quot;%s %s&quot;</span> <span class="i">res</span> <span class="i">c</span>
+</code></pre></td>
+</tr>
+</table>
+<p>For a given visit operation, we compute a glyph describing the traversal ('up' and 'down' for <code>Pop</code> and <code>Push</code>), or the node's 'id' and 'value'.</p>
+<p>We tack this value at the end of the string which represents the path taken so far.</p>
+<p>Finally, we pass the printing function to the visitor methods instance</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">    <span class="i">printfn</span> <span class="s">&quot;Path to root  : %s&quot;</span> <span class="o">&lt;|</span> <span class="i">tc</span><span class="o">.</span><span class="i">VisitRoot</span>     <span class="i">printNode</span> <span class="s">&quot;&quot;</span>
+    <span class="i">printfn</span> <span class="s">&quot;Pre-Order walk: %s&quot;</span> <span class="o">&lt;|</span> <span class="i">tc</span><span class="o">.</span><span class="i">VisitPreOrder</span> <span class="i">printNode</span> <span class="s">&quot;&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2>Conclusion</h2>
+<p>This method of description and deferred interpretation is a very powerful technique in functional programming. In our case, it allowed us to separate out concerns between tree creation and tree traversal, and appropriate the benefits of immutability (for tree creation) and mutability (for traversals) without sacrificing cleanliness or readability. In fact, we have hoisted all the mechanics of traversal away from the user, and visiting the tree is reduced to simply providing a folding function.</p>
+<p>The concept is well worth learning, as in other languages with higher-kinded types, a lot of mechanical work is lifted by these abstractions. For example, the IO monad in Haskell, and the Free Monad in Scala and Haskell both use and amplify this concept.</p>
+<p>All the code for this article is available at <a href="https://gist.github.com/johnazariah/b0571cf4f62926dabf611d43e9c7bec4">Fun With Trees</a></p>
+<p>Keep typing!</p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            
+
+            <section class="author">
+                <h4><a href="#">&nbsp;</a></h4>
+
+                
+                <div class="author-meta">
+                    
+                </div>
+            </section>
+
+            
+
+        </footer>
+
+    </article>
+</main>
+
+
+
+
+        <footer class="site-footer clearfix">
+            <section class="copyright"><a href="https://johnazariah.github.io/">John Azariah's Blog</a> &copy; 2017</section>
+            <section class="poweredby">Proudly published with <a href="https://github.com/fsprojects/FsBlog">FsBlog</a></section>
+        </footer>
+
+    </div>
+
+    
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://johnazariah.github.io//js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://johnazariah.github.io//js/index.js"></script>
+
+</body>
+</html>
