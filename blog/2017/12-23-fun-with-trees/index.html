@@ -71,7 +71,7 @@
 <p>This looks clean and elegant, but we immediately find it restrictive when we want to actually create a nested and branched structure. Unless we always build the tree up from the leaves towards the root, we need more sophisticated ways of walking the structure, and this leads to an interesting problem.</p>
 <p>Specifically, if we need to introduce a reference to the parent of a given node, things get out of hand very quickly. This is the equivalent of trying to building a doubly-linked list with immutable data structures - which turns out to be a very difficult problem to solve.</p>
 <h2>An Object Lesson</h2>
-<p>But F# is a multi-paradigm language, and we can sacrifice immutability to get bi-directional links.</p>
+<p>F# is a multi-paradigm language, and we can easily sacrifice immutability to get bi-directional links.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -157,7 +157,7 @@
         <span class="k">member</span> <span class="k">private</span> <span class="i">this</span><span class="o">.</span><span class="i">Root</span> <span class="o">=</span> <span class="i">root</span>
         <span class="k">member</span> <span class="k">val</span> <span class="k">private</span> <span class="i">this</span><span class="o">.</span><span class="i">Current</span> <span class="o">=</span> <span class="i">root</span>
 
-        <span class="c">// Modify the tag of the current node</span>
+        <span class="c">// Modify the value of the current node</span>
         <span class="k">member</span> <span class="i">this</span><span class="o">.</span><span class="i">ModifyValue</span> <span class="i">f</span>   <span class="o">=</span> <span class="o">..</span><span class="o">.</span>
 
         <span class="c">// Push a child on to the current node and make it the current node</span>
@@ -188,6 +188,7 @@
 <li>The <code>Current</code> member is modified only whilst tree-building, and serves as the starting point for the <code>VisitToRoot</code> operation.</li>
 <li><code>VisitPreOrder</code> and <code>VisitToRoot</code> must each have their own way of traversing the tree without modifying either <code>Root</code> or <code>Current</code>. Traversing the tree should necessarily be a read-only operation.</li>
 </ol>
+<p>(<a href="https://en.wikipedia.org/wiki/Tree_traversal#Pre-order">Pre-Order Traversal</a> is one way to walk a tree from its root - other traversals are also possible.)</p>
 <p>This solution may suffice for some cases, but we're going to consider a situation where immutablity is actually something we need for the purposes of the domain. For example, let's say we're building the tree as part of an operation, and we want to ensure that the tree returns to its original state if that operation fails. Keeping track of the tree as it grows, and being able to roll-back to a given state, is not something that is pleasant to do correctly when mutability is in the picture - and doubly so when concurrency and mutability meet as part of the problem.</p>
 <p>So we are faced with an interesting quandary - having the ability to <code>VisitToRoot</code> or <code>Pop</code> requires bi-directional linking - which is hard to do with immutable data structures; and having the ability to check-point and roll-back tree-modification operations is difficult to do correctly without immutable data structures! What do we do?</p>
 <h2>Painting By Numbers</h2>
@@ -300,7 +301,7 @@
             <span class="k">upcast</span> <span class="i">sibling</span>
         | _ <span class="k">-&gt;</span> <span class="i">failwith</span> <span class="s">&quot;Cannot add sibling to root&quot;</span>
 
-    <span class="c">// Modify the tag of the given node and return it</span>
+    <span class="c">// Modify the value of the given node and return it</span>
     | <span class="i">ModifyValue</span> <span class="i">f</span> <span class="k">-&gt;</span> 
         <span class="k">match</span> <span class="i">node</span> <span class="k">with</span>
         | <span class="o">:?</span> <span class="i">Node</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="k">as</span> <span class="i">n</span> <span class="k">-&gt;</span>
