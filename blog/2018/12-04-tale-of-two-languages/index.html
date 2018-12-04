@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>A tale of two languages</title>
+    <meta name="description" />
+    
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="alternate" href="https://johnazariah.github.io//rss.xml" title="John Azariah's Blog" type="application/rss+xml">
+    <link rel="shortcut icon" href="https://johnazariah.github.io//favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="https://johnazariah.github.io//css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+
+    <!-- FSharp.Formatting Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://johnazariah.github.io//fsharp.formatting/tooltips.css" />
+    <script type="text/javascript" src="https://johnazariah.github.io//fsharp.formatting/tooltips.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body class="post-template nav-closed">
+
+    <div class="nav">
+        
+        <a class="subscribe-button icon-feed" href="https://johnazariah.github.io//rss.xml">Subscribe</a>
+    </div>
+    <span class="nav-cover"></span>
+
+    <div class="site-wrapper">
+
+        
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav clearfix">
+        <a class="blog-logo" href="https://johnazariah.github.io/">Home</a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">A tale of two languages</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2018-12-04T12:14:40">2018-12-04T12:14:40</time>
+            </section>
+        </header>
+
+        <section class="post-content">
+          
+<h1><code>F#</code> &amp; <code>Q#</code> - A tale of two languages</h1>
+<p><em>This is a post contributing to #FSAdvent 2018 and #QSAdvent 2018</em></p>
+<h2>Introduction</h2>
+<p>It's always interesting to see "real-world" uses of Functional Programming and <code>F#</code>. A lot of us are not lucky enough to use FP and/or <code>F#</code> in our day jobs, but I recently got the opportunity to work on something really cool, where <code>F#</code> and FP both made a huge impact in contributing to the quality of the outcome.</p>
+<p>This is that story. Hopefully this will continue to encourage you to learn and use FP concepts whenever you can, so when the time comes to apply them you'll be ready!</p>
+<p>Happy Advent(ur)ing!</p>
+<h2>Once upon a time...</h2>
+<p>Microsoft started on its Quantum Computing effort a long time ago.</p>
+<p>Quantum Computing, in a nutshell, uses natural quantum mechanical phenomena to perform complex calculations. Just like we can describe the motion of a ball thrown in the air with Algebra, it turns out we can describe the behaviour of electrons and atoms using Quantum Mechanics expressed in Linear Algebra.</p>
+<p>Linear Algebra is both computation-intensive and space-intensive, so we are severely limited in our ability to mathematically describe complex systems such as commonly occurring molecules like hemoglobin (in blood, essential to life), or chlorophyll (in leaves, essential to photosynthesis). Indeed, the space requirements for describing such molecules requires the ability to store and process more complex numbers than there are atoms in the universe - which makes it impossible to classically describe these molecules in the traditional way. While we cannot write down the Linear Algebra equations to fully describe these molecules so we can get mathematical insight into why they have the properties they do, we are faced with the reality that _the molecules themselves exist). That is to say, Nature has somehow found a way to "solve the equation", as it were, and stabilize the collection of atoms and electrons in such a way as to make the molecule exist.</p>
+<p>So, instead of struggling with trying to work out the really intractable linear algebra describing these molecules, we see these molecules more as Nature's "solution" to the hard math problem in the first place, perhaps we can craft other difficult linear algebra problems in a way that Nature can do the hard work for us even if we cannot get Nature to "show all work" on how the problem is solved.</p>
+<p>Very roughly speaking, this is what quantum computing is about - recognizing the fact that nature somehow doesn't seem to have the same problems as we do in terms of physically "performing the math", as it were - so we craft our own problem in terms of quantum mechanical phenomena and effectively use these natural phenomena to "do the math" for us.</p>
+<p>This is, of course, easier said than done. The task of isolating and controlling these quantum mechnical phenomena is technically challenging and physically difficult - generally involving exotic environments that are isolated from stray radiation and chilled to within thousandths of a degree above absolute zero - and exotic materials that exhibit the appropriate properties in these environments, if only for a few thousandths of a second at a time. The task of actually building quantum hardware is highly complex and there are only a few entities investing the time and effort in doing this right now.</p>
+<p>However, if we used a standard <em>classical</em> computer, we might be able to democratize the study and development of quantum algorithms and optimization techniques, so Microsoft put together a <em>Quantum Simulator</em> to assist students and researchers in this endeavor.</p>
+<p>Microsoft's simulator was called
+<a href="https://www.microsoft.com/en-us/research/project/language-integrated-quantum-operations-liqui/">LIQUi|&gt;</a>, and this was written in <code>F#</code> by <a href="https://www.microsoft.com/en-us/research/people/wecker/">Dave Wecker</a>. You can still go and get the tool down and simulate algorithms with it if you like, but we have something better.</p>
+<p>This post is actually the story of how we evolved our own programming language, <a href="https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview"><code>Q#</code></a>, which enables you to develop your own quantum programs and do much more than simulation!</p>
+<h2>The <em>LIQUi|&gt;</em> Simulator</h2>
+<p><em>LIQUi|&gt;</em> was a pure simulation environment. Developers would write native <code>F#</code> code, and <em>LIQUi|&gt;</em> provided library functions which performed the equivalent quantum computing operation.</p>
+<p>A typical piece of <em>LIQUi|&gt;</em> code might look like this:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">[&lt;<span class="i">LQD</span>&gt;]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="f">Entangle1</span> (<span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">entSize</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="t">int</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">ket</span> <span class="o">=</span> <span class="i">Ket</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="i">entSize</span>
+
+    <span class="c">// Start with the full state vector</span>
+    <span class="k">let</span> _   <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="i">ket</span><span class="o">.</span><span class="i">Single</span>()
+
+    <span class="c">// Get the qubit array</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="i">qs</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="i">ket</span><span class="o">.</span><span class="i">Qubits</span>
+
+    <span class="c">// Put the first qubit in superposition</span>
+    <span class="i">H</span> <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="i">qs</span>
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="i">q0</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="i">qs</span><span class="o">.</span><span class="i">Head</span>
+    <span class="k">for</span> <span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="i">i</span> <span class="k">in</span> <span class="n">1..</span><span onmouseout="hideTip(event, 'fs5', 13)" onmouseover="showTip(event, 'fs5', 13)" class="i">qs</span><span class="o">.</span><span class="i">Length</span> <span class="o">-</span> <span class="n">1</span> <span class="k">do</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="i">q</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 15)" onmouseover="showTip(event, 'fs5', 15)" class="i">qs</span><span class="o">.</span>[<span onmouseout="hideTip(event, 'fs7', 16)" onmouseover="showTip(event, 'fs7', 16)" class="i">i</span>]
+        <span class="c">// entangle all the other qubits</span>
+        <span class="i">CNOT</span> [<span onmouseout="hideTip(event, 'fs6', 17)" onmouseover="showTip(event, 'fs6', 17)" class="i">q0</span>, <span onmouseout="hideTip(event, 'fs8', 18)" onmouseover="showTip(event, 'fs8', 18)" class="i">q</span>]
+    
+    <span class="c">// Measure all the qubits</span>
+    <span class="i">M</span> <span class="o">&gt;</span><span class="o">&lt;</span> <span onmouseout="hideTip(event, 'fs5', 19)" onmouseover="showTip(event, 'fs5', 19)" class="i">qs</span>
+</code></pre></td>
+</tr>
+</table>
+<p>It is instructive to notice that the code is generally idiomatic <code>F#</code>, with all constructs expressed as native <code>F#</code>. It's also intresting to notice that the <em>quantum</em> operations (<code>H</code>, <code>CNOT</code> and <code>M</code>) are actually side-effectful and not strictly FP-kosher! This observation is not a criticism, but something that turns out to be critically important to recognise.</p>
+<p>The primary learnings from this effort are:</p>
+<ul>
+<li><strong><code>F#</code> is powerful enough to express quantum constructs</strong></li>
+<li><strong>Quantum operations seem to be primarily side-effectful</strong></li>
+</ul>
+<p><em>LIQUi|&gt;</em> was wildly successful in the research circles that needed it, and a slew of important papers were published that used work that was written in <em>LIQUi|&gt;</em>.</p>
+<h2>Disentangling Intent</h2>
+<p>As Microsoft began to work on a physical quantum computer, the question naturally arose as to how we would program this computer.</p>
+<p>The current state of the art in quantum computation indicates that quantum devices are highly specialized in the kind of computing they can perform. They are analogous to specialized graphics or encryption co-processors in that regard. Specifically, this means that they will always work in conjunction with a general-purpose classical processor, which would actually run the main program, and delegate the complex operations to the co-processor.</p>
+<p>Indeed, given the exotic environment in which the quantum devices perform, it is difficult to get other general-purpose computation components (memory, IO, storage) to work physically alongside the quantum device, so the model is even more disconnected. Indeed, all parts of the program that deal with IO, storage and memory have to run as part of the classical computer, and the quantum operations have to be sequenced, optimized as much as possible, and sent down the wires to the cold environment for the quantum devices to do their thing.</p>
+<p>Since <em>LIQUi|&gt;</em> was an unqualified success in terms of a quantum programming model for simulation, the natural approach was to find a way of take <em>LIQUi|&gt;</em> code, extract out the quantum operations into a kind of abstraction layer, and then provide implementations of the abstraction to do simulaton and execution.</p>
+<p>There is a really elegant solution for this in <code>F#</code>.</p>
+<p><code>F#</code> provides the [< ReflectedDefinition >] attribute for functions. When this attribute is applied to a function, <code>F#</code> will provide the abstract syntax tree representing the function's code, and we can walk the code and perform surgery on the tree to introduce the abstraction layer and deduce the quantum operation sequence.</p>
+<p>Here's the <code>Teleport</code> function written this way:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">[&lt;<span onmouseout="hideTip(event, 'fs9', 20)" onmouseover="showTip(event, 'fs9', 20)" class="t">ReflectedDefinition</span>&gt;]
+<span class="k">module</span> <span onmouseout="hideTip(event, 'fs10', 21)" onmouseover="showTip(event, 'fs10', 21)" class="t">TeleportOps</span> <span class="o">=</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="f">EPR</span> (<span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="i">q1</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span onmouseout="hideTip(event, 'fs13', 24)" onmouseover="showTip(event, 'fs13', 24)" class="i">q2</span> <span class="o">:</span> <span class="i">Qubit</span>) <span class="o">=</span>
+        <span class="i">H</span> <span onmouseout="hideTip(event, 'fs12', 25)" onmouseover="showTip(event, 'fs12', 25)" class="i">q1</span>
+        <span class="i">CNOT</span> <span onmouseout="hideTip(event, 'fs12', 26)" onmouseover="showTip(event, 'fs12', 26)" class="i">q1</span> <span onmouseout="hideTip(event, 'fs13', 27)" onmouseover="showTip(event, 'fs13', 27)" class="i">q2</span> 
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 28)" onmouseover="showTip(event, 'fs14', 28)" class="f">Teleport</span> (<span onmouseout="hideTip(event, 'fs15', 29)" onmouseover="showTip(event, 'fs15', 29)" class="i">msg</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span onmouseout="hideTip(event, 'fs16', 30)" onmouseover="showTip(event, 'fs16', 30)" class="i">here</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="i">there</span> <span class="o">:</span> <span class="i">Qubit</span>) <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="f">EPR</span> <span onmouseout="hideTip(event, 'fs16', 33)" onmouseover="showTip(event, 'fs16', 33)" class="i">here</span> <span onmouseout="hideTip(event, 'fs17', 34)" onmouseover="showTip(event, 'fs17', 34)" class="i">there</span>
+        <span class="i">CNOT</span> <span onmouseout="hideTip(event, 'fs15', 35)" onmouseover="showTip(event, 'fs15', 35)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs16', 36)" onmouseover="showTip(event, 'fs16', 36)" class="i">here</span>
+        <span class="i">H</span> <span onmouseout="hideTip(event, 'fs15', 37)" onmouseover="showTip(event, 'fs15', 37)" class="i">msg</span>
+        <span class="k">if</span> <span class="i">JM</span> <span class="s">&quot;Z&quot;</span> [<span onmouseout="hideTip(event, 'fs16', 38)" onmouseover="showTip(event, 'fs16', 38)" class="i">here</span>] <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="i">X</span> <span onmouseout="hideTip(event, 'fs17', 39)" onmouseover="showTip(event, 'fs17', 39)" class="i">there</span>
+        <span class="k">if</span> <span class="i">JM</span> <span class="s">&quot;Z&quot;</span> [<span onmouseout="hideTip(event, 'fs15', 40)" onmouseover="showTip(event, 'fs15', 40)" class="i">msg</span>]  <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="i">Z</span> <span onmouseout="hideTip(event, 'fs17', 41)" onmouseover="showTip(event, 'fs17', 41)" class="i">there</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The benefit of this approach, of course, is that all the existing <em>LIQUi|&gt;</em> code would just work on whatever physical quantum computer we developed.</p>
+<p>However, there are two drawbacks to this approach. The first, of course, is performance - there's a lot of AST wrangling that needs to be performed on each module decorated with [< ReflectedDefinition >], done at run-time, which takes a lot of time. Further, the AST that has been surgically altered has to dispatch to the concrete implementations reflectively. The impact of this was very noticable as we had some test cases that would take hours to run.</p>
+<p>More seriously, though, was the fact that the quantum operation detection code became exponientially complex once the full power of idiomatic <code>F#</code> was unleashed. <code>F#</code> is an incredibly powerful language, and when concepts like <em>function composition</em>, <em>partial application</em>, <em>recursion</em>, <em>computation expressions</em> and <em>point-free functions</em> were incorporated into a "quantum" program, the AST walkers soon became intractably harder and quickly approached the complexity of the <code>F#</code> compiler itself.</p>
+<p>The primary learnings from this effort were:</p>
+<ul>
+<li><strong>The co-processor model of quantum computing is reasonable and scalable</strong></li>
+<li><strong>[< ReflectedDefinition >] is an excellent extension point to the language</strong></li>
+<li>
+<strong><code>F#</code> is <em>too</em> expressive</strong>
+<ul>
+<li>The variety of idioms it supports makes it hard to scale the approach of AST tree surgery</li>
+<li>Interleaved quantum and classical code makes it hard to reason about the code in the quantum domain</li>
+<li>Easy to write code that was correct in <code>F#</code> but meaningless in the quantum domain</li>
+</ul>
+</li>
+<li><strong>Performance needs to be considered from the start</strong></li>
+</ul>
+<h2>Enter the Monad</h2>
+<p>One of the observations we made early was that the quantum operation was fundamentally side-effectful.
+In the case of <em>LIQUi|&gt;</em> this was just a design choice, but when the abstraction layer was introduced, it quickly became apparent that the quantum state was a property of the layer that implemented the abstraction, and not a property of the program itself. (The simulator implementation had its state stored in state vectors, whilst the execution implementation would store the state in the quantum device).</p>
+<p>So a natural progression was to use the FP concept of monadic composition, where the state of the system (and possibly the quantum state itself) was concealed inside a <code>quantum</code> monad, and the operations on the state were performed in the tightly constrained context of monadic composition.</p>
+<p>This immediately and vastly improved the ability to reason about the quantum code itself as the quantum code sequences were effectively contained within a monadic context, reduced the degrees of idiomatic freedom to only those supported by monadic composition, and allowed performance to sky-rocket because there was no more AST-rewriting or reflection involved.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">member</span> <span class="i">quantum</span><span class="o">.</span><span class="i">Teleport</span> (<span onmouseout="hideTip(event, 'fs15', 42)" onmouseover="showTip(event, 'fs15', 42)" class="i">msg</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span class="i">here</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span class="i">there</span> <span class="o">:</span> <span class="i">Qubit</span>) <span class="o">=</span> 
+    <span class="i">quantum</span> {
+        <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 43)" onmouseover="showTip(event, 'fs11', 43)" class="i">EPR</span> <span class="i">here</span> <span class="i">there</span>
+        <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span class="i">CNOT</span> <span onmouseout="hideTip(event, 'fs15', 44)" onmouseover="showTip(event, 'fs15', 44)" class="i">msg</span> <span class="i">here</span>
+        <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span class="i">H</span> <span onmouseout="hideTip(event, 'fs15', 45)" onmouseover="showTip(event, 'fs15', 45)" class="i">msg</span>
+
+        <span class="k">let!</span> <span class="i">hereZ</span> <span class="o">=</span> <span class="i">quantum</span><span class="o">.</span><span class="i">JM</span> [<span class="i">Z</span>] <span class="i">here</span>
+        <span class="k">if</span> <span class="i">hereZ</span> <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span class="i">X</span> <span class="i">there</span>
+
+        <span class="k">let!</span> <span class="i">msgZ</span> <span class="o">=</span> <span class="i">quantum</span><span class="o">.</span><span class="i">JM</span> [<span class="i">Z</span>] <span onmouseout="hideTip(event, 'fs15', 46)" onmouseover="showTip(event, 'fs15', 46)" class="i">msg</span>
+        <span class="k">if</span> <span class="i">msgZ</span> <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span class="i">Z</span> <span class="i">there</span>
+    }
+</code></pre></td>
+</tr>
+</table>
+<p>In fact, the 8h test completed in 330ms after applying this approach, and effectively underscored for us that the [\< ReflectedDefinition >] approach was to be abandoned.</p>
+<p>However, it's easy to spot the extra noise (<code>quantum.</code>, <code>do!</code>).</p>
+<p>One further drawback was that it was difficult to do any kind of optimization on this, as the only way to use the <code>quantum</code> monad was to just run and execute the monadic chain.</p>
+<h2>Freedom</h2>
+<p>In order for us to be able to analyse and optimize these monadic seqences, we turned to yet another FP concept - that of the <code>Free Monad</code>.</p>
+<p>The <code>Free Monad</code> effectively provides a mechanism to implement the <code>Interpreter</code> pattern in a functional language.</p>
+<p><em>This tool is generally not found in the toolbox of <code>F#</code> practitioners because of the mechanical work involved in writing the Free monadic interpreter every time a new use is required. Practitioners of Haskell, by contrast, get a single, pre-written interpretation of <code>Free</code> which can simply be applied because the pattern for it has been abstracted over types for general use. For this to be similar in <code>F#</code>, it would need to support Higher Kinded Types. Also, because it generally is stack-heavy in its use, a stack-less approach is necessary to run long sequences. A technique known as trampolining is generally employed for this.</em></p>
+<p>We implemented the <a href="http://blog.higher-order.com/assets/trampolines.pdf">"Stackless Scala With Free Monads"</a> paper by <a href="https://twitter.com/runarorama">Runar Bjarneson</a> in <code>F#</code> to give us the ability to run unbounded sequences in our <code>Free Monad</code> using trampolines. You can find a gist of our implementation <a href="https://gist.github.com/johnazariah/a5785f754c978a3e12df5509dbafaf41">here</a>, and more information about the interpretator pattern in this excellent post by <a href="https://twitter.com/scottwlashchin">Scott Wlaschin</a> <a href="https://fsharpforfunandprofit.com/posts/13-ways-of-looking-at-a-turtle-2/#way13">here</a>.</p>
+<p>By doing this, we were able to interpret the sequences twice - once for an optimization phase where we could inspect the sequences before execution, and subsequently an execution phase where the optimized sequences could be interpreted.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">member</span> <span class="i">quantum</span><span class="o">.</span><span class="i">Teleport</span> (<span onmouseout="hideTip(event, 'fs15', 47)" onmouseover="showTip(event, 'fs15', 47)" class="i">msg</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span class="i">here</span> <span class="o">:</span> <span class="i">Qubit</span>) (<span class="i">there</span> <span class="o">:</span> <span class="i">Qubit</span>) <span class="o">=</span> 
+    <span class="i">quantum</span> {
+        <span class="k">do!</span> <span class="i">quantum</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs11', 48)" onmouseover="showTip(event, 'fs11', 48)" class="i">EPR</span> <span class="i">here</span> <span class="i">there</span>
+        <span class="k">do!</span> <span class="i">CNOT</span> <span onmouseout="hideTip(event, 'fs15', 49)" onmouseover="showTip(event, 'fs15', 49)" class="i">msg</span> <span class="i">here</span>
+        <span class="k">do!</span> <span class="i">H</span> <span onmouseout="hideTip(event, 'fs15', 50)" onmouseover="showTip(event, 'fs15', 50)" class="i">msg</span>
+
+        <span class="k">let!</span> <span class="i">hereZ</span> <span class="o">=</span> <span class="i">JM</span> [<span class="i">Z</span>] <span class="i">here</span>
+        <span class="k">if</span> <span class="i">hereZ</span> <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="k">do!</span> <span class="i">X</span> <span class="i">there</span>
+
+        <span class="k">let!</span> <span class="i">msgZ</span> <span class="o">=</span> <span class="i">JM</span> [<span class="i">Z</span>] <span onmouseout="hideTip(event, 'fs15', 51)" onmouseover="showTip(event, 'fs15', 51)" class="i">msg</span>
+        <span class="k">if</span> <span class="i">msgZ</span> <span class="o">=</span> <span class="i">MinusOne</span> <span class="k">then</span> <span class="k">do!</span> <span class="i">Z</span> <span class="i">there</span>
+    }
+</code></pre></td>
+</tr>
+</table>
+<p>Textually, the code hasn't changed much in structure - some of the <code>quantum.</code> have gone away - but now the way in which this code is executed is drastically different from before.</p>
+<p>The drawback at this point is that while we were able to inspect and optimize sequences <em>at run time</em>, we were still not able to do whole program analysis before running the quantum program. This meant that code-reuse and optimization were still hard to achieve.</p>
+<p>The key learnings from this phase were:</p>
+<ul>
+<li><strong>It's useful to learn other functional languages and constructs even if they are not directly supported in <code>F#</code></strong></li>
+<li><strong>The interpreter pattern is useful for run-time optimization, but not sufficient for whole program analysis</strong></li>
+</ul>
+<h2>A Language is Born</h2>
+<p>At this point, what we finally realized was that all our findings pointed to creating our own language. This would give us an immense amount of flexibility in many ways:
+<em> Permit a custom syntax
+</em> Permit the choice of carefully chosen set of classical and quantum control constructs
+<em> Allow for whole program analysis
+</em> Permit a completely independent type-system and typing rules
+<em> Enable the auto-synthesis of functors like <code>adjoint</code> and <code>controlled</code>
+</em> First-class tooling and syntax-analysis support.</p>
+<p>In short, we could get Intelli-sense and red squiggly lines and all the good stuff that other languages provided us.</p>
+<p>Logically, it made sense - a compiler is just an interpreter on steroids that runs ahead of time and generates some executable code.</p>
+<p>So we built a language. We designed its syntax; wrote a parser, type-checker and code-generator; put in some tooling support; and even wrote a documentation generator for code written in our new language. We called the language <code>Q#</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">operation Teleport (msg <span class="o">:</span> Qubit, here <span class="o">:</span> Qubit, there <span class="o">:</span> Qubit) <span class="o">:</span> () 
+{
+    body
+    {
+        EPR (here, there);
+        CNOT (msg, here);
+        H (msg);
+
+        If (One <span class="o">=</span><span class="o">=</span> M (here)) { X (there); }
+        If (One <span class="o">=</span><span class="o">=</span> M (msg))  { Z (there); }
+    }
+}
+</code></pre></td></tr></table>
+<p><code>F#</code> played a critical role in this stage of the process as well.</p>
+<h3>Language Construct Influences</h3>
+<p>You can see that the custom syntax allows for minimal noise and high readability. We picked a familiar <code>C#</code> syntax, but the <code>F#</code> language influences are visible through the language.</p>
+<ul>
+<li>No Classes or Objects - Functions/Operations are first class</li>
+<li>Higher-Order Function support</li>
+<li>Immutable-by-default</li>
+</ul>
+<p>We are still working on other language-design ideas as the evolution of the language is still underway, and <code>F#</code>'s influence will be felt as new ideas evolve.</p>
+<h3><code>F#</code> in the tool-chain</h3>
+<p>When we wrote the preview version of the language, we wrote the parser entirely in <a href="https://github.com/stephan-tolksdorf/fparsec">fparsec</a>; the type-checker and symbol-table manipulation code in <code>F#</code>; and the code-generation library was <a href="https://github.com/johnazariah/roslyn-wrapper">BrightSword.RoslynWrapper</a> - an <code>F#</code> wrapper over the Roslyn Code-Generation libraries. The documentation-generator tool was writting in <code>F#</code> as well.</p>
+<p>We were enormously productive - a small team was able to go from the <code>Free Monad</code> prototype to having the preview announced and shipped in about 4 months!</p>
+<h3><code>F#</code> as the host language</h3>
+<p>Of course, since <code>Q#</code> is only used to write the code that is to be executed on the quantum co-processor, the host language can be any high-level language that allows for interop with .NET Core. We have several demos of quantum code being hosted in C# and, of course, <code>F#</code>!</p>
+<h2>Summary</h2>
+<p>This is really a story about how languages influence and enable each other. We all stand on someone else's shoulders, and we all learn from others successes and failures. It's fair to say that the existence of <code>Q#</code> has a great deal to do with the existence of, and familiarity with, <code>F#</code> and functional programming concepts.</p>
+<p>Ultimately, <code>Q#</code> was evolved through struggling with real software-engineering issues - readability, maintainability, re-usability and reasonability of quantum code. The functional foundation of <code>F#</code>, along with its ease of use and expressive power, aided and guided us at every stage. Finally, the ability to use the tooling and libraries that were part of the <code>F#</code> ecosystem, pushed it across the final hurdle.</p>
+<p>Hopefully this story gives you some encouragement to keep learning, trying new things, and adapting every tool in the toolbox, to ultimately give you a breakthrough in your problem solving.</p>
+<p>Happy Holidays!</p>
+
+<div class="tip" id="fs1">val Entangle1 : entSize:int -&gt; obj<br /><br />Full name: taleoftwolanguages.Entangle1</div>
+<div class="tip" id="fs2">val entSize : int</div>
+<div class="tip" id="fs3">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
+<div class="tip" id="fs4">val ket : obj</div>
+<div class="tip" id="fs5">val qs : obj</div>
+<div class="tip" id="fs6">val q0 : obj</div>
+<div class="tip" id="fs7">val i : int32</div>
+<div class="tip" id="fs8">val q : obj</div>
+<div class="tip" id="fs9">Multiple items<br />type ReflectedDefinitionAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; ReflectedDefinitionAttribute<br />&#160;&#160;new : includeValue:bool -&gt; ReflectedDefinitionAttribute<br />&#160;&#160;member IncludeValue : bool<br /><br />Full name: Microsoft.FSharp.Core.ReflectedDefinitionAttribute<br /><br />--------------------<br />new : unit -&gt; ReflectedDefinitionAttribute<br />new : includeValue:bool -&gt; ReflectedDefinitionAttribute</div>
+<div class="tip" id="fs10">module TeleportOps<br /><br />from taleoftwolanguages</div>
+<div class="tip" id="fs11">val EPR : q1:&#39;a -&gt; q2:&#39;b -&gt; &#39;c<br /><br />Full name: taleoftwolanguages.TeleportOps.EPR</div>
+<div class="tip" id="fs12">val q1 : &#39;a</div>
+<div class="tip" id="fs13">val q2 : &#39;b</div>
+<div class="tip" id="fs14">val Teleport : msg:&#39;a -&gt; here:&#39;b -&gt; there:&#39;c -&gt; unit<br /><br />Full name: taleoftwolanguages.TeleportOps.Teleport</div>
+<div class="tip" id="fs15">val msg : &#39;a</div>
+<div class="tip" id="fs16">val here : &#39;b</div>
+<div class="tip" id="fs17">val there : &#39;c</div>
+
+        </section>
+
+        <footer class="post-footer">
+
+            
+
+            <section class="author">
+                <h4><a href="#">&nbsp;</a></h4>
+
+                
+                <div class="author-meta">
+                    
+                </div>
+            </section>
+
+            
+
+        </footer>
+
+    </article>
+</main>
+
+
+
+
+        <footer class="site-footer clearfix">
+            <section class="copyright"><a href="https://johnazariah.github.io/">John Azariah's Blog</a> &copy; 2018</section>
+            <section class="poweredby">Proudly published with <a href="https://github.com/fsprojects/FsBlog">FsBlog</a></section>
+        </footer>
+
+    </div>
+
+    
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://johnazariah.github.io//js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://johnazariah.github.io//js/index.js"></script>
+
+</body>
+</html>
