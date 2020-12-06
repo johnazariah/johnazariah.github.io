@@ -36,6 +36,7 @@ plugins:
   - jekyll-feed
 
 future: true
+google_analytics: UA-73122642-1
 
 # Exclude from processing.
 # The following items will not be processed, by default.
