@@ -1,6 +1,24 @@
 ---
 layout: default
 ---
+<header class="post-header">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX","output/HTML-CSS"],
+      displayAlign: "left",
+      displayIndent: "5em"
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <h1 class="post-title p-name" itemprop="name headline"> {{ page.title | escape }} </h1>
+  <p class="post-meta">
+    <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      {{ page.date | date: date_format }}
+    </time>
+</header>
 
 {% assign minutes = content | number_of_words | divided_by: 180 %}
 {% if minutes == 0 %}
