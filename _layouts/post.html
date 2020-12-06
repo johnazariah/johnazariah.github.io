@@ -18,6 +18,8 @@ layout: default
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       {{ page.date | date: date_format }}
     </time>
+  </p>  
+  {% include analytics.html %}
 </header>
 
 {% assign minutes = content | number_of_words | divided_by: 180 %}
