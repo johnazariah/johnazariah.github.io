@@ -275,6 +275,7 @@ PLATFORMS
 DEPENDENCIES
   github-pages
   jekyll-feed (~> 0.12)
+  jekyll-remote-theme (~> 0.4.3)
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.1)
