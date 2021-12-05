@@ -12,13 +12,7 @@ layout: default
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
-  <h1 class="post-title p-name" itemprop="name headline"> {{ page.title | escape }} </h1>
-  <p class="post-meta">
-    <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      {{ page.date | date: date_format }}
-    </time>
-  </p>  
+  <h1 class="post-title p-name" itemprop="name headline"> {{ page.title | escape }} </h1>  
   {% include analytics.html %}
 </header>
 
@@ -28,14 +22,6 @@ layout: default
 {% endif %}
 
 <div class="post-header mb2">
-    <span class="post-meta">{{ page.date | date: "%b %-d, %Y" }}</span><br>
-    {% if page.update_date %}
-      <span class="post-meta">Updated: {{ page.update_date | date: "%b %-d, %Y" }}</span><br>
-    {% endif %}
-    <h1>{{ page.title }}</h1>
-  <div class="post-summary"><em>{{ page.summary }}</em></div>
-  <br/>
-  <span class="post-meta small">{{ minutes }} minute read</span><br/>
   <div class="post-tags">
     {% if post %}
       {% assign tags = post.tags %}
@@ -47,6 +33,14 @@ layout: default
     {% unless forloop.last %}&nbsp;{% endunless %}
     {% endfor %}
   </div>
+  <br/>
+  <span class="post-meta">{{ page.date | date: "%b %-d, %Y" }}</span><br>
+  {% if page.update_date %}
+    <span class="post-meta">Updated: {{ page.update_date | date: "%b %-d, %Y" }}</span><br>
+  {% endif %}
+  <span class="post-meta small">{{ minutes }} minute read</span><br/>
+  <br/>
+  <div class="post-summary"><em>{{ page.summary }}</em></div>
   <hr/>
 </div>
 
