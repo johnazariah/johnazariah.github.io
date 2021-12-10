@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "Scientific Computing with F# - Post 3"
+    title: "Scientific Computing with F# - Post 3 : BRKGA"
     tags: [functional-programming, scientific-computing, evolutionary-algorithms, TSP, BRKGA, Ising, F#]
     author: johnazariah
     summary: This is my contribution to FsAdvent 2021
@@ -196,6 +196,7 @@ So we will build an emit a CSV as the result of the experiment, enabling us to p
 
 I've split this into two functions - one to do the iteration, and one to emit the CSV. We use an anonymous record to transmit the data from the first function to the second. 
 
+{% raw %}
 ```fsharp
 let inline private SolveInternal<'t when 't : comparison> (populationParameters : PopulationParameters<'t>) (evolutionParameters : EvolutionParameters) (num_iterations : int) =
     let outerTime, innerTime = System.Diagnostics.Stopwatch(), System.Diagnostics.Stopwatch();
@@ -247,6 +248,7 @@ let Solve<'t when 't : comparison> (experimentName : string) (populationParamete
         output.Flush ()
         output.Close ()
 ```
+{% endraw %}
 
 ## Conclusions
 

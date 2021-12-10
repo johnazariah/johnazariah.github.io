@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "Scientific Computing with F# - Post 4"
+    title: "Scientific Computing with F# - Post 4 : Solving TSP with BRKGA"
     tags: [functional-programming, scientific-computing, evolutionary-algorithms, TSP, BRKGA, Ising, F#] 
     author: johnazariah
     summary: This is my contribution to FsAdvent 2021
@@ -121,7 +121,9 @@ Opening the CSV and plotting `Fitness` vs `RunID` gives us:
 
 The performance of the BRGKA is impressive - we ran 20,000 iterations in about 5.5s, and saw the tour fitness converge very fast at the beginning, and then plateau off at the end to settle on a path fitness that was only roughly 20% of the path fitness of the starting point.
 
-In the next post, we'll wrap up this series with a short summary of what we have achieved, and what we can do from here...
+I've seemingly harped on the terse nature of the F# code, but it's worth pointing out that this terseness has not come at the expense of readability or simplicity of code. That is to say, we haven't played "code golf" to frivolously try and achieve some terse, unreadable code. I don't think this feature of F# is rated highly enough!
+
+In the next post, we'll wrap up this series with a short summary of what we have achieved, and what we can do next!
 
 -----
 

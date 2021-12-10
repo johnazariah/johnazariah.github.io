@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "Scientific Computing with F# - Post 5"
+    title: "Scientific Computing with F# - Post 5 : Conclusion"
     tags: [functional-programming, scientific-computing, evolutionary-algorithms, TSP, BRKGA, Ising, F#]
     author: johnazariah
     summary: This is my contribution to FsAdvent 2021
@@ -32,7 +32,7 @@ I've had enormous fun putting together this blog post series. There is joy in le
 
 I reiterate the critical role played by Dr. Helmut Katzgraber in educating, guiding and inspiring me in this pursuit of knowledge.
 
-Other key people who have influenced my understanding of optimizing problems and the underlying physics include my colleagues Dr. Ruben Andrist and Dr. Stephen Jordan.
+Other key people who have influenced my understanding of optimizing problems and the underlying physics include my colleagues Dr. Ruben Andrist, Dr. Brad Lackey, and Dr. Stephen Jordan.
 
 Please feel free to contact me if I can be part of your journey. I am happy to pay forward what others have invested in me.
 
