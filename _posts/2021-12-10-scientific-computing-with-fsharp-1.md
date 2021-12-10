@@ -45,17 +45,9 @@ Genetic algorithms, and evolutionary algorithms in particular, take a nature-ins
 
 We will consider the Biased Random Key Genetic Algorithm (BRKGA) as outlined in [this paper by José Gonçalves and Mauricio Resende](http://mauricio.resende.info/doc/srkga.pdf). Dr Resende is somewhat of a ground-breaking pioneer in this area, and has a lot of material available showcasing this approach and its application to various business-critical functions, and makes for a generally very good introduction to Genetic Algorithms in general and the BRKGA in particular.
 
+## Solving the TSP with BRKGA
+
 Because the nature of BRKGA is that it a _general_ framework for solving any combinatorial optimization problem, we will first implement a complete general BRKGA solution in F#, and then employ it by means of appropriate encoders and decoders to solve TSP.
-
-We will also have some discussion of _improving_ the approach of BRKGA by using types for doing the computation, and demonstrate a typed BRKGA implementation.
-
-## The Ising On The Cake
-
-Just like the TSP, the 2D Ising Spin Glass is another NP-complete problem with wide usefulness. A [really influential paper by Andrew Lucas](https://arxiv.org/abs/1302.5843) outlines the mapping of all of Karp's 21 NP-Complete problems to the Ising Spin Glass problem.
-
-[Dr. Katzgraber was recently elected a fellow of the American Physical Society](https://www.amazon.science/latest-news/helmut-katzgraber-elected-fellow-of-the-american-physical-society) partially for his seminal papers in the area of spin-glasses, and it has been my privilege to be introduced to the subject by him.
-
-We'll use the BRKGA to evolve solutions for the simpler Ising 2D model in this blog series, and have some notes about performance in comparision to a Rust implementation.
 
 ## Further Reading
 
@@ -77,5 +69,5 @@ Happy reading!
 1. [Introduction]({% link _posts/2021-12-10-scientific-computing-with-fsharp-1.md %})
 1. [The Travelling Salesman Problem]({% link _posts/2021-12-10-scientific-computing-with-fsharp-2.md %})
 1. [Biased Random Key Genetic Algorithm]({% link _posts/2021-12-10-scientific-computing-with-fsharp-3.md %})
-1. [The Ising Model]({% link _posts/2021-12-10-scientific-computing-with-fsharp-4.md %})
+1. [Solving TSP with BRKGA]({% link _posts/2021-12-10-scientific-computing-with-fsharp-4.md %})
 1. [Conclusions]({% link _posts/2021-12-10-scientific-computing-with-fsharp-5.md %})

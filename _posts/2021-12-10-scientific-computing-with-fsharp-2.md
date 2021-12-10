@@ -589,13 +589,15 @@ parseTextToWeightedCompleteGraph input
 
 ### Conclusion
 
-We started with the problem of trying to read data published in a loosely-specified domain-specific-language, so that we could represent it in a manner that allows us to solve the TSP.
+* We started with the problem of trying to read data published in a loosely-specified domain-specific-language, so that we could represent it in a manner that allows us to solve the TSP.
 
-We then approached the problem functionally with parser-combinators, and developed incrementally complex parsers to allow us to process and consume the complete variety of input formats. We allowed for optional sections, and sections in any order. We included mechanisms for tracing the parser to aid in debugging.
+* We then approached the problem functionally with parser-combinators, and developed incrementally complex parsers to allow us to process and consume the complete variety of input formats. We allowed for optional sections, and sections in any order. We included mechanisms for tracing the parser to aid in debugging.
 
-We then applied the specified computations to transform some formats of data where only coordinates were specified into appropriate edge-weights for a complete graph. We did this in a manner that would safely fail if the data were missing important details (_i.e._ if the specified data were inconsistent).
+* We then applied the specified computations to transform some formats of data where only coordinates were specified into appropriate edge-weights for a complete graph. We did this in a manner that would safely fail if the data were missing important details (_i.e._ if the specified data were inconsistent).
 
-We did all of this in _under 600 lines of code_. One of the consequences of strong typing in this specific case is that parsing failures are dealt with at compile time, not discovered at run-time as with some other languages.
+* We developed this incrementally. Practically, this means writing small test snippets and exercising the parsers at the time of development using FSI. One of the consequences of strong typing in this specific case is that parsing failures are dealt with at compile time, not discovered at run-time as with some other languages.
+
+* We did all of this in a _few hundred lines of code_.
 
 The primary thesis of this post is that even mundane tasks such as parsing and processing input data can be done tersely, elegantly and safely in F#.
 
@@ -612,5 +614,5 @@ Keep typing! :)
 1. [Introduction]({% link _posts/2021-12-10-scientific-computing-with-fsharp-1.md %})
 1. [The Travelling Salesman Problem]({% link _posts/2021-12-10-scientific-computing-with-fsharp-2.md %})
 1. [Biased Random Key Genetic Algorithm]({% link _posts/2021-12-10-scientific-computing-with-fsharp-3.md %})
-1. [The Ising Model]({% link _posts/2021-12-10-scientific-computing-with-fsharp-4.md %})
+1. [Solving TSP with BRKGA]({% link _posts/2021-12-10-scientific-computing-with-fsharp-4.md %})
 1. [Conclusions]({% link _posts/2021-12-10-scientific-computing-with-fsharp-5.md %})
