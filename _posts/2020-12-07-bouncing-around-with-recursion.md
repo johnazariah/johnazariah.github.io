@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Bouncing around with Recursion"
-    tags: [functional-programming, recursion, trampolines, C#, F#]
+    tags: [functional-programming, recursion, trees, trampolines, C#, F#]
     author: johnazariah
     summary: This is my contribution to FsAdvent 2020
     excerpt: A post about to use advanced computing techniques to retain the elegance of recursive expression

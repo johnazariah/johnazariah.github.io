@@ -28,14 +28,15 @@ twitter_username: johnazariah
 github_username:  johnazariah
 
 # Build settings
-theme: jekyll-theme-architect
+remote_theme: pages-themes/architect@v0.2.0
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme # add this line to the plugins list if you already have one
 
 highlighter: rouge
 
-plugins:
-  - jekyll-feed
-
 future: true
+google_analytics: UA-73122642-1
 
 # Exclude from processing.
 # The following items will not be processed, by default.
