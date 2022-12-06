@@ -30,7 +30,7 @@ Now, after many years of working with FP in the industry, and having brought man
 
 One common pattern I've encountered in this space is that experienced FP-ers tend to talk about _what_ something is, sometimes at great length, without providing any context of why it is useful, or what problem it solves. My aim in this blog post is to try and address this issue, and derive the motivation of the pattern from a concrete problem.
 
-## 2. Let's get _go_-ing 
+## 2. Let's get _go_-ing
 
 One of the less satisfying things I get to do in my day job is write _go_ code. For the uninitated in this regard, _go_ code looks [a lot like this](https://github.com/Azure/aks-engine/blob/ed2cad69afe09b9a8421570531be089776d710ba/pkg/helpers/ssh/ssh.go):
 
@@ -70,7 +70,7 @@ This style of `if err != nil` error-checking is, _laughably_ in my opinion, cele
 
 In the example above, the value `jbConfig` is passed on to the next function if `err != nil`, which computes `jbConn`, which is then passed on to the next function if `err != nil`, and so on. I argue that the flow of data should be the centrepiece of the function, allowing us to reason about the happy path - the error check is _essential_, but it would be really nice to elide it from view.
 
-**Sidebar:** 
+**Sidebar:**
 _While the tuple is hailed as an example of how `go` takes advantage of types to enable a function to return a value and error code, it actually turns out to be an example of egregious type abuse. A tuple is a **product** type - something used when all its components may be present. What is actually needed here is a **choice** type - something that is **either** a value or a result, and **never** both. The consequence is that the called function can return **both** the value and error components, and it is only convention that the error component is checked first!_
 
 Not only would it be nice to elide the error check, it would be fantastic if we had a way to _enforce_ that it happened after _every_ call in the chain. As it stands, it is left to convention (and possibly to code-review) that an error check is done, and the flow is passed to the next function only if `err != nil`. It's easy to imagine how this convention is not followed as the code evolves over time, and that results in people skipping the error check and introducing runtime defects.
@@ -91,7 +91,7 @@ One thing we were taught about functions is that once it returns a value, the _c
 ### 3.1. Step 1: Wrap Up The Value
 One way is by using the type system to our advantage. `go` returns a tuple in the example above, but there's no enforcement on how the tuple components are checked or used.
 
-While this isn't the only way of doing it, let's consider using the type system to first represent _either_ a value or an error. 
+While this isn't the only way of doing it, let's consider using the type system to first represent _either_ a value or an error.
 
 In C#, where _sum_ types are not natively present, we could do this:
 
@@ -103,19 +103,19 @@ sealed class ErrorChecked<T, E>
     private ErrorChecked(T? v, E? e) { value = v; error = e; }
 
     public static ErrorChecked<T, E> Value(T v) => new ErrorChecked<T, E>(v, default);
-    public static ErrorChecked<T, E> Error(E e) => new ErrorChecked<T, E>(default, e); 
+    public static ErrorChecked<T, E> Error(E e) => new ErrorChecked<T, E>(default, e);
 }
 ```
 
 In F#, we could simply say:
 
 ```fsharp
-type ErrorChecked<'v, 'e> = 
+type ErrorChecked<'v, 'e> =
     | Value of 'v
     | Error of 'e
 ```
 
-Now there is an unambiguous way of indicating if we want to construct a `Value` or an `Error`, but how do we know which is which? In C#, we're completely out of luck - there's no way to get a value out of the `ErrorChecked` class at all! 
+Now there is an unambiguous way of indicating if we want to construct a `Value` or an `Error`, but how do we know which is which? In C#, we're completely out of luck - there's no way to get a value out of the `ErrorChecked` class at all!
 
 If we provide a mechanism for disambiguating between `Value` and `Error` at the _caller's_ side in C#, or if we do traditional pattern-matching in F#, then we're throwing the responsibility back to the caller, who can ignore to do the check, and then we're no better off than the `go` solution. At the very least, we've not removed the boilerplate error checking after every function call.
 
@@ -138,12 +138,11 @@ We'll land up doing something like this:
 
 Now, let me admit that we haven't a working solution at this point! What we have is:
 
-- [x] We _have_ managed to return a value that the caller _cannot_ ignore. 
-- [x] The flow of the code is a _lot more obvious_ (if you ignore the comments).
-- [ ] We haven't actually done any error checking yet.
-- [ ] The caller can't actually access the returned value yet.
-- [ ] We've broken how to pass values from a `ErrorChecked` returned from one function into the arguments of a subsequent function.
-- [ ] The code is _easy to read_.
+- [x] Return a value that the caller _cannot_ ignore.
+- [x] Make the flow of the code a lot more obvious.
+- [ ] Mandate the error checking.
+- [ ] Allow caller to pass values returned from one function into the arguments of a subsequent function.
+- [ ] Make the code easy to read.
 
 The first point is the most important because we have begun to address a fairly fundamental problem: How to **enforce control of how the _caller_ uses the return value of a function**.
 
@@ -160,7 +159,7 @@ sealed class ErrorChecked<T, E>
 {
     ...
     public ErrorChecked<R, E> CallWithValue<R>(Func<T?, ErrorChecked<R, E>> op) =>
-        error is null 
+        error is null
         ? op(value)
         : ErrorChecked<R, E>.Error(error);
 }
@@ -172,8 +171,8 @@ In F#, instead of making the pattern match a responsibility of the caller, we ca
 type Checked<'v, 'e> =
     | Value of 'v
     | Error of 'e
-with 
-    member this.CallWithValue (op: 'v -> Checked<'r, 'e>) : Checked<'r, 'e> = 
+with
+    member this.CallWithValue (op: 'v -> Checked<'r, 'e>) : Checked<'r, 'e> =
         match this with
         | Error e -> Error e
         | Value v -> op v
@@ -181,14 +180,14 @@ with
 
 Now we have provided a controlled-access mechanism to _use_ the value of the `ErrorChecked`, as well as enforcing the null check before we use the value. Since there is _no other_ way to get at the inside of the opaque box, we enforce the safe access of the value by the `op` lambda above.
 
-Of course, we haven't fixed anything yet, but we're improving:
+Of course, we haven't fixed everything, and the program doesn't run yet, but we're improving:
 
-- [x] We _have_ managed to return a value that the caller _cannot_ ignore. 
-- [x] The flow of the code is a _lot more obvious_ (if you ignore the comments).
-- [x] We haven't actually done any error checking yet.
-- [x] The caller can't actually access the returned value yet.
-- [ ] We've broken how to pass values from a `ErrorChecked` returned from one function into the arguments of a subsequent function.
-- [ ] The code is _easy to read_.
+- [x] Return a value that the caller _cannot_ ignore.
+- [x] Make the flow of the code a lot more obvious.
+- [x] Mandate the error checking.
+- [ ] Allow caller to pass values returned from one function into the arguments of a subsequent function.
+- [ ] Make the code easy to read.
+
 
 ### 3.3. Step 3: Chain things Up
 
@@ -273,7 +272,7 @@ Of course, we don't stop there - now we need to do the same operation with `jbCo
 
 If we do this for the whole happy path, we get something like this:
 
-```csharp    
+```csharp
     ErrorChecked<Client, Error> client(RemoteHost host) =>
         config(host.Jumpbox.AuthConfig)
             .CallWithValue(jbConfig =>
@@ -290,12 +289,11 @@ If we do this for the whole happy path, we get something like this:
 
 Now, this looks like an abominable mess compared to what we started with. However, we have almost succeeded in meeting our refactoring goal completely:
 
-- [x] We _have_ managed to return a value that the caller _cannot_ ignore. 
-- [x] The flow of the code is a _lot more obvious_ (if you ignore the comments).
-- [x] We haven't actually done any error checking yet.
-- [x] The caller can't actually access the returned value yet.
-- [x] We've broken how to pass values from a `ErrorChecked` returned from one function into the arguments of a subsequent function.
-- [ ] The code is _easy to read_.
+- [x] Return a value that the caller _cannot_ ignore.
+- [x] Make the flow of the code a lot more obvious.
+- [x] Mandate the error checking.
+- [x] Allow caller to pass values returned from one function into the arguments of a subsequent function.
+- [ ] Make the code easy to read.
 
 ### 3.4. Step 4: Add Some Sugar, and Shake!
 However, we'd be hard-pressed to call this a success, because we've kind of turned everything inside out, and taken a relatively neat sequence of instructions and converted it into this deeply-indented horror!
@@ -315,13 +313,13 @@ F# provides a construct called "Computation Expressions" which allow you to prov
 type ErrorChecked<'v, 'e> =
     | Value of 'v
     | Error of 'e
-with 
-    member this.CallWithValue (op: 'v -> Checked<'r, 'e>) : Checked<'r, 'e> = 
+with
+    member this.CallWithValue (op: 'v -> Checked<'r, 'e>) : Checked<'r, 'e> =
         match this with
         | Error e -> Error e
         | Value v -> op v
 
-type ErrorCheckedBuilder() =    
+type ErrorCheckedBuilder() =
     member _.Bind(comp: Checked<'v, 'e>, func: 'v -> ErrorChecked<'r, 'e>) = comp.CallWithValue(func)
     member _.Return(value) = Checked<'v, 'e>.Value value
 
@@ -345,13 +343,13 @@ let client = // ErrorChecked<Client, Error>
     }
 ```
 
-The `error_checked` invocation tells F# - and us - that these invocations are made are in the context of `ErrorChecked`. 
+The `error_checked` invocation tells F# - and us - that these invocations are made are in the context of `ErrorChecked`.
 
 The only added noise seems to be the `let!` instead of the `let` for the bindings, but one can read `let!` as "unwrap the context, pull out and assign the internal value".
 
-Adding the syntactic sugar definitely makes it _much_ easier to read, and we've elided all the error checks inside the `error_checked` context. 
+Adding the syntactic sugar definitely makes it _much_ easier to read, and we've elided all the error checks inside the `error_checked` context.
 
-- [x] We _have_ managed to return a value that the caller _cannot_ ignore. 
+- [x] We _have_ managed to return a value that the caller _cannot_ ignore.
 - [x] The flow of the code is a _lot more obvious_ (if you ignore the comments).
 - [x] We haven't actually done any error checking yet.
 - [x] The caller can't actually access the returned value yet.
@@ -408,7 +406,7 @@ public static partial class LinqExtensions
 These incantations allow us to sugar the continuation chain this:
 
 ```csharp
-    var client = 
+    var client =
         from jbConfig in config(host.Jumpbox.AuthConfig)
         from jbConn in sh.Dial("tcp", fmt.Sprintf("%s:%d", host.Jumpbox.URI, host.Jumpbox.Port), jbConfig)
         from hostConn in jbConn.Dial("tcp", fmt.Sprintf("%s:%d", host.URI, host.Port))
@@ -419,13 +417,11 @@ These incantations allow us to sugar the continuation chain this:
 
 Again, the syntax is not typical semi-colon-separated C#, but it is definitely clutter-free and easy to read. I make the claim that we have met the goals we started out with:
 
-- [x] We _have_ managed to return a value that the caller _cannot_ ignore. 
-- [x] The flow of the code is a _lot more obvious_ (if you ignore the comments).
-- [x] We haven't actually done any error checking yet.
-- [x] The caller can't actually access the returned value yet.
-- [x] We've broken how to pass values from a `ErrorChecked` returned from one function into the arguments of a subsequent function.
-- [x] The code is _easy to read_.
-
+- [x] Return a value that the caller _cannot_ ignore.
+- [x] Make the flow of the code a lot more obvious.
+- [x] Mandate the error checking.
+- [x] Allow caller to pass values returned from one function into the arguments of a subsequent function.
+- [x] Make the code easy to read.
 
 ### 3.5. Goal Achieved
 
@@ -449,12 +445,12 @@ At a slightly more insightful - and perhaps a little more abstract - level, what
 Now, there are many approaches we could have taken to do this. Let's summarize the one we took:
 
 * In order to force the caller of a function to treat the returned value in a way that forces the boilerplate to run, we chose to wrap all return values from a function in an opaque unbreakable box.
-* Since the returned value is opaque and unbreakable, one way to utilize the contained value is to invert control and package the rest of the instructions into a lambda, which we then pass to the opaque unbreakable box - allowing it to run any boilerplate and then call the lambda with the hidden value. 
+* Since the returned value is opaque and unbreakable, one way to utilize the contained value is to invert control and package the rest of the instructions into a lambda, which we then pass to the opaque unbreakable box - allowing it to run any boilerplate and then call the lambda with the hidden value.
 * The lambda actually has no idea that it's being executed in this special context. This is a profound realization, which will lead to some interesting consequences.
 * We apply this inversion of control to the rest of the statements, and this results in a deeply nested chain of continuations. We can also make some observations about this chain - the first of which is that it's tail-callable, which means it can run with constant stack space. This shouldn't come as any surprise because the initial sequence of instructions was also runnable with constant stack space.
-* We then apply some syntactic sugar using the mechanics afforded by the language we're using. All languages may be Turing-equivalent, but they are most definitely not created equal. 
-  * Some languages - like Haskell and Scala, and C#, make this syntactic sugar capability consistently available to _any_ context. 
-  * Some languages - like F# - make it unique for each context. 
+* We then apply some syntactic sugar using the mechanics afforded by the language we're using. All languages may be Turing-equivalent, but they are most definitely not created equal.
+  * Some languages - like Haskell and Scala, and C#, make this syntactic sugar capability consistently available to _any_ context.
+  * Some languages - like F# - make it unique for each context.
   * Some languages - like C# - make special syntax for different contexts.
   * Some languages - like Go - don't allow you to have any special syntax, so you're unable to abstract out boilerplate without resorting to continuation-passing-style
 
@@ -470,7 +466,7 @@ OK, now coming back to the problem statement, what were we really trying to do?
 
 * We had a sequence of instructions, and we wanted to compose them together within the context of something that could execute some boilerplate at the point of composition. What we were trying to do was replace the benign `;` which sequences instructions in C#, for example, with some magic that ran the boilerplate at that point.
 
-And that's where the FP perspective comes in. 
+And that's where the FP perspective comes in.
 
 Our sequence of instructions is really a sugared syntax for a deeply composed continuation chain.
 
@@ -487,8 +483,10 @@ Specifically, this:
     var c = ssh.NewClient(ncc, chans, reqs), nil;
     return c;
 ```
-is always equivalent to this:
-```csharp    
+
+is _actually_ always equivalent to this:
+
+```csharp
     ErrorChecked<Client, Error> client(RemoteHost host) =>
         config(host.Jumpbox.AuthConfig)
             .CallWithValue(jbConfig =>
@@ -503,15 +501,15 @@ is always equivalent to this:
                                 ssh.NewClient(ncc, chans, reqs), nil)))));
 ```
 
-Of course, in the case of just the plain `;`, we pretend that the default `.CallWithValue` used just calls the lambda passed in.
+In the case of just the plain `;`, we pretend that the default `.CallWithValue` used just calls the lambda passed in.
 
-If the language we use allows us to provide some other sugared syntax, then we can inject another context, but the mechanics of converting to a . The continuation chain _remains the same_, but the context changes and we can put in whatever boilerplate functionality into `.CallWithValue` as we choose.
+If the language we use allows us to provide some other sugared syntax, then we can use some other wrapper class with whatever boilerplate functionality into `.CallWithValue` as we choose. The mechanics of converting to a continuation chain _remains the same_ in both cases.
 
-This should be a profound realization - one taught in language design school - that the syntax of any language is just sugar over its semantic constructions, and that a continuation chain is a general construction that can represent any computation structure. (These are _very_ bold claims, and I am using _very_ loose language here - so if your name is Shriram Krishnamurti, please don't eviscerate me :D)
+This should be a profound realization - one taught in language design school - that the syntax of any language is just sugar over its semantic constructions. If we also realize that continuations are one of the most general composition forms, and that almost all language control constructs can be expressed as continuations, then we have a _very_ expressive mechanism on our hands. (These are _very_ bold claims, and I am using _very_ loose language here - so if you are Dr. Shriram Krishnamurti, please don't eviscerate me for my lassitude! :D)
 
-We could transform the continuation passing form into different syntaxes based on the affordances (or lack thereof) of the language being used. A direct translation of this is that some languages afford greater expressivity than others. (Again, very loose language here!) 
+We could transform the continuation passing form into different syntaxes based on the affordances (or lack thereof) of the language being used. A direct translation of this is that some languages afford greater expressivity than others. (Again, very loose language here!)
 
-At any rate, it's easy to see that what we're trying to solve is the problem of composing functions - not plain composition - but composition within a context.
+At any rate, it's easy to see that what we're trying to solve is the problem of composing functions: not plain composition, but composition within a context.
 
 ## 5. Conclusion
 
