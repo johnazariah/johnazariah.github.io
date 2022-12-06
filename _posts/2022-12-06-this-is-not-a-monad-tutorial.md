@@ -360,9 +360,37 @@ Adding the syntactic sugar definitely makes it _much_ easier to read, and we've 
 
 Now, in C#, due to the foresight of people like Erik Meijer, we have a way to provide syntactic sugar for such continuation chains as well.
 
-We need to make a couple magic incantations to enable the sugar:
+LINQ allows us to convert any of these kinds  continuation chains into code like this:
 
-First, `CallWithValue` is awkwardly named, and there are really two variants of calling with value, so we refactor the `ErrorChecked` class, splitting out the two variants of `CallWithValue` into a couple of curiously named functions called `Map` and `Bind`
+```csharp
+    var client =
+        from jbConfig in config(host.Jumpbox.AuthConfig)
+        from jbConn in sh.Dial("tcp", fmt.Sprintf("%s:%d", host.Jumpbox.URI, host.Jumpbox.Port), jbConfig)
+        from hostConn in jbConn.Dial("tcp", fmt.Sprintf("%s:%d", host.URI, host.Port))
+        from hostConfig in config(host.AuthConfig)
+        ...
+        select client;
+```
+
+Now, in order to do this, we need to write a single extension method on the wrapper class to allow LINQ to give us this syntactic sugar. It turns out to be a little more general than the F# version, and here it is in all its glory.
+
+
+```csharp
+public static partial class LinqExtensions
+{
+    public static ErrorChecked<C,E> SelectMany<A, B, C, E>(
+        this ErrorChecked<A,E> ma,
+        Func<A, ErrorChecked<B,E>> f,
+        Func<A, B, C> select) =>
+            ma.Bind(a =>
+                f(a).Map(b =>
+                    select(a, b)));
+}
+```
+
+The key thing to take away is that you can do this with _any_ wrapper class that you want to use as the chaining context.
+
+Our friend `CallWithValue` doesn't show up in the extension method, and there are these two curiously named functions called `Map` and `Bind` instead. That's because `CallWithValue` could reasonably take two different lambdas: one which returned an unwrapped value, and one which returned a wrapped value. We'll write both in our wrapper class thus:
 
 ```csharp
 
@@ -388,34 +416,9 @@ public sealed class ErrorChecked<T, E>
 
 ```
 
-Then, we write a special extension method called `SelectMany` thus:
+And that's all it takes to give syntactic sugar to our continuation chain. I _could_ dive into why we have these wierdly named functions, and what the various properties and relationships are between these functions but I won't, because _this is not a monad tutorial!_
 
-```csharp
-public static partial class LinqExtensions
-{
-    public static ErrorChecked<C,E> SelectMany<A, B, C, E>(
-        this ErrorChecked<A,E> ma,
-        Func<A, ErrorChecked<B,E>> f,
-        Func<A, B, C> select) =>
-            ma.Bind(a =>
-                f(a).Map(b =>
-                    select(a, b)));
-}
-```
-
-These incantations allow us to sugar the continuation chain this:
-
-```csharp
-    var client =
-        from jbConfig in config(host.Jumpbox.AuthConfig)
-        from jbConn in sh.Dial("tcp", fmt.Sprintf("%s:%d", host.Jumpbox.URI, host.Jumpbox.Port), jbConfig)
-        from hostConn in jbConn.Dial("tcp", fmt.Sprintf("%s:%d", host.URI, host.Port))
-        from hostConfig in config(host.AuthConfig)
-        ...
-        select client;
-```
-
-Again, the syntax is not typical semi-colon-separated C#, but it is definitely clutter-free and easy to read. I make the claim that we have met the goals we started out with:
+Now, the LINQ syntax is not typical semi-colon-separated C#, but it is definitely clutter-free and easy to read. I therefore make the claim that we have met the goals we started out with:
 
 - [x] Return a value that the caller _cannot_ ignore.
 - [x] Make the flow of the code a lot more obvious.
