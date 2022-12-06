@@ -457,7 +457,7 @@ Now, there are many approaches we could have taken to do this. Let's summarize t
   * Some languages - like C# - make special syntax for different contexts.
   * Some languages - like Go - don't allow you to have any special syntax, so you're unable to abstract out boilerplate without resorting to continuation-passing-style
 
-We should spend a little time looking at this slide and think about the perspectives of a programmer seasoned in a given language.
+We should spend a little time looking at this and think about the perspectives of a programmer seasoned in a given language.
 * The Scala and Haskell users in my audience will probably wonder what all the fuss is about - and wonder why I finessed all the hardcore mathematical concepts from this post
 * The F# users will probably nod a trifle smugly at the Computation Expressions syntax, and comment about how it's within the idiom of the language to use this all the time
 * The C# users will fall into two camps - a small minority will be comfortable with the LINQ syntax and its expressive power in hiding boilerplate, but the vast majority will look at this post as a kind of scientific curiosity - perhaps useful for some special people but not really applicable in daily use.
