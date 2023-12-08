@@ -32,9 +32,15 @@ github_username:  johnazariah
 remote_theme: pages-themes/architect@v0.2.0
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
   - jekyll-remote-theme # add this line to the plugins list if you already have one
 
 highlighter: rouge
+gist:
+  noscript: false
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
 
 future: true
 google_analytics: UA-73122642-1
