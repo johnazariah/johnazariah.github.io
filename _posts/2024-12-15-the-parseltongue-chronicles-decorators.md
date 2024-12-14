@@ -34,13 +34,13 @@ class BlogPost:
 This class serves as a foundational structure for our database, encapsulating the key elements of a blog post while maintaining flexibility for future enhancements. We may find it interesting to be able to search our blog in the future by topic, by title, or by some term in the summary or body.
 
 ### Computing Embeddings
-A function that computes embeddings for a given BlogPost may have this structure:
+A function that computes embeddings for a given `BlogPost` may have this structure:
 
 ```python
 def compute_embeddings(blog_post: BlogPost):
     title_vector = get_vector_from_somewhere(blog_post.title)
     summary_vector = get_vector_from_somewhere(blog_post.summary)
-    topic_vectors = [get_vector_from_somewhere(topic) for topic in blog_post.topics]
+    # topic_vectors = [get_vector_from_somewhere(topic) for topic in blog_post.topics] # this is more complex, let's deal with this later!
     # body_vector = ...this is more complex, let's deal with this later...
 ```
 
@@ -52,11 +52,10 @@ Of course, we have to store these vectors somewhere, so we'll create a class for
 class BlogPostWithEmbeddings(BlogPost):
     title_vector: list[float]
     summary_vector: list[float]
-    topic_vectors: list[list[float]]
 ```
 
 ### Avoiding Constructor Overload
-Now, we could be tempted to naively stick the vector computation stuff inside the constructor of BlogPostWithEmbeddings, but that actually is part of the problem we need to tackle. This is because that get_vector_from_somewhere method actually isn't a simple method in reality. In reality, getting a vector happens through a chat client object, which comes with authentication information and all sorts of other contextual guff, which, traditionally, is in some sort of driver class where a whole bunch of concerns are conflated. Something like this:
+Now, we could be tempted to naively stick the vector computation stuff inside the constructor of `BlogPostWithEmbeddings`, but that actually is part of the problem we need to tackle. This is because that `get_vector_from_somewhere` method actually isn't a simple method in reality. In reality, getting a vector happens through a chat client object, which comes with authentication information and all sorts of other contextual guff, which, traditionally, is in some sort of driver class where a whole bunch of concerns are conflated. Something like this:
 
 ```python
 @dataclass
@@ -75,12 +74,10 @@ class BlogPostIndexer:
     def compute_embeddings(self, blog_post: BlogPost):
         title_vector = self.vectorize(blog_post.title)
         summary_vector = self.vectorize(blog_post.summary)
-        topic_vectors = [self.vectorize(topic) for topic in blog_post.topics]
-        # body_vector = ...this is more complex, let's deal with this later...
 ```
 
 ### Challenges with This Approach
-This may look clean and reasonable to the casual observer, and indeed, most code I have seen here looks like this, but this is actually problematic because you can't test the compute_embeddings function without some mocking.
+This may look clean and reasonable to the casual observer, and indeed, most code I have seen here looks like this, but this is actually problematic because you can't test the `compute_embeddings` function without some mocking.
 
 Furthermore, imagine how this code evolves over time—the class with the source information may have dozens of fields. For each field to be indexed, we would need a corresponding field to store the embedding vector, and the embedding computation would need to be kept up to date. A simple change like adding a new indexable property would involve changes in three classes. Throw in cut-and-paste technology, and you might very quickly land up overwriting the wrong vector.
 
