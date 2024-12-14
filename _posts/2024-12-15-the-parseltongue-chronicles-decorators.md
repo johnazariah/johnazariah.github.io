@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Enchanting Embeddings with Python Decorators"
+title: "The Parseltongue Chronicles: Enchanting Embeddings with Python Decorators"
 date: 2024-12-15
 categories: [Python, Decorators, Machine Learning]
 tags: [embeddings, python, decorators, optimization]
