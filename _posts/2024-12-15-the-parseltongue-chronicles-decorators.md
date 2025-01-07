@@ -1,10 +1,13 @@
 ---
-layout: post
-title: "The Parseltongue Chronicles: Enchanting Embeddings with Python Decorators"
-date: 2024-12-15
-categories: [Python, Decorators, Machine Learning]
-tags: [embeddings, python, decorators, optimization]
+    layout: post
+    title: "The Parseltongue Chronicles: Enchanting Embeddings with Python Decorators"
+    date: 2024-12-15
+    categories: [Python, Decorators, Machine Learning]
+    tags: [embeddings, python, decorators, optimization]
+    author: johnazariah
+    summary: My learnings on Python - how to use decorators
 ---
+
 
 **Executive Summary**
 This blog post delves into the complexities of embedding computation for structured data, illustrating how to streamline this process using Python decorators. By addressing common pitfalls such as excessive boilerplate and tightly coupled logic, we introduce a clean, modular approach using the concept of embedders. Through practical examples, we demonstrate how decorators can simplify embedding generation, reduce human error, and improve code maintainability. This solution is ideal for developers managing complex data transformations across a wide range of applications, not limited to Retrieval-Augmented Generation (RAG) systems.
