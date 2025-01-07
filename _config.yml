@@ -42,6 +42,8 @@ kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
 
+mermaid: true
+
 future: true
 google_analytics: UA-73122642-1
 
