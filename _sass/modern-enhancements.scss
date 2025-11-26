@@ -1,0 +1,365 @@
+// ============================================
+// MODERN BLOG THEME ENHANCEMENTS
+// ============================================
+// Beautiful typography, spacing, and visual improvements
+// while maintaining the Architect theme base
+
+// ============================================
+// FONTS
+// ============================================
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+$font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+$font-heading: 'Architects Daughter', $font-body;
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace;
+
+// ============================================
+// COLORS
+// ============================================
+$color-primary: #2879d0;
+$color-primary-dark: #1e5a9e;
+$color-accent: #9ddcff;
+$color-text: #374151;
+$color-text-light: #6b7280;
+$color-heading: #1f2937;
+$color-bg: #ffffff;
+$color-bg-alt: #f9fafb;
+$color-border: #e5e7eb;
+
+// ============================================
+// TYPOGRAPHY IMPROVEMENTS
+// ============================================
+
+body {
+  font-family: $font-body;
+  font-size: 17px;
+  line-height: 1.7;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#main-content {
+  // Better paragraph spacing
+  p {
+    margin-bottom: 1.5em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Improved headings
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-heading;
+    color: $color-heading;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+  }
+
+  h1 { font-size: 2.25em; }
+  h2 { font-size: 1.75em; }
+  h3 { font-size: 1.4em; }
+  h4 { font-size: 1.2em; }
+
+  // Better link styling
+  a {
+    color: $color-primary;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-bottom-color: $color-primary;
+    }
+  }
+
+  // Improved blockquotes
+  blockquote {
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    background: $color-bg-alt;
+    border-left: 4px solid $color-primary;
+    border-radius: 0 8px 8px 0;
+    font-style: normal;
+    color: $color-text;
+
+    p {
+      margin: 0;
+    }
+
+    // Series navigation boxes
+    strong {
+      color: $color-heading;
+    }
+  }
+
+  // Better lists
+  ul, ol {
+    margin: 1em 0 1.5em;
+    padding-left: 1.5em;
+
+    li {
+      margin-bottom: 0.5em;
+      line-height: 1.6;
+    }
+
+    // Nested lists
+    ul, ol {
+      margin: 0.5em 0;
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+    
+    ul {
+      list-style-type: circle;
+    }
+  }
+
+  // Horizontal rules
+  hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, $color-border, transparent);
+    margin: 3em 0;
+  }
+
+  // Tables
+  table {
+    width: 100%;
+    margin: 1.5em 0;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    th, td {
+      padding: 0.75em 1em;
+      text-align: left;
+      border-bottom: 1px solid $color-border;
+    }
+
+    th {
+      background: $color-bg-alt;
+      font-weight: 600;
+      color: $color-heading;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba($color-primary, 0.03);
+    }
+  }
+
+  // Images
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1.5em 0;
+  }
+
+  // Figure captions
+  figcaption {
+    text-align: center;
+    font-size: 0.9em;
+    color: $color-text-light;
+    margin-top: -1em;
+    margin-bottom: 1.5em;
+  }
+}
+
+// ============================================
+// POST HEADER IMPROVEMENTS
+// ============================================
+
+.post-header {
+  margin-bottom: 2em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid $color-border;
+
+  .post-title {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+    color: $color-heading;
+  }
+}
+
+.post-meta {
+  color: $color-text-light;
+  font-size: 0.95em;
+}
+
+.post-tags {
+  margin-bottom: 1em;
+
+  a {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+    font-size: 0.85em;
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    border-radius: 20px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $color-primary;
+      color: white;
+      border-bottom: none;
+    }
+  }
+}
+
+.post-summary {
+  font-size: 1.15em;
+  color: $color-text-light;
+  line-height: 1.6;
+  padding: 1em;
+  background: $color-bg-alt;
+  border-radius: 8px;
+  border-left: 4px solid $color-accent;
+}
+
+// ============================================
+// SIDEBAR IMPROVEMENTS
+// ============================================
+
+aside#sidebar {
+  font-size: 14px;
+
+  a {
+    color: $color-text;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: $color-border;
+    margin: 1.5em 0;
+  }
+
+  // Tag cloud in sidebar
+  .site-tag {
+    display: inline-block;
+    margin: 0.25em;
+
+    a {
+      display: inline-block;
+      padding: 0.2em 0.6em;
+      font-size: 0.9em;
+      background: $color-bg-alt;
+      border-radius: 4px;
+      border: 1px solid $color-border;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: $color-primary;
+        color: white;
+        border-color: $color-primary;
+      }
+    }
+  }
+}
+
+// ============================================
+// READING EXPERIENCE IMPROVEMENTS
+// ============================================
+
+// Better selection color
+::selection {
+  background: rgba($color-primary, 0.2);
+}
+
+// Smooth scroll
+html {
+  scroll-behavior: smooth;
+}
+
+// Focus styles for accessibility
+a:focus,
+button:focus {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// ============================================
+// MERMAID DIAGRAMS
+// ============================================
+
+.mermaid {
+  margin: 2em 0;
+  text-align: center;
+  background: $color-bg-alt;
+  padding: 1.5em;
+  border-radius: 8px;
+}
+
+// ============================================
+// MATHJAX EQUATIONS
+// ============================================
+
+.MathJax_Display {
+  margin: 1.5em 0 !important;
+  padding: 1em;
+  background: $color-bg-alt;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+// ============================================
+// RESPONSIVE IMPROVEMENTS
+// ============================================
+
+@media only screen and (max-width: 767px) {
+  body {
+    font-size: 16px;
+  }
+
+  #main-content {
+    h1 { font-size: 1.75em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.25em; }
+
+    // Better code blocks on mobile
+    pre {
+      font-size: 13px;
+      padding: 1em;
+      margin-left: -1em;
+      margin-right: -1em;
+      border-radius: 0;
+    }
+  }
+
+  .post-header .post-title {
+    font-size: 1.75em;
+  }
+}
+
+// ============================================
+// PRINT IMPROVEMENTS
+// ============================================
+
+@media print {
+  pre, .highlight {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd;
+    
+    code {
+      color: #333 !important;
+    }
+  }
+}

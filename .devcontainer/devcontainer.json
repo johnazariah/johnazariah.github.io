@@ -1,0 +1,49 @@
+{
+  "name": "Jekyll Blog Development",
+  "image": "mcr.microsoft.com/devcontainers/jekyll:2-bullseye",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-preview-github-styles",
+        "DavidAnson.vscode-markdownlint",
+        "sissel.shopify-liquid",
+        "Ionide.Ionide-fsharp",
+        "ms-python.python",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "markdown.preview.fontSize": 14
+      }
+    }
+  },
+
+  "forwardPorts": [4000, 35729],
+  "portsAttributes": {
+    "4000": {
+      "label": "Jekyll Server",
+      "onAutoForward": "notify"
+    },
+    "35729": {
+      "label": "Live Reload",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "postCreateCommand": "bundle install",
+  
+  "postStartCommand": "echo '✅ Ready! Run: bundle exec jekyll serve --livereload --host 0.0.0.0'",
+
+  "remoteUser": "vscode",
+
+  "containerEnv": {
+    "JEKYLL_ENV": "development"
+  }
+}

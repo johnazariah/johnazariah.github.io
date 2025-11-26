@@ -1,0 +1,231 @@
+// ============================================
+// BEAUTIFUL CODE BLOCKS - One Dark Pro Theme
+// ============================================
+// A modern syntax highlighting theme inspired by VS Code's One Dark Pro
+// with enhanced readability for functional programming languages
+
+// Color palette
+$code-bg: #282c34;
+$code-fg: #abb2bf;
+$code-border: #3e4451;
+$code-selection: #3e4451;
+$code-comment: #5c6370;
+$code-keyword: #c678dd;
+$code-string: #98c379;
+$code-number: #d19a66;
+$code-function: #61afef;
+$code-type: #e5c07b;
+$code-operator: #56b6c2;
+$code-variable: #e06c75;
+$code-constant: #d19a66;
+
+// Code block container
+pre {
+  background: $code-bg;
+  border: 1px solid $code-border;
+  border-radius: 8px;
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  
+  // Scrollbar styling
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: darken($code-bg, 3%);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $code-border;
+    border-radius: 4px;
+  }
+
+  code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: $code-fg;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, Monaco, 'Andale Mono', monospace;
+    font-size: inherit;
+    font-feature-settings: "liga" 1, "calt" 1; // Enable ligatures
+  }
+}
+
+// Inline code
+code {
+  background: rgba($code-bg, 0.1);
+  border: 1px solid rgba($code-border, 0.3);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.9em;
+  color: $code-variable;
+}
+
+// Syntax highlighting classes (Rouge/Pygments)
+.highlight {
+  background: $code-bg;
+  border-radius: 8px;
+  margin: 1.5em 0;
+  
+  pre {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  // Comments
+  .c, .c1, .cm, .cs, .cd { 
+    color: $code-comment; 
+    font-style: italic; 
+  }
+
+  // Keywords (let, if, match, type, module, etc.)
+  .k, .kd, .kn, .kp, .kr, .kv, .kc { 
+    color: $code-keyword; 
+    font-weight: 500;
+  }
+  
+  // Types and classes
+  .kt, .nc, .nn { 
+    color: $code-type; 
+  }
+
+  // Functions and methods
+  .nf, .fm { 
+    color: $code-function; 
+  }
+
+  // Strings
+  .s, .s1, .s2, .sb, .sc, .sd, .sh, .sx { 
+    color: $code-string; 
+  }
+
+  // Numbers
+  .m, .mi, .mf, .mh, .mo, .il, .mb, .mx { 
+    color: $code-number; 
+  }
+
+  // Operators (|>, >>=, <|, etc.)
+  .o, .ow { 
+    color: $code-operator; 
+  }
+
+  // Variables and names
+  .n, .na, .nb, .nv, .vi, .vg, .vc { 
+    color: $code-fg; 
+  }
+  
+  // Constants
+  .no, .bp { 
+    color: $code-constant; 
+  }
+
+  // Special - errors
+  .err { 
+    color: $code-variable;
+    background: transparent;
+  }
+
+  // Punctuation
+  .p { 
+    color: $code-fg; 
+  }
+
+  // Namespace/module
+  .nn { 
+    color: $code-type; 
+  }
+
+  // Name exception
+  .ne { 
+    color: $code-variable; 
+  }
+
+  // Regex
+  .sr { 
+    color: $code-string; 
+  }
+
+  // Symbols (F# specific)
+  .ss { 
+    color: $code-operator; 
+  }
+
+  // Generic styles
+  .ge { font-style: italic; }
+  .gs { font-weight: bold; }
+  .gd { color: $code-variable; background: rgba($code-variable, 0.1); }
+  .gi { color: $code-string; background: rgba($code-string, 0.1); }
+  .gh, .gu { color: $code-function; font-weight: bold; }
+
+  // Line numbers (if enabled)
+  .lineno {
+    color: $code-comment;
+    padding-right: 1em;
+    border-right: 1px solid $code-border;
+    margin-right: 1em;
+    user-select: none;
+  }
+
+  // Table for line numbers
+  table {
+    border: none;
+    background: transparent;
+    margin: 0;
+    
+    td {
+      border: none;
+      padding: 0;
+      
+      &.gutter {
+        padding-right: 1em;
+        border-right: 1px solid $code-border;
+        
+        pre {
+          color: $code-comment;
+        }
+      }
+      
+      &.code {
+        padding-left: 1em;
+      }
+    }
+  }
+}
+
+// Language label on code blocks (optional enhancement)
+pre[class*="language-"]::before,
+div.highlight[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0;
+  right: 1em;
+  padding: 0.25em 0.5em;
+  font-size: 0.75em;
+  color: $code-comment;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Special styling for specific languages
+.language-fsharp, .language-fs {
+  .k { color: $code-keyword; } // let, match, if, etc.
+  .kt { color: $code-type; }   // int, string, etc.
+  .nf { color: $code-function; } // function names
+}
+
+.language-csharp, .language-cs {
+  .k { color: $code-keyword; }
+  .kt { color: $code-type; }
+}
+
+.language-python {
+  .k { color: $code-keyword; }
+  .nd { color: $code-function; } // decorators
+  .nf { color: $code-function; }
+}

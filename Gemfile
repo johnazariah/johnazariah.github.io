@@ -33,3 +33,9 @@ gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
 gem "webrick", "~> 1.8"
 gem "tzinfo", "~> 2.0"
 gem "tzinfo-data"
+
+# Ruby 3.3+ compatibility fix for Jekyll 3.9.x
+gem "logger", "~> 1.5"
+gem "csv", "~> 3.2"
+gem "base64", "~> 0.2"
+gem "bigdecimal", "~> 3.1"
