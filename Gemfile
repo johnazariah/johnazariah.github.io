@@ -17,9 +17,6 @@ gem "github-pages", group: :jekyll_plugins
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-remote-theme", "~> 0.4.3"
-  gem "jekyll-include-cache"
-  gem "jekyll-sitemap"
-  gem "jekyll-paginate"
 end
 
 # This is the default theme for new Jekyll sites. You may change this to anything you like.

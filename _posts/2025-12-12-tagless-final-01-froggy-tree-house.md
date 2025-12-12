@@ -8,7 +8,7 @@
 
 > **FsAdvent 2025**: This is Part 1 of a 6-part series on Tagless-Final in F#.
 >
-> This blog series came about from a chance conversation with the brilliant and funny [Dr. Vaishnavi S](https://bsky.app/profile/vaishs.bsky.social). I won't bury the lede by telling you what the conversation was about, but if you read the whole series, this will become apparent :)
+> This blog series came about from a chance conversation with the brilliant and funny [Dr. Vaishnavi S](https://bsky.app/profile/vaishs.bsky.social). I'm going to bury the lede on this one, but if you read the whole series, the point of confluence - and indeed the inspiration to go off and do some research on this topic - will become apparent! Thank you! :)
 
 ---
 
