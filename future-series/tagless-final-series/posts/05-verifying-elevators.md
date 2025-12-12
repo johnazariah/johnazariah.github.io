@@ -68,9 +68,9 @@ Because they share the same structure (Algebra), we can reuse the **logic** of o
 
 If we map our Elevator operations to Frog operations, we can use the **Frog Safety Inspector** to check our Elevator!
 
-1.  Translate `Elevator Program` $\to$ `Frog Program`.
-2.  Run `Frog Program` through `Safety Inspector`.
-3.  If Frog dies, Elevator crashes.
+1. Translate `Elevator Program` $\to$ `Frog Program`.
+2. Run `Frog Program` through `Safety Inspector`.
+3. If Frog dies, Elevator crashes.
 
 ## Finding a Bug
 

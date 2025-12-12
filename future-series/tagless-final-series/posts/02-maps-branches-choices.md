@@ -167,11 +167,11 @@ We can render this!
 
 Now that we have a graph, we can answer questions that the Simulator couldn't easily answer.
 
-**"Is it possible to reach Node 4?"**
+### "Is it possible to reach Node 4?"
 
 With the simulator, we'd have to check every result in the list. With the graph, we can run a standard BFS or DFS algorithm.
 
-**"Is there a cycle? Can Froggy get stuck in a loop?"**
+### "Is there a cycle? Can Froggy get stuck in a loop?"
 
 If we add a `GoBack` instruction, our graph might have edges pointing backwards. A simple cycle detection algorithm on the `Graph` data structure tells us immediately.
 

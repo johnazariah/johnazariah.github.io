@@ -1,68 +1,145 @@
 # Welcome to Jekyll!
 #
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you: 
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+# Minimal Mistakes Theme Configuration
+# https://mmistakes.github.io/minimal-mistakes/docs/configuration/
 
-author: John Azariah
-title: John Azariah's Blog
-email: john.azariah@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Ruminations of a partially-applied functional programmer...
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: johnazariah
-github_username:  johnazariah
+# Site Settings
+locale: "en-US"
+title: "John Azariah's Blog"
+title_separator: "|"
+subtitle: "Ruminations of a partially-applied functional programmer"
+name: "John Azariah"
+description: >-
+  Explorations in functional programming, F#, Python, type theory, 
+  and programming languages from a practitioner's perspective.
+url: "https://johnazariah.github.io"
+baseurl: ""
+repository: "johnazariah/johnazariah.github.io"
 
 # Build settings
-remote_theme: pages-themes/architect@v0.2.0
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+minimal_mistakes_skin: "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-remote-theme # add this line to the plugins list if you already have one
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-sitemap
+  - jekyll-paginate
 
+# Markdown Processing
 highlighter: rouge
-gist:
-  noscript: false
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
 
-mermaid: true
+# Pagination
+paginate: 10
+paginate_path: /page:num/
 
+# Author information
+author:
+  name: "John Azariah"
+  # avatar: "/assets/images/bio-photo.jpg"  # Add your photo later
+  bio: "Partially-applied functional programmer. Exploring F#, Python, type theory, and the beauty of computation."
+  location: "Earth"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/johnazariah"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/johnazariah"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:john.azariah@gmail.com"
+
+# Site Footer
+footer:
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/johnazariah"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/johnazariah"
+
+# Reading Files
+include:
+  - _pages
+
+# Collections (for series posts)
+collections:
+  portfolio:
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  # Posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      show_date: true
+      toc: true
+      toc_sticky: true
+  # Pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+# Category and Tag Archives
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+
+# Comments (Disqus)
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "johnazariah"
+
+# Analytics
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "UA-73122642-1"
+    anonymize_ip: false
+
+# Search
+search: true
+search_full_content: true
+
+# Future posts
 future: true
-google_analytics: UA-73122642-1
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - future-series/
+  - README.md
+  - LICENSE

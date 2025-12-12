@@ -1,0 +1,170 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+// Minimal Mistakes skin and variable overrides
+// Using dark skin as base
+
+// Custom syntax highlighting colors (One Dark Pro)
+$code-background-color: #282c34 !default;
+$code-background-color-dark: #282c34 !default;
+$border-color: #3e4451 !default;
+
+// Import minimal mistakes
+@import "minimal-mistakes/skins/dark";
+@import "minimal-mistakes";
+
+// ============================================
+// ONE DARK PRO CODE STYLING
+// ============================================
+
+$code-bg: #282c34;
+$code-fg: #abb2bf;
+$code-border: #3e4451;
+$code-comment: #5c6370;
+$code-keyword: #c678dd;
+$code-string: #98c379;
+$code-number: #d19a66;
+$code-function: #61afef;
+$code-type: #e5c07b;
+$code-operator: #56b6c2;
+$code-variable: #e06c75;
+
+// Code block styling
+div.highlighter-rouge,
+figure.highlight {
+  background: $code-bg !important;
+  border: 1px solid $code-border;
+  border-radius: 8px;
+  margin: 1.5em 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+pre.highlight {
+  background: $code-bg !important;
+  margin: 0;
+  padding: 1em 1.5em;
+  border-radius: 8px;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+  font-size: 0.85em;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+// Inline code
+p code,
+li code,
+td code {
+  background: rgba($code-bg, 0.8) !important;
+  border: 1px solid $code-border;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  color: $code-variable;
+}
+
+// Syntax highlighting
+.highlight {
+  .c, .c1, .cm, .cs, .cd { color: $code-comment; font-style: italic; }
+  .k, .kd, .kn, .kp, .kr, .kv, .kc { color: $code-keyword; font-weight: 500; }
+  .kt, .nc, .nn { color: $code-type; }
+  .nf, .fm { color: $code-function; }
+  .s, .s1, .s2, .sb, .sc, .sd, .sh, .sx { color: $code-string; }
+  .m, .mi, .mf, .mh, .mo, .il, .mb, .mx { color: $code-number; }
+  .o, .ow { color: $code-operator; }
+  .n, .na, .nb, .nv, .vi, .vg, .vc { color: $code-fg; }
+  .no, .bp { color: $code-number; }
+  .err { color: $code-variable; background: transparent; }
+  .p { color: $code-fg; }
+  .ne { color: $code-variable; }
+  .sr { color: $code-string; }
+  .ss { color: $code-operator; }
+  .ge { font-style: italic; }
+  .gs { font-weight: bold; }
+  .gd { color: $code-variable; background: rgba($code-variable, 0.1); }
+  .gi { color: $code-string; background: rgba($code-string, 0.1); }
+  .gh, .gu { color: $code-function; font-weight: bold; }
+}
+
+// ============================================
+// ADDITIONAL ENHANCEMENTS
+// ============================================
+
+// Better reading experience
+.page__content {
+  font-size: 1.05em;
+  line-height: 1.75;
+  
+  p {
+    margin-bottom: 1.5em;
+  }
+  
+  h2 {
+    margin-top: 2.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid $code-border;
+  }
+}
+
+// Table of contents improvements
+.toc {
+  background: rgba($code-bg, 0.5);
+  border-radius: 8px;
+  border: 1px solid $code-border;
+  
+  .nav__title {
+    background: $code-bg;
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+// Blockquote styling
+blockquote {
+  border-left: 4px solid $code-keyword !important;
+  background: rgba($code-bg, 0.3);
+  border-radius: 0 8px 8px 0;
+  padding: 1em 1.5em;
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Math blocks
+.MathJax_Display {
+  background: rgba($code-bg, 0.3);
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+// Author sidebar tweaks
+.author__bio {
+  font-style: normal;
+  color: #9ca3af;
+}
+
+// Archive pages
+.archive__item-title {
+  margin-top: 0.5em;
+}
+
+// Tags styling
+.page__taxonomy-item {
+  background: rgba($code-keyword, 0.2);
+  border-radius: 4px;
+  
+  &:hover {
+    background: $code-keyword;
+  }
+}
+
+// Search input
+.search-input {
+  background: $code-bg;
+  border: 1px solid $code-border;
+  border-radius: 8px;
+}

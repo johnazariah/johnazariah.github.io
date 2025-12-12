@@ -167,9 +167,9 @@ Combine this with the Trace Analyzer, and you can print out the exact walkthroug
 
 Here is a challenge for you:
 
-1.  Implement the `Bind` function for the `Coroner` interpreter properly.
-2.  Add a `PowerUp` instruction to the DSL.
-3.  Update the `StrategyInterpreter` to prefer paths that pick up power-ups.
+1. Implement the `Bind` function for the `Coroner` interpreter properly.
+2. Add a `PowerUp` instruction to the DSL.
+3. Update the `StrategyInterpreter` to prefer paths that pick up power-ups.
 
 > **Sidebar: Interpreters Disagree Because They Give Different Meanings**
 >

@@ -73,6 +73,7 @@ type FrogInterpreter<'a> = {
 Wait, don't panic at the types! All this says is: "If you want to be a Frog Interpreter, you need to know how to handle a Jump, a Croak, and Eating a Fly."
 
 The generic type `'a` represents the **result** of our program.
+
 - If we are printing a story, `'a` might be `string`.
 - If we are simulating a game, `'a` might be `FrogState -> FrogState`.
 - If we are drawing a picture, `'a` might be `Image`.
