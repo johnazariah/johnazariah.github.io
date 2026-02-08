@@ -6,7 +6,7 @@
     summary: DFS, BFS, Dijkstra, and A* look like different algorithms—until you see they're all the same loop with different bags.
 ---
 
-_Dedicated to [Prof Neeldhara Misra](https://www.neeldhara.com/), who invited me to give a version of this talk to her class at IIT Gandhinagar._
+_Dedicated to [Prof Shriram Krishnamurthi](https://cs.brown.edu/~sk/), who incited the exploration into this area, and to [Prof Neeldhara Misra](https://www.neeldhara.com/), who invited me to give a version of this talk to her class at IIT Gandhinagar._
 
 ---
 
