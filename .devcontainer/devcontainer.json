@@ -1,9 +1,12 @@
 {
   "name": "Jekyll Blog Development",
-  "image": "mcr.microsoft.com/devcontainers/jekyll:2-bullseye",
-  
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
 
   "customizations": {
