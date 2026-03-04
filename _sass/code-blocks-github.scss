@@ -1,0 +1,229 @@
+// ============================================
+// CODE BLOCKS - GitHub Light Theme
+// ============================================
+// Clean, light syntax highlighting inspired by GitHub
+// Excellent readability for functional programming languages
+
+// Color palette - GitHub Light
+$code-bg: #f6f8fa;
+$code-fg: #24292f;
+$code-border: #d0d7de;
+$code-comment: #6e7781;
+$code-keyword: #cf222e;
+$code-string: #0a3069;
+$code-number: #0550ae;
+$code-function: #8250df;
+$code-type: #953800;
+$code-operator: #24292f;
+$code-constant: #0550ae;
+$code-tag: #116329;
+$code-diff-add: #dafbe1;
+$code-diff-del: #ffebe9;
+
+// Code block container
+pre {
+  background: $code-bg;
+  border: 1px solid $code-border;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 1.5em 0;
+  overflow-x: auto;
+  font-size: 13.6px;
+  line-height: 1.6;
+
+  // Scrollbar styling
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: darken($code-bg, 2%);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $code-border;
+    border-radius: 4px;
+
+    &:hover {
+      background: darken($code-border, 10%);
+    }
+  }
+
+  code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: $code-fg;
+    font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    font-size: inherit;
+  }
+}
+
+// Inline code
+code {
+  background: rgba(175, 184, 193, 0.2);
+  border: none;
+  border-radius: 6px;
+  padding: 0.2em 0.4em;
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 85%;
+  color: $code-fg;
+}
+
+// Syntax highlighting (Rouge/Pygments)
+.highlight {
+  background: $code-bg;
+  border-radius: 6px;
+  margin: 1.5em 0;
+
+  pre {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  // Comments
+  .c, .c1, .cm, .cs, .cd {
+    color: $code-comment;
+    font-style: italic;
+  }
+
+  // Keywords (let, if, match, type, module, def, class, etc.)
+  .k, .kd, .kn, .kp, .kr, .kv, .kc {
+    color: $code-keyword;
+  }
+
+  // Types and classes
+  .kt, .nc {
+    color: $code-type;
+  }
+
+  // Namespace / module
+  .nn {
+    color: $code-type;
+  }
+
+  // Functions and methods
+  .nf, .fm {
+    color: $code-function;
+  }
+
+  // Strings
+  .s, .s1, .s2, .sb, .sc, .sd, .sh, .sx {
+    color: $code-string;
+  }
+
+  // Numbers
+  .m, .mi, .mf, .mh, .mo, .il, .mb, .mx {
+    color: $code-number;
+  }
+
+  // Operators (|>, >>=, <|, etc.)
+  .o, .ow {
+    color: $code-operator;
+  }
+
+  // Variables and names
+  .n, .na, .nb, .nv, .vi, .vg, .vc {
+    color: $code-fg;
+  }
+
+  // Constants
+  .no, .bp {
+    color: $code-constant;
+  }
+
+  // Errors
+  .err {
+    color: $code-keyword;
+    background: transparent;
+  }
+
+  // Punctuation
+  .p {
+    color: $code-fg;
+  }
+
+  // Name exception
+  .ne {
+    color: $code-keyword;
+  }
+
+  // Regex
+  .sr {
+    color: $code-string;
+  }
+
+  // Symbols
+  .ss {
+    color: $code-string;
+  }
+
+  // HTML/XML tags
+  .nt {
+    color: $code-tag;
+  }
+
+  // Tag attributes
+  .na {
+    color: $code-function;
+  }
+
+  // Generic styles
+  .ge { font-style: italic; }
+  .gs { font-weight: bold; }
+  .gd { color: #82071e; background: $code-diff-del; }
+  .gi { color: #116329; background: $code-diff-add; }
+  .gh, .gu { color: $code-function; font-weight: bold; }
+
+  // Line numbers
+  .lineno {
+    color: $code-comment;
+    padding-right: 1em;
+    border-right: 1px solid $code-border;
+    margin-right: 1em;
+    user-select: none;
+  }
+
+  // Table for line numbers
+  table {
+    border: none;
+    background: transparent;
+    margin: 0;
+
+    td {
+      border: none;
+      padding: 0;
+
+      &.gutter {
+        padding-right: 1em;
+        border-right: 1px solid $code-border;
+
+        pre {
+          color: $code-comment;
+        }
+      }
+
+      &.code {
+        padding-left: 1em;
+      }
+    }
+  }
+}
+
+// Language-specific tweaks
+.language-fsharp, .language-fs {
+  .k { color: $code-keyword; }
+  .kt { color: $code-type; }
+  .nf { color: $code-function; }
+}
+
+.language-csharp, .language-cs {
+  .k { color: $code-keyword; }
+  .kt { color: $code-type; }
+}
+
+.language-python {
+  .k { color: $code-keyword; }
+  .nd { color: $code-function; }
+  .nf { color: $code-function; }
+}

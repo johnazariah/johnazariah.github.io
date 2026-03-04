@@ -1,244 +1,114 @@
 // ============================================
-// MODERN BLOG THEME ENHANCEMENTS
+// MODERN BLOG THEME — Cool & Minimal
 // ============================================
-// Beautiful typography, spacing, and visual improvements
-// while maintaining the Architect theme base
+// Clean, contemporary design with excellent readability.
+// Fully overrides the Architect base theme.
 
 // ============================================
 // FONTS
 // ============================================
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 $font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-$font-heading: 'Architects Daughter', $font-body;
-$font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace;
+$font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
 
 // ============================================
-// COLORS
+// COLORS — Cool & Minimal
 // ============================================
-$color-primary: #2879d0;
-$color-primary-dark: #1e5a9e;
-$color-accent: #9ddcff;
-$color-text: #374151;
-$color-text-light: #6b7280;
-$color-heading: #1f2937;
+$color-primary: #0969da;
+$color-primary-dark: #0550ae;
+$color-primary-light: #ddf4ff;
+$color-text: #24292f;
+$color-text-light: #656d76;
+$color-heading: #1b1f24;
 $color-bg: #ffffff;
-$color-bg-alt: #f9fafb;
-$color-border: #e5e7eb;
+$color-bg-alt: #f6f8fa;
+$color-border: #d0d7de;
+$color-border-light: #e8ecf0;
+
+$header-bg-start: #0d1117;
+$header-bg-end: #161b22;
+$header-text: #f0f6fc;
+$header-subtitle: #8b949e;
 
 // ============================================
-// TYPOGRAPHY IMPROVEMENTS
+// BASE RESETS (override Architect defaults)
 // ============================================
 
 body {
   font-family: $font-body;
   font-size: 17px;
+  font-weight: 400;
   line-height: 1.7;
   color: $color-text;
+  background: $color-bg !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  margin-bottom: 1.5em;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $color-primary-dark;
+  }
+}
+
+// ============================================
+// LAYOUT — Flexbox replaces floats
+// ============================================
+
+.inner {
+  width: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+#content-wrapper {
+  padding-top: 2.5rem;
+  border-top: none;
+
+  .inner {
+    display: flex;
+    gap: 3rem;
+  }
+}
+
 #main-content {
-  // Better paragraph spacing
-  p {
-    margin-bottom: 1.5em;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+  float: none;
+  width: auto;
+  flex: 1;
+  min-width: 0;
 
-  // Improved headings
-  h1, h2, h3, h4, h5, h6 {
-    font-family: $font-heading;
-    color: $color-heading;
-    margin-top: 2em;
-    margin-bottom: 0.75em;
-    line-height: 1.3;
-  }
-
-  h1 { font-size: 2.25em; }
-  h2 { font-size: 1.75em; }
-  h3 { font-size: 1.4em; }
-  h4 { font-size: 1.2em; }
-
-  // Better link styling
-  a {
-    color: $color-primary;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
-
-    &:hover {
-      border-bottom-color: $color-primary;
-    }
-  }
-
-  // Improved blockquotes
-  blockquote {
-    margin: 1.5em 0;
-    padding: 1em 1.5em;
-    background: $color-bg-alt;
-    border-left: 4px solid $color-primary;
-    border-radius: 0 8px 8px 0;
-    font-style: normal;
-    color: $color-text;
-
-    p {
-      margin: 0;
-    }
-
-    // Series navigation boxes
-    strong {
-      color: $color-heading;
-    }
-  }
-
-  // Better lists
-  ul, ol {
-    margin: 1em 0 1.5em;
-    padding-left: 1.5em;
-
-    li {
-      margin-bottom: 0.5em;
-      line-height: 1.6;
-    }
-
-    // Nested lists
-    ul, ol {
-      margin: 0.5em 0;
-    }
-  }
-
-  ul {
-    list-style-type: disc;
-    
-    ul {
-      list-style-type: circle;
-    }
-  }
-
-  // Horizontal rules
-  hr {
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, $color-border, transparent);
-    margin: 3em 0;
-  }
-
-  // Tables
-  table {
-    width: 100%;
-    margin: 1.5em 0;
-    border-collapse: collapse;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-    th, td {
-      padding: 0.75em 1em;
-      text-align: left;
-      border-bottom: 1px solid $color-border;
-    }
-
-    th {
-      background: $color-bg-alt;
-      font-weight: 600;
-      color: $color-heading;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: rgba($color-primary, 0.03);
-    }
-  }
-
-  // Images
   img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     margin: 1.5em 0;
   }
-
-  // Figure captions
-  figcaption {
-    text-align: center;
-    font-size: 0.9em;
-    color: $color-text-light;
-    margin-top: -1em;
-    margin-bottom: 1.5em;
-  }
 }
-
-// ============================================
-// POST HEADER IMPROVEMENTS
-// ============================================
-
-.post-header {
-  margin-bottom: 2em;
-  padding-bottom: 1.5em;
-  border-bottom: 1px solid $color-border;
-
-  .post-title {
-    font-size: 2.5em;
-    margin-bottom: 0.5em;
-    color: $color-heading;
-  }
-}
-
-.post-meta {
-  color: $color-text-light;
-  font-size: 0.95em;
-}
-
-.post-tags {
-  margin-bottom: 1em;
-
-  a {
-    display: inline-block;
-    padding: 0.25em 0.75em;
-    margin-right: 0.5em;
-    margin-bottom: 0.5em;
-    font-size: 0.85em;
-    color: $color-primary;
-    background: rgba($color-primary, 0.1);
-    border-radius: 20px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: $color-primary;
-      color: white;
-      border-bottom: none;
-    }
-  }
-}
-
-.post-summary {
-  font-size: 1.15em;
-  color: $color-text-light;
-  line-height: 1.6;
-  padding: 1em;
-  background: $color-bg-alt;
-  border-radius: 8px;
-  border-left: 4px solid $color-accent;
-}
-
-// ============================================
-// SIDEBAR IMPROVEMENTS
-// ============================================
 
 aside#sidebar {
+  float: none;
+  width: 240px;
+  flex-shrink: 0;
+  min-height: auto;
+  padding-left: 2rem;
+  padding-top: 0.5rem;
   font-size: 14px;
+  line-height: 1.5;
+  background: none !important;
+  border-left: 1px solid $color-border-light;
 
   a {
     color: $color-text;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
 
     &:hover {
       color: $color-primary;
@@ -248,23 +118,31 @@ aside#sidebar {
   hr {
     border: none;
     height: 1px;
-    background: $color-border;
-    margin: 1.5em 0;
+    background: $color-border-light;
+    margin: 1.25em 0;
   }
 
-  // Tag cloud in sidebar
+  li {
+    list-style: none;
+    margin-bottom: 0.4em;
+
+    a {
+      font-size: 0.9em;
+    }
+  }
+
   .site-tag {
     display: inline-block;
-    margin: 0.25em;
+    margin: 0.2em;
 
     a {
       display: inline-block;
-      padding: 0.2em 0.6em;
-      font-size: 0.9em;
+      padding: 0.15em 0.55em;
+      font-size: 0.85em;
       background: $color-bg-alt;
-      border-radius: 4px;
-      border: 1px solid $color-border;
-      transition: all 0.2s ease;
+      border-radius: 20px;
+      border: 1px solid $color-border-light;
+      transition: all 0.15s ease;
 
       &:hover {
         background: $color-primary;
@@ -273,23 +151,335 @@ aside#sidebar {
       }
     }
   }
+
+  p.repo-owner,
+  p.repo-owner a {
+    font-weight: 600;
+  }
 }
 
 // ============================================
-// READING EXPERIENCE IMPROVEMENTS
+// SITE HEADER — Dark elegant gradient
 // ============================================
 
-// Better selection color
+header.site-header {
+  padding: 2.5rem 0;
+  font-family: $font-body;
+  background: linear-gradient(135deg, $header-bg-start 0%, $header-bg-end 100%) !important;
+  border-bottom: none;
+
+  h1 {
+    width: 100%;
+    margin: 0 0 0.3em;
+    font-family: $font-body;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: $header-text;
+    letter-spacing: -0.5px;
+  }
+
+  h2 {
+    width: 100%;
+    margin: 0;
+    font-family: $font-body;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $header-subtitle;
+    letter-spacing: 0;
+  }
+
+  a.button {
+    font-family: $font-body;
+    font-size: 14px;
+    color: $header-subtitle;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 8px 16px;
+    width: auto;
+    height: auto;
+    background-image: none !important;
+    line-height: 1.4;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.14) !important;
+      border-color: rgba(255, 255, 255, 0.25);
+      color: $header-text;
+    }
+
+    small {
+      font-size: 12px;
+      display: block;
+    }
+  }
+}
+
+// Ensure post header stays light (not affected by Architect's header styles)
+header.post-header {
+  background: transparent !important;
+  border: none;
+  padding: 0;
+}
+
+// ============================================
+// HEADINGS — Clean Inter, no slash prefixes
+// ============================================
+
+#main-content {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-body;
+    color: $color-heading;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    letter-spacing: -0.02em;
+    text-indent: 0;
+
+    &:before {
+      content: none !important;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  h1 {
+    font-size: 2em;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid $color-border-light;
+  }
+
+  h3 { font-size: 1.25em; }
+  h4 { font-size: 1.1em; }
+
+  h5 {
+    font-size: 1em;
+    color: $color-text-light;
+  }
+
+  h6 {
+    font-size: 0.9em;
+    color: $color-text-light;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Override the global h4–h6:before from the Architect base
+h4:before, h5:before, h6:before {
+  content: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+// ============================================
+// CONTENT TYPOGRAPHY
+// ============================================
+
+#main-content {
+  p {
+    margin-bottom: 1.5em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  blockquote {
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    background: $color-bg-alt;
+    border-left: 3px solid $color-primary;
+    border-radius: 0 6px 6px 0;
+    font-size: inherit;
+    font-style: normal;
+    color: $color-text;
+
+    p { margin: 0; }
+    strong { color: $color-heading; }
+  }
+
+  ul, ol {
+    margin: 1em 0 1.5em;
+    padding-left: 1.5em;
+
+    li {
+      margin-bottom: 0.4em;
+      line-height: 1.6;
+    }
+
+    ul, ol {
+      margin: 0.4em 0;
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+    list-style-position: outside;
+
+    ul { list-style-type: circle; }
+  }
+
+  ol {
+    list-style-position: outside;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: $color-border;
+    margin: 2.5em 0;
+  }
+
+  table {
+    width: 100%;
+    margin: 1.5em 0;
+    border-collapse: collapse;
+    border: 1px solid $color-border;
+    border-radius: 6px;
+    overflow: hidden;
+
+    th, td {
+      padding: 0.6em 1em;
+      text-align: left;
+      border: 1px solid $color-border;
+    }
+
+    th {
+      background: $color-bg-alt;
+      font-weight: 600;
+      color: $color-heading;
+    }
+
+    tr:hover td {
+      background: rgba($color-primary, 0.02);
+    }
+  }
+
+  figcaption {
+    text-align: center;
+    font-size: 0.9em;
+    color: $color-text-light;
+    margin-top: -1em;
+    margin-bottom: 1.5em;
+  }
+}
+
+// Ensure code uses the mono stack everywhere
+code, pre {
+  font-family: $font-mono;
+}
+
+// ============================================
+// POST HEADER & META
+// ============================================
+
+.post-header {
+  margin-bottom: 2em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid $color-border;
+
+  .post-title {
+    font-family: $font-body;
+    font-size: 2.25em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: $color-heading;
+  }
+}
+
+.post-meta {
+  color: $color-text-light;
+  font-size: 0.9em;
+}
+
+.post-tags {
+  margin-bottom: 1em;
+
+  a {
+    display: inline-block;
+    padding: 0.2em 0.65em;
+    margin-right: 0.4em;
+    margin-bottom: 0.4em;
+    font-size: 0.85em;
+    color: $color-primary;
+    background: $color-primary-light;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: $color-primary;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.post-summary {
+  font-size: 1.1em;
+  color: $color-text-light;
+  line-height: 1.65;
+  padding: 1em 1.25em;
+  background: $color-bg-alt;
+  border-radius: 6px;
+  border-left: 3px solid $color-primary;
+}
+
+// ============================================
+// BUTTON OVERRIDES
+// ============================================
+
+a.button {
+  font-family: $font-body;
+}
+
+aside a.button {
+  background-image: none;
+  background: $color-bg-alt;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  padding: 8px 16px;
+  width: auto;
+  font-size: 14px;
+  text-align: center;
+
+  &:hover {
+    background: $color-primary;
+    color: white;
+    border-color: $color-primary;
+  }
+}
+
+// ============================================
+// SELECTION, SCROLL & FOCUS
+// ============================================
+
 ::selection {
-  background: rgba($color-primary, 0.2);
+  background: rgba($color-primary, 0.15);
 }
 
-// Smooth scroll
 html {
   scroll-behavior: smooth;
 }
 
-// Focus styles for accessibility
 a:focus,
 button:focus {
   outline: 2px solid $color-primary;
@@ -305,7 +495,8 @@ button:focus {
   text-align: center;
   background: $color-bg-alt;
   padding: 1.5em;
-  border-radius: 8px;
+  border-radius: 6px;
+  border: 1px solid $color-border;
 }
 
 // ============================================
@@ -316,50 +507,133 @@ button:focus {
   margin: 1.5em 0 !important;
   padding: 1em;
   background: $color-bg-alt;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow-x: auto;
 }
 
 // ============================================
-// RESPONSIVE IMPROVEMENTS
+// FOOTER
 // ============================================
+
+footer {
+  color: $color-text-light;
+
+  a {
+    color: $color-text-light;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+
+@media only screen and (max-width: 959px) {
+  .inner {
+    max-width: 100%;
+    padding: 0 1.5rem;
+  }
+
+  header.site-header h1 {
+    width: 100%;
+    font-size: 2rem;
+  }
+
+  header.site-header h2 {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
 
 @media only screen and (max-width: 767px) {
   body {
     font-size: 16px;
   }
 
-  #main-content {
-    h1 { font-size: 1.75em; }
-    h2 { font-size: 1.5em; }
-    h3 { font-size: 1.25em; }
+  .inner {
+    padding: 0 1rem;
+  }
 
-    // Better code blocks on mobile
-    pre {
+  header.site-header {
+    padding: 1.5rem 0;
+
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 0.95rem; }
+
+    .inner { position: relative; }
+
+    a.button {
+      position: relative;
+      display: inline-block;
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: $header-subtitle;
+      border-radius: 6px;
+      padding: 6px 12px;
       font-size: 13px;
-      padding: 1em;
-      margin-left: -1em;
-      margin-right: -1em;
-      border-radius: 0;
+      width: auto;
+      height: auto;
+      background-image: none !important;
+
+      small {
+        display: inline;
+        font-size: 13px;
+      }
     }
   }
 
+  #content-wrapper .inner {
+    flex-direction: column;
+  }
+
+  #main-content {
+    width: 100% !important;
+
+    h1 { font-size: 1.6em; }
+    h2 { font-size: 1.3em; }
+    h3 { font-size: 1.15em; }
+
+    pre {
+      font-size: 13px;
+      padding: 1em;
+      border-radius: 6px;
+    }
+  }
+
+  aside#sidebar {
+    width: 100% !important;
+    min-height: 0;
+    padding: 1.5rem 0 0;
+    margin-top: 2rem;
+    border-left: none;
+    border-top: 1px solid $color-border-light;
+    background: none !important;
+  }
+
   .post-header .post-title {
-    font-size: 1.75em;
+    font-size: 1.6em;
   }
 }
 
 // ============================================
-// PRINT IMPROVEMENTS
+// PRINT
 // ============================================
 
 @media print {
+  header.site-header {
+    background: #333 !important;
+  }
+
   pre, .highlight {
-    background: #f5f5f5 !important;
-    border: 1px solid #ddd;
-    
+    background: #f6f8fa !important;
+    border: 1px solid #d0d7de;
+
     code {
-      color: #333 !important;
+      color: #24292f !important;
     }
   }
 }
