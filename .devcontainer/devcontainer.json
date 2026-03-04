@@ -3,12 +3,10 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -27,8 +25,10 @@
       }
     }
   },
-
-  "forwardPorts": [4000, 35729],
+  "forwardPorts": [
+    4000,
+    35729
+  ],
   "portsAttributes": {
     "4000": {
       "label": "Jekyll Server",
@@ -39,17 +39,12 @@
       "onAutoForward": "silent"
     }
   },
-
   "postCreateCommand": "bundle install",
-  
   "postStartCommand": "echo '✅ Ready! Run: bundle exec jekyll serve --livereload --host 0.0.0.0'",
-
   "remoteUser": "vscode",
-
   "containerEnv": {
     "JEKYLL_ENV": "development"
   },
-
   "runArgs": [
     "--userns=keep-id"
   ]

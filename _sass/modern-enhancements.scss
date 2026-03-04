@@ -229,7 +229,13 @@ header.post-header {
 // ============================================
 
 #main-content {
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: $font-body;
     color: $color-heading;
     font-weight: 600;
@@ -257,8 +263,13 @@ header.post-header {
     border-bottom: 1px solid $color-border-light;
   }
 
-  h3 { font-size: 1.25em; }
-  h4 { font-size: 1.1em; }
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1.1em;
+  }
 
   h5 {
     font-size: 1em;
@@ -274,7 +285,9 @@ header.post-header {
 }
 
 // Override the global h4–h6:before from the Architect base
-h4:before, h5:before, h6:before {
+h4:before,
+h5:before,
+h6:before {
   content: none !important;
   padding: 0;
   margin: 0;
@@ -312,11 +325,17 @@ h4:before, h5:before, h6:before {
     font-style: normal;
     color: $color-text;
 
-    p { margin: 0; }
-    strong { color: $color-heading; }
+    p {
+      margin: 0;
+    }
+
+    strong {
+      color: $color-heading;
+    }
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 1em 0 1.5em;
     padding-left: 1.5em;
 
@@ -325,7 +344,8 @@ h4:before, h5:before, h6:before {
       line-height: 1.6;
     }
 
-    ul, ol {
+    ul,
+    ol {
       margin: 0.4em 0;
     }
   }
@@ -334,7 +354,9 @@ h4:before, h5:before, h6:before {
     list-style-type: disc;
     list-style-position: outside;
 
-    ul { list-style-type: circle; }
+    ul {
+      list-style-type: circle;
+    }
   }
 
   ol {
@@ -356,7 +378,8 @@ h4:before, h5:before, h6:before {
     border-radius: 6px;
     overflow: hidden;
 
-    th, td {
+    th,
+    td {
       padding: 0.6em 1em;
       text-align: left;
       border: 1px solid $color-border;
@@ -383,7 +406,8 @@ h4:before, h5:before, h6:before {
 }
 
 // Ensure code uses the mono stack everywhere
-code, pre {
+code,
+pre {
   font-family: $font-mono;
 }
 
@@ -560,10 +584,17 @@ footer {
   header.site-header {
     padding: 1.5rem 0;
 
-    h1 { font-size: 1.75rem; }
-    h2 { font-size: 0.95rem; }
+    h1 {
+      font-size: 1.75rem;
+    }
 
-    .inner { position: relative; }
+    h2 {
+      font-size: 0.95rem;
+    }
+
+    .inner {
+      position: relative;
+    }
 
     a.button {
       position: relative;
@@ -593,9 +624,17 @@ footer {
   #main-content {
     width: 100% !important;
 
-    h1 { font-size: 1.6em; }
-    h2 { font-size: 1.3em; }
-    h3 { font-size: 1.15em; }
+    h1 {
+      font-size: 1.6em;
+    }
+
+    h2 {
+      font-size: 1.3em;
+    }
+
+    h3 {
+      font-size: 1.15em;
+    }
 
     pre {
       font-size: 13px;
@@ -628,7 +667,8 @@ footer {
     background: #333 !important;
   }
 
-  pre, .highlight {
+  pre,
+  .highlight {
     background: #f6f8fa !important;
     border: 1px solid #d0d7de;
 
