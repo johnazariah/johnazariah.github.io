@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "The Algebra of Intent"
+    title: "Intent vs Process - Part 2: The Algebra of Intent"
     tags: [C#, software-architecture, dependency-injection, tagless-final, functional-programming, LINQ]
     author: johnazariah
     summary: "What if we took the vocabulary of our domain — check stock, charge, reserve, notify — and made it into an algebra? DI done properly turns out to be a well-studied pattern called Tagless Final."

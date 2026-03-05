@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "Standing on the Shoulders of Giants"
+    title: "Intent vs Process - Part 5: Standing on the Shoulders of Giants"
     tags: [C#, F#, functional-programming, monads, free-monad, tagless-final, category-theory, software-architecture]
     author: johnazariah
     summary: "Monads, free constructions, the Yoneda lemma, algebraic effects — the mathematical foundations beneath everything we've built. This is why it works."
