@@ -4,7 +4,7 @@ This devcontainer provides a complete Jekyll development environment for the blo
 
 ## Prerequisites
 
-- **Docker** installed (via Docker Desktop or Docker in WSL2)
+- **Podman** or **Docker** installed (via Docker Desktop, Podman Desktop, or WSL2)
 - **VS Code** with Dev Containers extension (`ms-vscode-remote.remote-containers`)
 
 ## Quick Start
@@ -24,11 +24,14 @@ This devcontainer provides a complete Jekyll development environment for the blo
 
 ## What's Included
 
-The devcontainer uses the official Microsoft Jekyll image which includes:
+The devcontainer uses a custom Dockerfile based on the .NET 10 devcontainer image which includes:
 
-- **Ruby 3.x** with Bundler pre-installed
-- **Jekyll** and GitHub Pages compatible gems
-- **Node.js** for asset processing
+- **.NET 10** SDK (F# scripting, Ionide, tooling)
+- **Ruby 3.x** with Bundler and Jekyll for the blog
+- **Python 3** with **uv** (package manager) and **ruff** (linter/formatter)
+- **GitHub CLI** (`gh`)
+- **Node.js** (via devcontainer base)
+- **Git** (via devcontainer base)
 
 ### VS Code Extensions (auto-installed)
 

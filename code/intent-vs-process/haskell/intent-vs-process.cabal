@@ -1,0 +1,61 @@
+cabal-version:      3.0
+name:               intent-vs-process
+version:            0.1.0.0
+synopsis:           Companion code for "Your Clean Architecture Has a Dirty Secret"
+description:
+  Separating intent from process — Tagless Final and Free Monad
+  in idiomatic Haskell. Companion code for the blog series.
+license:            MIT
+author:             John Azariah
+build-type:         Simple
+
+common common-opts
+  default-language: GHC2021
+  default-extensions:
+    DerivingStrategies
+    GADTs
+    TypeFamilies
+    MultiParamTypeClasses
+    FlexibleContexts
+    FlexibleInstances
+    ScopedTypeVariables
+    RankNTypes
+    OverloadedStrings
+  ghc-options:
+    -Wall -Wno-unused-do-bind
+
+library
+  import:           common-opts
+  hs-source-dirs:   src
+  exposed-modules:
+    IntentVsProcess.Domain
+    IntentVsProcess.Traditional
+    IntentVsProcess.TaglessFinal
+    IntentVsProcess.Free
+    IntentVsProcess.Free.Interpreter
+    IntentVsProcess.Free.Structure
+    IntentVsProcess.Free.Optimizer
+    IntentVsProcess.Free.Saga
+  build-depends:
+    base >= 4.17 && < 5,
+    text >= 2.0,
+    mtl >= 2.3,
+    transformers >= 0.6,
+    containers >= 0.6
+
+test-suite tests
+  import:           common-opts
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test
+  main-is:          Main.hs
+  other-modules:
+    TaglessFinalTest
+    FreeMonadTest
+    MonadLawTest
+    OptimizerTest
+  build-depends:
+    base,
+    intent-vs-process,
+    text,
+    tasty >= 1.4,
+    tasty-hunit >= 0.10

@@ -3,10 +3,6 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -16,7 +12,9 @@
         "sissel.shopify-liquid",
         "Ionide.Ionide-fsharp",
         "ms-python.python",
-        "GitHub.copilot"
+        "charliermarsh.ruff",
+        "GitHub.copilot",
+        "haskell.haskell"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
