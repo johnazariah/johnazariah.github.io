@@ -10,13 +10,14 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 4 of a 5-part series on separating intent from process in real-world C#.
+> This is Part 4 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
 > 2. [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html)
 > 4. **Two Sides of the Same Coin** ← you are here
 > 5. Standing on the Shoulders of Giants
+> 6. The Strangler Fig
 
 ---
 
@@ -277,6 +278,8 @@ In the final post, we'll pull back the curtain all the way: monads, free constru
 ---
 
 > **Next**: [Standing on the Shoulders of Giants](/2026/03/05/standing-on-the-shoulders-of-giants.html) — the foundations: monads, free constructions, Yoneda, algebraic effects, and why a half-century of mathematics gives us confidence that our C# code is correct.
+>
+> *Not interested in category theory? Skip straight to [The Strangler Fig](/2026/03/05/the-strangler-fig.html) — the Monday morning migration plan for getting your legacy codebase from here to there, one service at a time.*
 
 ---
 

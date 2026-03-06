@@ -10,13 +10,14 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 1 of a 5-part series on separating intent from process in real-world C#.
+> This is Part 1 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. **Your Clean Architecture Has a Dirty Secret** ← you are here
 > 2. The Algebra of Intent
 > 3. Intent You Can See (and Optimize)
 > 4. Two Sides of the Same Coin
 > 5. Standing on the Shoulders of Giants
+> 6. The Strangler Fig
 
 ---
 

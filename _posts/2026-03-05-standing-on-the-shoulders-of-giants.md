@@ -10,13 +10,14 @@ _This post is dedicated to [George Pollard](https://www.linkedin.com/in/georgepo
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 5 of a 5-part series on separating intent from process in real-world C#.
+> This is Part 5 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
 > 2. [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/two-sides-of-the-same-coin.html)
 > 5. **Standing on the Shoulders of Giants** ← you are here
+> 6. The Strangler Fig
 
 ---
 
@@ -317,6 +318,10 @@ I hope this series has made it useful.
 
 ---
 
+> **Next**: [The Strangler Fig](/2026/03/05/the-strangler-fig.html) — the Monday morning migration plan. How to get your legacy codebase from fused intent-and-process to separated, one service at a time, without a rewrite.
+
+---
+
 > **Companion code**: The complete working implementation for the entire series is available in three languages:
 >
 > | Language | What it demonstrates | Tests |
@@ -336,5 +341,6 @@ I hope this series has made it useful.
 3. *[Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html) — Free Monads*
 4. *[Two Sides of the Same Coin](/2026/03/05/two-sides-of-the-same-coin.html) — the duality*
 5. *[Standing on the Shoulders of Giants](/2026/03/05/standing-on-the-shoulders-of-giants.html) — the foundations*
+6. *[The Strangler Fig](/2026/03/05/the-strangler-fig.html) — the migration*
 
 *For the F# perspective on Tagless Final, see the [six-part Tagless Final series](/2025/12/12/tagless-final-01-froggy-tree-house.html). For the Free Monad story that started it all, see [Bouncing around with Recursion](/2020/12/07/bouncing-around-with-recursion.html) and [The Trampoline is a Monad](/2026/03/04/the-trampoline-is-a-monad.html).*
