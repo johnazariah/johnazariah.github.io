@@ -12,8 +12,8 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 >
 > This is Part 3 of a 6-part series on separating intent from process in real-world C#.
 >
-> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
-> 2. [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html)
+> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
+> 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. **Intent You Can See (and Optimize)** ← you are here
 > 4. Two Sides of the Same Coin
 > 5. Standing on the Shoulders of Giants
@@ -23,7 +23,7 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 # Intent You Can See (and Optimize)
 
-In [Post 2](/2026/03/05/the-algebra-of-intent.html), we built a clean separation of intent from process using an algebra and interpreters. The business logic became a generic function that describes *what* to do, and interpreters decide *how* to do it.
+In [Post 2](/2026/03/05/02-the-algebra-of-intent.html), we built a clean separation of intent from process using an algebra and interpreters. The business logic became a generic function that describes *what* to do, and interpreters decide *how* to do it.
 
 It was a big upgrade. But there's something we can't do with it.
 
@@ -514,7 +514,7 @@ In the next post, we'll see that this isn't a coincidence.
 
 ---
 
-> **Next**: [Two Sides of the Same Coin](/2026/03/05/two-sides-of-the-same-coin.html) — where we discover that interfaces-as-programs and data-as-programs are mathematically dual, and learn when to choose which.
+> **Next**: [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — where we discover that interfaces-as-programs and data-as-programs are mathematically dual, and learn when to choose which.
 
 ---
 
