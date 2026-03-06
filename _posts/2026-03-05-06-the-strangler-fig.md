@@ -12,11 +12,11 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 >
 > This is Part 6 of a series on separating intent from process in real-world C#.
 >
-> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
-> 2. [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html)
-> 3. [Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html)
-> 4. [Two Sides of the Same Coin](/2026/03/05/two-sides-of-the-same-coin.html)
-> 5. [Standing on the Shoulders of Giants](/2026/03/05/standing-on-the-shoulders-of-giants.html)
+> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
+> 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
+> 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
+> 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
+> 5. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
 > 6. **The Strangler Fig** ← you are here
 
 ---
@@ -519,11 +519,11 @@ The theory was in Posts 1–5. The practice starts here.
 
 *This is Part 6 of the series **"Your Clean Architecture Has a Dirty Secret."** The full series:*
 
-1. *[Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html) — the diagnosis*
-2. *[The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html) — Tagless Final*
-3. *[Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html) — Free Monads*
-4. *[Two Sides of the Same Coin](/2026/03/05/two-sides-of-the-same-coin.html) — the duality*
-5. *[Standing on the Shoulders of Giants](/2026/03/05/standing-on-the-shoulders-of-giants.html) — the foundations*
-6. *[The Strangler Fig](/2026/03/05/the-strangler-fig.html) — the migration*
+1. *[Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) — the diagnosis*
+2. *[The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — Tagless Final*
+3. *[Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — Free Monads*
+4. *[Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — the duality*
+5. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
+6. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
 
 *For the F# perspective on Tagless Final, see the [six-part Tagless Final series](/2025/12/12/tagless-final-01-froggy-tree-house.html). For the Free Monad story that started it all, see [Bouncing around with Recursion](/2020/12/07/bouncing-around-with-recursion.html) and [The Trampoline is a Monad](/2026/03/04/the-trampoline-is-a-monad.html).*
