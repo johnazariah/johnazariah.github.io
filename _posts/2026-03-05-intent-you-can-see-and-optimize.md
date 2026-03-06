@@ -40,7 +40,7 @@ It was a big upgrade. But there's something we can't do with it.
     - [The Pipeline](#the-pipeline)
   - [Testing is Even Better — Structural Tests](#testing-is-even-better--structural-tests)
   - [Compensation as an Effect — the Saga for Free](#compensation-as-an-effect--the-saga-for-free)
-  - [What We Built](#what-we-built)
+- [An Honest Note on Analyzability](#an-honest-note-on-analyzability)
 
 ---
 
@@ -442,6 +442,28 @@ This is the saga pattern without the saga framework — without event buses, wit
 > ```
 >
 > Also worth noting: the Trampoline from the [2020 post](/2020/12/07/bouncing-around-with-recursion.html) was a Free Monad all along — `Suspend` was the effect, `execute` was the interpreter. We just didn't call it that.
+
+---
+
+## An Honest Note on Analyzability
+
+*Thanks to [George Pollard](https://www.linkedin.com/in/george-pollard-0547a511/) for the keen-eyed observation that prompted this section.*
+
+Everything above works — the structural tests pass, the execution plan is useful, the saga interpreter is sound. But there's a subtlety worth naming: **monadic bind hides the next effect behind an opaque function.**
+
+In `Then(step, continuation)`, the continuation is a `Func<T, OrderProgram<TNext>>` — a function we can't look inside. What happens after `CheckStock` depends on the *value* of `StockResult`. Our `Flatten` helper works by feeding **dummy values** through the continuations to reveal the happy-path spine. That's practical — it's how our `ExecutionPlan` and structural tests work — but it's approximate. We can't enumerate all branches or discover effects that only appear on failure paths.
+
+This is a fundamental tradeoff, not a bug. There's a hierarchy of abstractions — Functor → Applicative Functor → Arrow → Monad — and as you move right, you gain expressiveness but lose analyzability:
+
+| Abstraction | What it adds | What you can see |
+|---|---|---|
+| **Applicative** | Combine independent effects | All effects visible statically — trivially parallelizable |
+| **Arrow** | Forward data between effects | Data flow explicit — analyzable control flow |
+| **Monad** | Data-dependent sequencing | Next effect hidden behind `f` — approximate analysis only |
+
+Our order flow is genuinely monadic: `chargePayment` needs `price.Total`, which comes from `calculatePrice`. That's a real data dependency — you can't know the charge amount without first computing the price. An Applicative encoding would lose that, and an Arrow encoding (which *would* give you analyzable data flow) would be impractical in C# without language support for arrow notation.
+
+So the Free Monad is the right tool for this domain in this language. The optimization story is real — happy-path analysis, execution planning, structural testing, and saga compensation all work correctly. Just know that you're analyzing the *linear spine*, not the full branching tree. For domains where you need complete static analysis of all possible effects, look to Applicative Functors or Arrows — Chris Penner's [Monads are too powerful: The Expressiveness Spectrum](https://chrispenner.ca/posts/expressiveness-spectrum) and [Exploring Arrows for sequencing effects](https://chrispenner.ca/posts/arrow-effects) are excellent starting points.
 
 ---
 
