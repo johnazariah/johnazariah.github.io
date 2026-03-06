@@ -12,9 +12,9 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 >
 > This is Part 4 of a 6-part series on separating intent from process in real-world C#.
 >
-> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
-> 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
-> 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
+> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
+> 2. [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html)
+> 3. [Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html)
 > 4. **Two Sides of the Same Coin** ← you are here
 > 5. Standing on the Shoulders of Giants
 > 6. The Strangler Fig
@@ -25,9 +25,9 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 Over the last two posts, we built two very different solutions to the same problem.
 
-In [Post 2](/2026/03/05/02-the-algebra-of-intent.html), programs are *functions*. Define an algebra (interface), write a generic program against it, and swap interpreters. Testing, auditing, documentation — all come for free from different interpreters.
+In [Post 2](/2026/03/05/the-algebra-of-intent.html), programs are *functions*. Define an algebra (interface), write a generic program against it, and swap interpreters. Testing, auditing, documentation — all come for free from different interpreters.
 
-In [Post 3](/2026/03/05/03-intent-you-can-see-and-optimize.html), programs are *data*. Define an instruction set (records), build a program as a tree, and walk the tree to interpret, optimize, or transform it. Batching, deduplication, cost estimation, saga compensation — all come from the program being a data structure.
+In [Post 3](/2026/03/05/intent-you-can-see-and-optimize.html), programs are *data*. Define an instruction set (records), build a program as a tree, and walk the tree to interpret, optimize, or transform it. Batching, deduplication, cost estimation, saga compensation — all come from the program being a data structure.
 
 Both describe the same five-step order flow. Both separate intent from process. Both eliminate mock hell. Both give you pluggable interpreters.
 
@@ -277,9 +277,9 @@ In the final post, we'll pull back the curtain all the way: monads, free constru
 
 ---
 
-> **Next**: [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations: monads, free constructions, Yoneda, algebraic effects, and why a half-century of mathematics gives us confidence that our C# code is correct.
+> **Next**: [Standing on the Shoulders of Giants](/2026/03/05/standing-on-the-shoulders-of-giants.html) — the foundations: monads, free constructions, Yoneda, algebraic effects, and why a half-century of mathematics gives us confidence that our C# code is correct.
 >
-> *Not interested in category theory? Skip straight to [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the Monday morning migration plan for getting your legacy codebase from here to there, one service at a time.*
+> *Not interested in category theory? Skip straight to [The Strangler Fig](/2026/03/05/the-strangler-fig.html) — the Monday morning migration plan for getting your legacy codebase from here to there, one service at a time.*
 
 ---
 

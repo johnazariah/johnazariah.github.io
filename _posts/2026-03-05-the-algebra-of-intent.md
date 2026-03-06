@@ -12,7 +12,7 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 >
 > This is Part 2 of a 6-part series on separating intent from process in real-world C#.
 >
-> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
+> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html)
 > 2. **The Algebra of Intent** ← you are here
 > 3. Intent You Can See (and Optimize)
 > 4. Two Sides of the Same Coin
@@ -23,7 +23,7 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 # The Algebra of Intent
 
-In [Post 1](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html), we diagnosed the dirty secret that cuts through every architecture pattern: the *what* and the *how* live in the same code. We couldn't separate them with layers, events, microservices, or vertical slices.
+In [Post 1](/2026/03/05/your-clean-architecture-has-a-dirty-secret.html), we diagnosed the dirty secret that cuts through every architecture pattern: the *what* and the *how* live in the same code. We couldn't separate them with layers, events, microservices, or vertical slices.
 
 Now let's fix it.
 
@@ -527,7 +527,7 @@ That's the next post.
 
 ---
 
-> **Next**: [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — where we make programs inspectable and discover that programs-as-data unlock batching, deduplication, cost estimation, and a saga pattern that writes itself.
+> **Next**: [Intent You Can See (and Optimize)](/2026/03/05/intent-you-can-see-and-optimize.html) — where we make programs inspectable and discover that programs-as-data unlock batching, deduplication, cost estimation, and a saga pattern that writes itself.
 
 ---
 

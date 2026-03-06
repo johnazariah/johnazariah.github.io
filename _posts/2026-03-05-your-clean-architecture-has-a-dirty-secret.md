@@ -506,7 +506,7 @@ That's the next post.
 
 ---
 
-> **Next**: [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — where we find that C# developers have been *almost* doing this for years with interfaces and DI, and we show what it looks like to do it properly.
+> **Next**: [The Algebra of Intent](/2026/03/05/the-algebra-of-intent.html) — where we find that C# developers have been *almost* doing this for years with interfaces and DI, and we show what it looks like to do it properly.
 
 ---
 
