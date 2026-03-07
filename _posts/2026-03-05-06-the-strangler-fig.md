@@ -52,26 +52,45 @@ Martin Fowler named this pattern after a species of fig tree that grows around i
 
 The key insight: **the algebra IS the migration boundary.** Everything above the line is migrated. Everything below is being strangled. You can measure progress by counting how many interpreter methods still delegate to legacy code.
 
-```
-┌─────────────────────────────────────────┐
-│    New programs (pure intent)            │
-│    PlaceOrder, CancelOrder, RefundOrder  │
-├──────────────────────────────────────────┤  ← THE ALGEBRA
-│    IOrderAlgebra<TResult>                │
-├──────────────────────────────────────────┤
-│    Legacy          │    New              │
-│    Interpreter     │    Interpreter      │
-│    (wraps old      │    (clean impl)     │
-│     services)      │                     │
-│                    │                     │
-│  CheckStock →      │  CheckStock →       │
-│   _inventory       │   newInventoryDb    │
-│   .CheckStockAsync │   .Query(...)       │
-│                    │                     │
-│  ChargePayment →   │  ChargePayment →    │
-│   _payment         │   stripeClient      │
-│   .ChargeAsync     │   .CreateCharge     │
-└────────────────────┴─────────────────────┘
+```mermaid
+block-beta
+  columns 1
+
+  block:programs["New programs (pure intent)"]
+    columns 3
+    PlaceOrder CancelOrder RefundOrder
+  end
+
+  space
+
+  block:algebra["IOrderAlgebra‹TResult› — THE ALGEBRA"]
+    columns 1
+  end
+
+  space
+
+  columns 2
+
+  block:legacy["Legacy Interpreter"]
+    columns 1
+    L1["CheckStock → _inventory.CheckStockAsync"]
+    L2["ChargePayment → _payment.ChargeAsync"]
+  end
+
+  block:newint["New Interpreter"]
+    columns 1
+    N1["CheckStock → newInventoryDb.Query(...)"]
+    N2["ChargePayment → stripeClient.CreateCharge"]
+  end
+
+  programs --> algebra
+  algebra --> legacy
+  algebra --> newint
+
+  style programs fill:#e8f4f8,stroke:#0969da,color:#24292f
+  style algebra fill:#fff3cd,stroke:#d4a017,color:#24292f,stroke-width:3px
+  style legacy fill:#ffeef0,stroke:#cf222e,color:#24292f
+  style newint fill:#f0fff0,stroke:#2da44e,color:#24292f
 ```
 
 ---
@@ -371,16 +390,20 @@ foreach (var prog in optimized)
 
 This is the duality from Post 4 in action:
 
-```
-                    PlaceOrder<TResult>(alg, request)
-                              │
-            ┌─────────────────┼────────────────────┐
-            │                 │                     │
-    ProductionInterpreter  TestInterpreter    ToFreeMonad
-    IOrderAlgebra<Task<Eval>>  IOrderAlgebra<Eval>  IOrderAlgebra<OrderProgram<Eval>>
-            │                 │                     │
-            ▼                 ▼                     ▼
-       Execute now     Assert result        Build AST → Optimize → Execute later
+```mermaid
+graph TD
+    P["PlaceOrder‹TResult›(alg, request)"] --> Prod["ProductionInterpreter<br/>IOrderAlgebra‹Task‹Eval››"]
+    P --> Test["TestInterpreter<br/>IOrderAlgebra‹Eval›"]
+    P --> Free["ToFreeMonad<br/>IOrderAlgebra‹OrderProgram‹Eval››"]
+
+    Prod --> R1["Execute now"]
+    Test --> R2["Assert result"]
+    Free --> R3["Build AST → Optimize → Execute later"]
+
+    style P fill:#fff3cd,stroke:#d4a017,color:#24292f,stroke-width:2px
+    style Prod fill:#e8f4f8,stroke:#0969da,color:#24292f
+    style Test fill:#f0fff0,stroke:#2da44e,color:#24292f
+    style Free fill:#ffeef0,stroke:#cf222e,color:#24292f
 ```
 
 This is why we taught both encodings. Tagless Final is your *daily driver* — clean, fast, extensible. The Free Monad is your *optimization pipeline* — reachable through a single interpreter, without changing a line of business logic.
@@ -432,24 +455,32 @@ This is also how you do **canary deploys** for business logic changes. Write a n
 
 After all services are strangled, delete the legacy interpreter. What remains:
 
-```
-BEFORE                              AFTER
-──────                              ─────
-OrderService                        OrderPrograms.PlaceOrder<TResult>
-├── _inventory.CheckStockAsync      │   (pure intent — no dependencies)
-├── _pricing.Calculate              │
-├── _payment.ChargeAsync            IOrderAlgebra<TResult>
-├── _inventory.ReserveAsync         │
-└── _email.SendConfirmationAsync    ProductionInterpreter
-                                    ├── inventoryDb.Query
-                                    ├── pricingEngine.Calculate
-                                    ├── stripeClient.CreateCharge
-                                    ├── inventoryDb.Reserve
-                                    └── emailService.Send
+```mermaid
+graph LR
+    subgraph BEFORE
+        OS[OrderService] --> inv["_inventory.CheckStockAsync"]
+        OS --> price["_pricing.Calculate"]
+        OS --> pay["_payment.ChargeAsync"]
+        OS --> res["_inventory.ReserveAsync"]
+        OS --> email["_email.SendConfirmationAsync"]
+    end
 
-                                    TestInterpreter (no mocks!)
-                                    NarrativeInterpreter (documentation)
-                                    DryRunInterpreter (compliance)
+    subgraph AFTER
+        OP["OrderPrograms.PlaceOrder‹TResult›"] -->|pure intent| ALG["IOrderAlgebra‹TResult›"]
+        ALG --> PI[ProductionInterpreter]
+        ALG --> TI["TestInterpreter (no mocks!)"]
+        ALG --> NI["NarrativeInterpreter"]
+        ALG --> DI["DryRunInterpreter"]
+        PI --> db1["inventoryDb.Query"]
+        PI --> pe["pricingEngine.Calculate"]
+        PI --> sc["stripeClient.CreateCharge"]
+        PI --> db2["inventoryDb.Reserve"]
+        PI --> es["emailService.Send"]
+    end
+
+    style OS fill:#ffeef0,stroke:#cf222e,color:#24292f
+    style OP fill:#e8f4f8,stroke:#0969da,color:#24292f
+    style ALG fill:#fff3cd,stroke:#d4a017,color:#24292f,stroke-width:2px
 ```
 
 The `OrderService` class is gone. The business logic lives in `OrderPrograms` — pure, testable, infrastructure-free. The infrastructure lives in interpreters — pluggable, composable, independently deployable.

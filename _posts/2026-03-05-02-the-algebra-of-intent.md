@@ -350,31 +350,43 @@ This is what "testing without mocks" actually looks like. Not "we use fakes inst
 
 Here's what we've built, drawn as an architecture diagram:
 
+```mermaid
+block-beta
+  columns 1
+
+  block:programs["Business Logic (programs)"]
+    columns 3
+    PlaceOrder CancelOrder RefundOrder
+  end
+
+  space
+
+  block:algebra["IOrderAlgebra‹TResult› — THE SEPARATION LAYER"]
+    columns 1
+    ops["CheckStock · CalculatePrice · Charge · ReserveInventory · SendConfirmation · Then · Done · Guard"]
+  end
+
+  space
+
+  block:interpreters["Interpreters (process)"]
+    columns 4
+    Production Test DryRun Narrative
+    Saga Timed Logged Cached
+  end
+
+  programs --> algebra
+  algebra --> interpreters
+
+  style programs fill:#e8f4f8,stroke:#0969da,color:#24292f
+  style algebra fill:#fff3cd,stroke:#d4a017,color:#24292f,stroke-width:3px
+  style interpreters fill:#f0fff0,stroke:#2da44e,color:#24292f
 ```
-┌─────────────────────────────────────────┐
-│         Business Logic (programs)        │
-│                                          │
-│  PlaceOrder   CancelOrder   RefundOrder  │
-│                                          │
-│  These are generic functions that speak   │
-│  only in terms of the algebra.           │
-│  No await. No HTTP. No retry. No logging.│
-├──────────────────────────────────────────┤  ← THE SEPARATION LAYER
-│          IOrderAlgebra<TResult>           │
-│   CheckStock · CalculatePrice · Charge    │
-│   ReserveInventory · SendConfirmation     │
-│   Then · Done · Guard                     │
-├──────────────────────────────────────────┤
-│         Interpreters (process)            │
-│                                           │
-│  Production │ Test │ DryRun │ Narrative   │
-│  Saga       │ Timed │ Logged │ Cached    │
-│                                           │
-│  Each interpreter decides *how* to run    │
-│  the intent: real I/O, fake, narrative,   │
-│  with retry, with compensation, etc.      │
-└───────────────────────────────────────────┘
-```
+
+> **Above the line:** pure intent — generic functions that speak only in terms of the algebra. No `await`. No HTTP. No retry. No logging.
+>
+> **The line itself:** `IOrderAlgebra<TResult>` — the vocabulary of your domain.
+>
+> **Below the line:** interpreters that decide *how* to run the intent — real I/O, fake, narrative, with retry, with compensation, etc.
 
 Everything *above* the line speaks in terms of intent — `CheckStock`, `ChargePayment`, `Then`. No infrastructure leaks up. Everything *below* the line is an interpreter — pluggable, swappable, composable, testable. The algebra *is* the separation layer.
 

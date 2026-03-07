@@ -240,24 +240,29 @@ Robert C. Martin's Clean Architecture. Alistair Cockburn's Hexagonal Architectur
 
 The `OrderService` moves to a `Core` project. The interfaces become "ports." The implementations become "adapters." The dependency arrows point inward. Project references enforce the rule: `Core` knows nothing about `Infrastructure`.
 
-```
-┌──────────────────────────────────────────────┐
-│              Infrastructure                   │
-│  ┌────────────────────────────────────────┐  │
-│  │           Application                  │  │
-│  │  ┌──────────────────────────────────┐  │  │
-│  │  │         Core / Domain            │  │  │
-│  │  │                                  │  │  │
-│  │  │   OrderService (business logic)  │  │  │
-│  │  │   IInventoryRepository (port)    │  │  │
-│  │  │   IPaymentGateway (port)         │  │  │
-│  │  │                                  │  │  │
-│  │  └──────────────────────────────────┘  │  │
-│  │  SqlInventoryRepository (adapter)      │  │
-│  │  StripePaymentGateway (adapter)        │  │
-│  └────────────────────────────────────────┘  │
-│  ASP.NET Controllers, Middleware              │
-└──────────────────────────────────────────────┘
+```mermaid
+block-beta
+  columns 1
+
+  block:infra["Infrastructure"]
+    columns 1
+    block:app["Application"]
+      columns 1
+      block:core["Core / Domain"]
+        columns 1
+        A["OrderService (business logic)"]
+        B["IInventoryRepository (port)"]
+        C["IPaymentGateway (port)"]
+      end
+      D["SqlInventoryRepository (adapter)"]
+      E["StripePaymentGateway (adapter)"]
+    end
+    F["ASP.NET Controllers, Middleware"]
+  end
+
+  style core fill:#e8f4f8,stroke:#0969da,color:#24292f
+  style app fill:#f0fff0,stroke:#2da44e,color:#24292f
+  style infra fill:#fff3cd,stroke:#d4a017,color:#24292f
 ```
 
 Beautiful. Principled. Well-factored.
