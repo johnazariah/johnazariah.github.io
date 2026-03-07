@@ -15,9 +15,9 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 > 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. **Intent You Can See (and Optimize)** ← you are here
-> 4. Two Sides of the Same Coin
-> 5. Standing on the Shoulders of Giants
-> 6. The Strangler Fig
+> 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
+> 5. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 

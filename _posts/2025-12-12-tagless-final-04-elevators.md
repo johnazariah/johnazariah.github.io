@@ -6,7 +6,14 @@
     summary: Discovering that frogs and elevators share the same algebraic structure - and building a translator between them.
 ---
 
-[<< Previous: Goals, Threats, and Getting Stuck](/2025/12/13/tagless-final-03-goals-threats.html)
+> **Tagless Final in F#** — A 6-part series on building DSLs with Computation Expressions.
+>
+> 1. [Froggy Tree House](/2025/12/12/tagless-final-01-froggy-tree-house.html)
+> 2. [Maps, Branches, and Choices](/2025/12/12/tagless-final-02-maps-branches-choices.html)
+> 3. [Goals, Threats, and Getting Stuck](/2025/12/12/tagless-final-03-goals-threats.html)
+> 4. **A Surprising New DSL: Elevators** ← you are here
+> 5. [Verifying the Elevator](/2025/12/12/tagless-final-05-verifying-elevators.html)
+> 6. [The Power of Tagless-Final: Code as Model](/2025/12/12/tagless-final-06-model-verification.html)
 
 ---
 

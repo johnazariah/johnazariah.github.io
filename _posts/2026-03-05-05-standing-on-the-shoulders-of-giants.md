@@ -17,7 +17,7 @@ _This post is dedicated to [George Pollard](https://www.linkedin.com/in/georgepo
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
 > 5. **Standing on the Shoulders of Giants** ← you are here
-> 6. The Strangler Fig
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 

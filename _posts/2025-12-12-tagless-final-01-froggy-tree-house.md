@@ -9,6 +9,13 @@
 > **FsAdvent 2025**: This is Part 1 of a 6-part series on Tagless-Final in F#.
 >
 > This blog series came about from a chance conversation with the brilliant and funny [Dr. Vaishnavi S](https://bsky.app/profile/vaishs.bsky.social). I'm going to bury the lede on this one, but if you read the whole series, the point of confluence - and indeed the inspiration to go off and do some research on this topic - will become apparent! Thank you! :)
+>
+> 1. **Froggy Tree House** ← you are here
+> 2. [Maps, Branches, and Choices](/2025/12/12/tagless-final-02-maps-branches-choices.html)
+> 3. [Goals, Threats, and Getting Stuck](/2025/12/12/tagless-final-03-goals-threats.html)
+> 4. [A Surprising New DSL: Elevators](/2025/12/12/tagless-final-04-elevators.html)
+> 5. [Verifying the Elevator](/2025/12/12/tagless-final-05-verifying-elevators.html)
+> 6. [The Power of Tagless-Final: Code as Model](/2025/12/12/tagless-final-06-model-verification.html)
 
 ---
 

@@ -6,7 +6,14 @@
     summary: Introducing nondeterminism to our Froggy DSL - exploring multiple paths through the multiverse.
 ---
 
-[<< Previous: Froggy Tree House](/2025/12/13/tagless-final-01-froggy-tree-house.html)
+> **Tagless Final in F#** — A 6-part series on building DSLs with Computation Expressions.
+>
+> 1. [Froggy Tree House](/2025/12/12/tagless-final-01-froggy-tree-house.html)
+> 2. **Maps, Branches, and Choices** ← you are here
+> 3. [Goals, Threats, and Getting Stuck](/2025/12/12/tagless-final-03-goals-threats.html)
+> 4. [A Surprising New DSL: Elevators](/2025/12/12/tagless-final-04-elevators.html)
+> 5. [Verifying the Elevator](/2025/12/12/tagless-final-05-verifying-elevators.html)
+> 6. [The Power of Tagless-Final: Code as Model](/2025/12/12/tagless-final-06-model-verification.html)
 
 ---
 

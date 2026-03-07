@@ -16,8 +16,8 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. **Two Sides of the Same Coin** ← you are here
-> 5. Standing on the Shoulders of Giants
-> 6. The Strangler Fig
+> 5. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 
