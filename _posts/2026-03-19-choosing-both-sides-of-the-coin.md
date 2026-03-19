@@ -6,7 +6,9 @@
     summary: "Tagless Final is ergonomic. Free Monads are inspectable. What if you didn't have to choose? The applicative combinator unlocks parallelism — and the pipeline from algebra to AST to concurrent execution."
 ---
 
-_This post is a companion to the [Intent vs Process](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) series, picking up from where [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) left off with the promise of "Choose Both."_
+_This post is dedicated to [Romain Deneau](https://bsky.app/profile/romain-deneau.bsky.social), whose question about the missing parallelism optimizer sparked the implementation that follows._
+
+_It is a companion to the [Intent vs Process](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) series, picking up from where [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) left off with the promise of "Choose Both."_
 
 ---
 
@@ -18,14 +20,15 @@ At the end of [Post 4](/2026/03/05/04-two-sides-of-the-same-coin.html), we said 
 
 That was a promise. This post delivers it — by solving a concrete problem: **parallelism**.
 
-- [The Problem: Monadic Bind is Sequential](#the-problem-monadic-bind-is-sequential)
-- [The Solution: an Applicative Combinator](#the-solution-an-applicative-combinator)
-- [Free Monad: Parallel in the AST](#free-monad-parallel-in-the-ast)
-- [Tagless Final: Both in the Algebra](#tagless-final-both-in-the-algebra)
-- [The Pipeline: Algebra → AST → Parallel Execution](#the-pipeline-algebra--ast--parallel-execution)
-- [The Parallel Interpreter](#the-parallel-interpreter)
-- [Testing All Three Paths](#testing-all-three-paths)
-- [What This Proves](#what-this-proves)
+- [Choosing Both Sides of the Coin](#choosing-both-sides-of-the-coin)
+  - [The Problem: Monadic Bind is Sequential](#the-problem-monadic-bind-is-sequential)
+  - [The Solution: an Applicative Combinator](#the-solution-an-applicative-combinator)
+  - [Free Monad: Parallel in the AST](#free-monad-parallel-in-the-ast)
+  - [Tagless Final: Both in the Algebra](#tagless-final-both-in-the-algebra)
+  - [The Pipeline: Algebra → AST → Parallel Execution](#the-pipeline-algebra--ast--parallel-execution)
+  - [The Parallel Interpreter](#the-parallel-interpreter)
+  - [Testing All Three Paths](#testing-all-three-paths)
+  - [What This Proves](#what-this-proves)
 
 ---
 
@@ -84,6 +87,8 @@ Compare with `Bind`:
 | Expressiveness | Can express data-dependent flow | Cannot — branches can't see each other |
 
 You don't *replace* `Bind` with `Both`. You use `Both` for the independent parts and `Bind` for the dependent parts. The program's structure encodes the data-flow graph.
+
+> **Note:** Don't let the name `Both` fool you into thinking this is limited to exactly two parallel branches. Because `Both` is an applicative combinator, it composes — you can nest `Both(Both(a, b), Both(c, d))` to run four things concurrently, or fold over a collection of independent programs to run *N* things in parallel. The binary combinator is the primitive; arbitrary fan-out is just a fold. This is exactly how [Haxl](https://github.com/facebook/Haxl) batches hundreds of concurrent data fetches — each `ApplicativeDo` expression decomposes into nested binary applications that the runtime coalesces into a single batch. (For a deeper look at applicative functors and how they compose with folds, see the [Lego, Railway Tracks, and Origami](/2019/12/09/lego-railway%20tracks-origami-post-4.html) series — particularly [Part 5](/2019/12/09/lego-railway%20tracks-origami-post-5.html), where applicative folds let you compute multiple aggregations in a single traversal.)
 
 ---
 
