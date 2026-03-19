@@ -10,15 +10,14 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 1 of a 7-part series on separating intent from process in real-world C#.
+> This is Part 1 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. **Your Clean Architecture Has a Dirty Secret** ← you are here
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
-> 5. [Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html)
-> 6. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
-> 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
+> 5. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 
@@ -504,7 +503,7 @@ That's the next post.
 ---
 
 > **Companion code**: The complete working implementation for this series is available in three languages:
-> - [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) — the primary language of the series, with full test suite (57 tests)
+> - [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) — the primary language of the series, with full test suite (45 tests)
 > - [**F#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) — computation expressions make the patterns more concise (27 tests)
 > - [**Haskell**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) — the native habitat of these patterns, where type classes *are* Tagless Final and GADTs *are* the Free Monad (29 tests)
 >

@@ -1,24 +1,12 @@
 ---
     layout: post
-    title: "Intent vs Process - Part 5: Choosing Both Sides of the Coin"
+    title: "Choosing Both Sides of the Coin"
     tags: [C#, software-architecture, free-monad, tagless-final, functional-programming, optimization]
     author: johnazariah
     summary: "Tagless Final is ergonomic. Free Monads are inspectable. What if you didn't have to choose? The applicative combinator unlocks parallelism — and the pipeline from algebra to AST to concurrent execution."
 ---
 
-_This series is dedicated to [Christian Smith](https://www.linkedin.com/in/christian-smith-9562658/), with gratitude for all the insightful conversations that shaped the ideas in these posts._
-
-> **Series: Your Clean Architecture Has a Dirty Secret**
->
-> This is Part 5 of a 7-part series on separating intent from process in real-world C#.
->
-> 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
-> 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
-> 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
-> 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
-> 5. **Choosing Both Sides of the Coin** ← you are here
-> 6. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
-> 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
+_This post is a companion to the [Intent vs Process](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) series, picking up from where [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) left off with the promise of "Choose Both."_
 
 ---
 
@@ -389,20 +377,4 @@ This is the same insight that drives [Haxl](https://github.com/facebook/Haxl) (F
 
 ---
 
-> **Next**: [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations: monads, free constructions, Yoneda, algebraic effects, and why a half-century of mathematics gives us confidence that our C# code is correct.
->
-> *Not interested in category theory? Skip straight to [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the Monday morning migration plan for getting your legacy codebase from here to there, one service at a time.*
-
----
-
-*This is Part 5 of the series **"Your Clean Architecture Has a Dirty Secret."** The full series:*
-
-1. *[Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) — the diagnosis*
-2. *[The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — Tagless Final*
-3. *[Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — Free Monads*
-4. *[Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — the duality*
-5. *[Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html) — parallelism*
-6. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
-7. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
-
-*For the F# perspective on Tagless Final, see the [six-part Tagless Final series](/2025/12/12/tagless-final-01-froggy-tree-house.html). For the Free Monad story that started it all, see [Bouncing around with Recursion](/2020/12/07/bouncing-around-with-recursion.html) and [The Trampoline is a Monad](/2026/03/04/the-trampoline-is-a-monad.html).*
+*This post is a companion to the [Intent vs Process](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) series. For the full series, start with [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html). For the mathematical foundations, see [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html). For the migration guide, see [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html).*

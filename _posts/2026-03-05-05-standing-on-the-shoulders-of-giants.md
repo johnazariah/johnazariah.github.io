@@ -10,15 +10,14 @@ _This post is dedicated to [George Pollard](https://www.linkedin.com/in/georgepo
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 6 of a 7-part series on separating intent from process in real-world C#.
+> This is Part 5 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
-> 5. [Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html)
-> 6. **Standing on the Shoulders of Giants** ← you are here
-> 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
+> 5. **Standing on the Shoulders of Giants** ← you are here
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 
@@ -327,22 +326,21 @@ I hope this series has made it useful.
 >
 > | Language | What it demonstrates | Tests |
 > |----------|---------------------|-------|
-> | [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) | The primary language of the series — `IOrderAlgebra<T>`, LINQ-based Free Monad, execution plan analyzer, saga interpreter, parallel combinator | 57 |
+> | [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) | The primary language of the series — `IOrderAlgebra<T>`, LINQ-based Free Monad, execution plan analyzer, saga interpreter | 45 |
 > | [**F#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) | Computation expressions, structural analysis, monad laws | 27 |
 > | [**Haskell**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) | The *native habitat* — type classes are Tagless Final, GADTs are the Free Monad, do-notation is LINQ. No HKT workarounds, no boxing, no ceremony. | 29 |
 >
-> The blog's code is simplified for teaching. The companion code compiles, runs, and passes all 113 tests across three languages.
+> The blog's code is simplified for teaching. The companion code compiles, runs, and passes all 101 tests across three languages.
 
 ---
 
-*This is Part 6 of the series **"Your Clean Architecture Has a Dirty Secret."** The full series:*
+*This is Part 5 of the series **"Your Clean Architecture Has a Dirty Secret."** The full series:*
 
 1. *[Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html) — the diagnosis*
 2. *[The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — Tagless Final*
 3. *[Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — Free Monads*
 4. *[Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — the duality*
-5. *[Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html) — parallelism*
-6. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
-7. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
+5. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
+6. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
 
 *For the F# perspective on Tagless Final, see the [six-part Tagless Final series](/2025/12/12/tagless-final-01-froggy-tree-house.html). For the Free Monad story that started it all, see [Bouncing around with Recursion](/2020/12/07/bouncing-around-with-recursion.html) and [The Trampoline is a Monad](/2026/03/04/the-trampoline-is-a-monad.html).*

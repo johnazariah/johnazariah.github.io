@@ -11,15 +11,14 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 
 > **Series: Your Clean Architecture Has a Dirty Secret**
 >
-> This is Part 4 of a 7-part series on separating intent from process in real-world C#.
+> This is Part 4 of a 6-part series on separating intent from process in real-world C#.
 >
 > 1. [Your Clean Architecture Has a Dirty Secret](/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html)
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. **Two Sides of the Same Coin** ← you are here
-> 5. [Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html)
-> 6. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
-> 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
+> 5. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
+> 6. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 
@@ -284,7 +283,7 @@ This works because the two encodings are *isomorphic*. The theorem we met earlie
 
 Two seemingly different techniques — interfaces vs data structures — solving the same problem from opposite ends. That's not a coincidence. It reflects deep mathematical structure that's been studied for decades.
 
-In the [next post](/2026/03/19/choosing-both-sides-of-the-coin.html), we'll deliver on the "Choose Both" promise — with an applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
+In the next post, we'll pull back the curtain all the way: monads, free constructions, the Yoneda lemma, and algebraic effects. We'll see why everything we've built actually *works*, connect it to the entire history of this blog, and look at where the field is going.
 
 > **Sidebar (Haskell):** The duality is strikingly visible in Haskell. A type class (final) and a GADT (initial) for the same algebra:
 >
@@ -308,13 +307,13 @@ In the [next post](/2026/03/19/choosing-both-sides-of-the-coin.html), we'll deli
 
 ---
 
-> **Companion code**: Both encodings — Tagless Final and Free Monad — are fully implemented with tests in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) (57 tests), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) (29 tests).
+> **Companion code**: Both encodings — Tagless Final and Free Monad — are fully implemented with tests in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) (45 tests), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) (29 tests).
 
 ---
 
-> **Next**: [Choosing Both Sides of the Coin](/2026/03/19/choosing-both-sides-of-the-coin.html) — where we deliver on the "Choose Both" promise: the applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
+> **Next**: [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations: monads, free constructions, Yoneda, algebraic effects, and why a half-century of mathematics gives us confidence that our C# code is correct.
 >
-> *Not interested in parallelism? Skip ahead to [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) for the mathematical foundations, or straight to [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) for the Monday morning migration plan.*
+> *Not interested in category theory? Skip straight to [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the Monday morning migration plan for getting your legacy codebase from here to there, one service at a time.*
 
 ---
 
