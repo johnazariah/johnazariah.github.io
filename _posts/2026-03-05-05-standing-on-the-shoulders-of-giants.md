@@ -16,7 +16,7 @@ _This post is dedicated to [George Pollard](https://www.linkedin.com/in/georgepo
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
-> 5. [Choosing Both](/2026/03/19/intent-vs-process-choosing-both.html)
+> 5. [Choosing Both](/2026/03/05/04b-choosing-both.html)
 > 6. **Standing on the Shoulders of Giants** ← you are here
 > 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
@@ -341,7 +341,7 @@ I hope this series has made it useful.
 2. *[The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — Tagless Final*
 3. *[Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — Free Monads*
 4. *[Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — the duality*
-5. *[Choosing Both](/2026/03/19/intent-vs-process-choosing-both.html) — parallelism*
+5. *[Choosing Both](/2026/03/05/04b-choosing-both.html) — parallelism*
 6. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
 7. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
 

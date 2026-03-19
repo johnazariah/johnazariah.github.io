@@ -17,7 +17,7 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. **Two Sides of the Same Coin** ← you are here
-> 5. [Choosing Both](/2026/03/19/intent-vs-process-choosing-both.html)
+> 5. [Choosing Both](/2026/03/05/04b-choosing-both.html)
 > 6. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
 > 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
@@ -284,7 +284,7 @@ This works because the two encodings are *isomorphic*. The theorem we met earlie
 
 Two seemingly different techniques — interfaces vs data structures — solving the same problem from opposite ends. That's not a coincidence. It reflects deep mathematical structure that's been studied for decades.
 
-In the [next post](/2026/03/19/intent-vs-process-choosing-both.html), we'll deliver on the "Choose Both" promise — with an applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
+In the [next post](/2026/03/05/04b-choosing-both.html), we'll deliver on the "Choose Both" promise — with an applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
 
 > **Sidebar (Haskell):** The duality is strikingly visible in Haskell. A type class (final) and a GADT (initial) for the same algebra:
 >
@@ -312,7 +312,7 @@ In the [next post](/2026/03/19/intent-vs-process-choosing-both.html), we'll deli
 
 ---
 
-> **Next**: [Choosing Both](/2026/03/19/intent-vs-process-choosing-both.html) — where we deliver on the "Choose Both" promise: the applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
+> **Next**: [Choosing Both](/2026/03/05/04b-choosing-both.html) — where we deliver on the "Choose Both" promise: the applicative combinator that unlocks parallelism, and the full pipeline from algebra to AST to concurrent execution.
 >
 > *Not interested in parallelism? Skip ahead to [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) for the mathematical foundations, or straight to [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) for the Monday morning migration plan.*
 
