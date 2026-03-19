@@ -1,6 +1,6 @@
 ---
     layout: post
-    title: "Intent vs Process - Part 5: Choosing Both"
+    title: "Intent vs Process - Part 5: Choosing Both Sides of the Coin"
     tags: [C#, software-architecture, free-monad, tagless-final, functional-programming, optimization]
     author: johnazariah
     summary: "Tagless Final is ergonomic. Free Monads are inspectable. What if you didn't have to choose? The applicative combinator unlocks parallelism — and the pipeline from algebra to AST to concurrent execution."
@@ -16,13 +16,13 @@ _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/chris
 > 2. [The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html)
 > 3. [Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html)
 > 4. [Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html)
-> 5. **Choosing Both** ← you are here
+> 5. **Choosing Both Sides of the Coin** ← you are here
 > 6. [Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html)
 > 7. [The Strangler Fig](/2026/03/05/06-the-strangler-fig.html)
 
 ---
 
-# Choosing Both
+# Choosing Both Sides of the Coin
 
 At the end of [Post 4](/2026/03/05/04-two-sides-of-the-same-coin.html), we said something tantalizing:
 
@@ -401,7 +401,7 @@ This is the same insight that drives [Haxl](https://github.com/facebook/Haxl) (F
 2. *[The Algebra of Intent](/2026/03/05/02-the-algebra-of-intent.html) — Tagless Final*
 3. *[Intent You Can See (and Optimize)](/2026/03/05/03-intent-you-can-see-and-optimize.html) — Free Monads*
 4. *[Two Sides of the Same Coin](/2026/03/05/04-two-sides-of-the-same-coin.html) — the duality*
-5. *[Choosing Both](/2026/03/05/04b-choosing-both.html) — parallelism*
+5. *[Choosing Both Sides of the Coin](/2026/03/05/04b-choosing-both-sides-of-the-coin.html) — parallelism*
 6. *[Standing on the Shoulders of Giants](/2026/03/05/05-standing-on-the-shoulders-of-giants.html) — the foundations*
 7. *[The Strangler Fig](/2026/03/05/06-the-strangler-fig.html) — the migration*
 
