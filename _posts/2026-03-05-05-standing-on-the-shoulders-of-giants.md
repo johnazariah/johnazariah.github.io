@@ -326,9 +326,9 @@ I hope this series has made it useful.
 >
 > | Language | What it demonstrates | Tests |
 > |----------|---------------------|-------|
-> | [**C#**](/code/intent-vs-process/csharp/) | The primary language of the series — `IOrderAlgebra<T>`, LINQ-based Free Monad, execution plan analyzer, saga interpreter | 45 |
-> | [**F#**](/code/intent-vs-process/fsharp/) | Computation expressions, structural analysis, monad laws | 27 |
-> | [**Haskell**](/code/intent-vs-process/haskell/) | The *native habitat* — type classes are Tagless Final, GADTs are the Free Monad, do-notation is LINQ. No HKT workarounds, no boxing, no ceremony. | 29 |
+> | [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) | The primary language of the series — `IOrderAlgebra<T>`, LINQ-based Free Monad, execution plan analyzer, saga interpreter | 45 |
+> | [**F#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) | Computation expressions, structural analysis, monad laws | 27 |
+> | [**Haskell**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) | The *native habitat* — type classes are Tagless Final, GADTs are the Free Monad, do-notation is LINQ. No HKT workarounds, no boxing, no ceremony. | 29 |
 >
 > The blog's code is simplified for teaching. The companion code compiles, runs, and passes all 101 tests across three languages.
 

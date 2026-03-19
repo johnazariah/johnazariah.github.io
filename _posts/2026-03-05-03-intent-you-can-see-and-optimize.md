@@ -506,11 +506,11 @@ In the next post, we'll see that this isn't a coincidence.
 >   pure $ OrderSuccess (chargeTransactionId charge)
 > ```
 >
-> The same do-notation. The same five steps. But now it's a *data structure* — and the GADT keeps everything typed. No `object`, no casts. See the [Haskell companion code](/code/intent-vs-process/haskell/) for structural analysis, execution plan optimizer, and saga interpreter — all working with this typed AST.
+> The same do-notation. The same five steps. But now it's a *data structure* — and the GADT keeps everything typed. No `object`, no casts. See the [Haskell companion code](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) for structural analysis, execution plan optimizer, and saga interpreter — all working with this typed AST.
 
 ---
 
-> **Companion code**: The full working implementation — including LINQ programs, structural helpers, execution plan analyzer, and saga interpreter — is in the [companion repository](/code/intent-vs-process/). Available in [C#](/code/intent-vs-process/csharp/), [F#](/code/intent-vs-process/fsharp/), and [Haskell](/code/intent-vs-process/haskell/).
+> **Companion code**: The full working implementation — including LINQ programs, structural helpers, execution plan analyzer, and saga interpreter — is in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/).
 
 ---
 

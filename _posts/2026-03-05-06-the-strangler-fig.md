@@ -544,7 +544,7 @@ The theory was in Posts 1–5. The practice starts here.
 
 ---
 
-> **Companion code**: The full working implementation — including the traditional OrderService, Tagless Final algebra with four interpreters, Free Monad with structural analysis and saga support — is in the [companion repository](/code/intent-vs-process/). Available in [C#](/code/intent-vs-process/csharp/) (45 tests), [F#](/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](/code/intent-vs-process/haskell/) (29 tests).
+> **Companion code**: The full working implementation — including the traditional OrderService, Tagless Final algebra with four interpreters, Free Monad with structural analysis and saga support — is in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) (45 tests), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) (29 tests).
 
 ---
 

@@ -4,6 +4,7 @@
     tags: [C#, F#, software-architecture, tagless-final, free-monad, functional-programming, category-theory]
     author: johnazariah
     summary: "Interfaces vs data structures. Method dispatch vs pattern matching. These aren't competing approaches — they're mathematically dual. Here's what that means and when to choose which."
+    update_date: 2026-03-18
 ---
 
 _This series is dedicated to [Christian Smith](https://www.linkedin.com/in/christian-smith-9562658/), with gratitude for all the insightful conversations that shaped the ideas in these posts._
@@ -66,6 +67,8 @@ Same problem. Same five operations. Same interpreters. Two opposite representati
 
 Everything we've built is an instance of a duality that mathematicians have studied since the 1940s. Understanding it gives you a *tool for thinking* that applies far beyond this series.
 
+> *Thanks to [Mitchell Wand](https://www.khoury.northeastern.edu/people/mitchell-wand/) for detailed feedback on an earlier version of this section, which prompted a more careful treatment of the category-theoretic foundations below.*
+
 ### Categories — the Language of Structure
 
 A *category* has three things:
@@ -75,23 +78,54 @@ A *category* has three things:
 - **Composition** — if $f: A \to B$ and $g: B \to C$, then $g \circ f: A \to C$
 - Every object has an identity arrow: $\text{id}_A: A \to A$
 
-You already live in one: the **category of C# types**. Objects are types (`int`, `string`, `OrderResult`). Arrows are functions (`Func<int, string>`). Composition is function composition (`.` in F#, chained calls in C#). Identity is `x => x`.
+You already live in one. For each C# type `t`, write $\mathcal{V}(\texttt{t})$ for the set of all values that inhabit it — the "values of" that type. For example, $\mathcal{V}(\texttt{int})$ is the set of all C# integers ($0, 1, -1, 2, \ldots$), and $\mathcal{V}(\texttt{string})$ is the set of all C# strings. These sets are the **objects** of our category.
+
+The **arrows** between objects are functions definable in C#. Some concrete examples:
+
+- `int.ToString()` is an arrow from $\mathcal{V}(\texttt{int})$ to $\mathcal{V}(\texttt{string})$ — it takes any integer and produces a string.
+- `int.Parse(s)` is an arrow from $\mathcal{V}(\texttt{string})$ to $\mathcal{V}(\texttt{int})$ — it takes a string and (when valid) produces an integer.
+- `s => s.Length` is an arrow from $\mathcal{V}(\texttt{string})$ to $\mathcal{V}(\texttt{int})$.
+- `x => x` is the identity arrow on any object — it takes a value and returns it unchanged.
+
+**Composition** works exactly as you'd expect: if `f` goes from $\mathcal{V}(\texttt{int})$ to $\mathcal{V}(\texttt{string})$ and `g` goes from $\mathcal{V}(\texttt{string})$ to $\mathcal{V}(\texttt{int})$, then `g ∘ f` (or in C#, `x => g(f(x))`) goes from $\mathcal{V}(\texttt{int})$ to $\mathcal{V}(\texttt{int})$. For instance, composing `int.ToString()` with `s => s.Length` gives you `n => n.ToString().Length` — an arrow from integers to integers.
+
+(The fact that the set of arrows from $\mathcal{V}(\texttt{t1})$ to $\mathcal{V}(\texttt{t2})$ also happens to be the set of inhabitants of a C# type, `Func<t1, t2>`, is convenient but not essential to the construction.)
 
 That's it. No mystery. A category is just "things with composable arrows." But this simple definition lets us talk precisely about structure — and structure is what this whole series is about.
 
 ### Functors — Structure-Preserving Maps
 
-A *functor* maps one category to another while preserving composition and identity. In C# terms: a generic type constructor with a lawful `Select`/`Map` method.
+A *functor* maps one category to another while preserving composition and identity. Formally: a functor $F$ maps objects to objects and arrows to arrows, such that $F(\text{id}_A) = \text{id}_{F(A)}$ and $F(g \circ f) = F(g) \circ F(f)$.
+
+In C# terms, an endofunctor on our category is a generic type constructor with a lawful `Select`/`Map` method:
 
 ```csharp
-// Task<T> is a functor: if f : A → B, then Task<A>.Select(f) : Task<B>
+// Task<T> is a functor: for any f : A → B, Task<A>.Select(f) : Task<B>
 // IEnumerable<T> is a functor: items.Select(f) maps f over every element
-// OrderStep<T> from Post 3 is a functor: it maps over the result type
 ```
 
-The **effect functor** is the heart of this entire story. `OrderStep<T>` says "I'm a domain operation that produces a `T`." The functor structure lets you transform what you'll do with the result without knowing which operation you're transforming. That's *exactly* the separation of intent from process — at the most fundamental level.
+The `Select` method *is* the functor's action on arrows: given any function $f: \mathcal{V}(A) \to \mathcal{V}(B)$, it produces a function from $F(\mathcal{V}(A))$ to $F(\mathcal{V}(B))$, and it respects composition and identity.
 
-Formally: a functor $F$ maps types to types and functions to functions, preserving identity ($F(\text{id}_A) = \text{id}_{F(A)}$) and composition ($F(g \circ f) = F(g) \circ F(f)$).
+The **effect functor** is the heart of this entire story. But there's a subtlety worth getting right. In the C# code from Post 3, `OrderStep<T>` is a *type-indexed family*: each concrete subtype fixes `T` to a specific result type (`CheckStock` is always `OrderStep<StockResult>`, `ChargePayment` is always `OrderStep<ChargeResult>`). You can't write a `Select` that turns an `OrderStep<StockResult>` into an `OrderStep<string>` — the result type is determined by which operation it is.
+
+The functor structure emerges when — as in the Free Monad construction — you pair each step with a continuation. The `Then(step, continue)` constructor from Post 3 does exactly this: it packages an `OrderStep<T>` together with a `Func<T, OrderProgram<TNext>>`. The Haskell encoding makes this pairing explicit in the functor definition itself:
+
+```haskell
+-- Each constructor carries a continuation (result → next)
+data OrderStepF next where
+  CheckStockF  :: [Item] -> (StockResult -> next) -> OrderStepF next
+  ChargePaymentF :: PaymentMethod -> Double -> (ChargeResult -> next) -> OrderStepF next
+  ...
+
+-- fmap applies f to the continuation's output
+instance Functor OrderStepF where
+  fmap f (CheckStockF items k)     = CheckStockF items (f . k)
+  fmap f (ChargePaymentF m amt k)  = ChargePaymentF m amt (f . k)
+```
+
+Here, `OrderStepF` is an endofunctor on **Hask** (the category of Haskell types and functions). Given any function $f: A \to B$, `fmap f` transforms an `OrderStepF A` into an `OrderStepF B` by post-composing $f$ with the continuation. It preserves identity (`fmap id = id`, since composing with identity doesn't change the continuation) and composition (`fmap (g . f) = fmap g . fmap f`, since post-composition is associative).
+
+In C#, this same structure exists — it's just spread across the `Then` constructor and the `SelectMany` implementation on `OrderProgram<T>`, rather than being a standalone `Select` on `OrderStep<T>`. The functor that the Free Monad *frees* is the signature of operations-with-continuations, whether that signature is packed into a single type (Haskell) or distributed across the program's constructors (C#).
 
 ### Natural Transformations — Maps Between Functors
 
@@ -269,11 +303,11 @@ In the final post, we'll pull back the curtain all the way: monads, free constru
 > type OrderProgram = Free OrderStepF
 > ```
 >
-> Both are first-class language constructs. Both produce the same `placeOrder` with do-notation. The symmetry is immediate — no squinting required. See the [Haskell companion code](/code/intent-vs-process/haskell/) where both encodings coexist.
+> Both are first-class language constructs. Both produce the same `placeOrder` with do-notation. The symmetry is immediate — no squinting required. See the [Haskell companion code](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) where both encodings coexist.
 
 ---
 
-> **Companion code**: Both encodings — Tagless Final and Free Monad — are fully implemented with tests in the [companion repository](/code/intent-vs-process/). Available in [C#](/code/intent-vs-process/csharp/) (45 tests), [F#](/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](/code/intent-vs-process/haskell/) (29 tests).
+> **Companion code**: Both encodings — Tagless Final and Free Monad — are fully implemented with tests in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) (45 tests), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) (27 tests), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) (29 tests).
 
 ---
 

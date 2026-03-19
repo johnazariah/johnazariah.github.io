@@ -503,9 +503,9 @@ That's the next post.
 ---
 
 > **Companion code**: The complete working implementation for this series is available in three languages:
-> - [**C#**](/code/intent-vs-process/csharp/) — the primary language of the series, with full test suite (45 tests)
-> - [**F#**](/code/intent-vs-process/fsharp/) — computation expressions make the patterns more concise (27 tests)
-> - [**Haskell**](/code/intent-vs-process/haskell/) — the native habitat of these patterns, where type classes *are* Tagless Final and GADTs *are* the Free Monad (29 tests)
+> - [**C#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/) — the primary language of the series, with full test suite (45 tests)
+> - [**F#**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/) — computation expressions make the patterns more concise (27 tests)
+> - [**Haskell**](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) — the native habitat of these patterns, where type classes *are* Tagless Final and GADTs *are* the Free Monad (29 tests)
 >
 > The blog code is simplified for pedagogy. The companion code compiles, runs, and passes all tests.
 

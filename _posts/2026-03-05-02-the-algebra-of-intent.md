@@ -531,11 +531,11 @@ That's the next post.
 >   pure $ OrderSuccess (chargeTransactionId charge)
 > ```
 >
-> The `m` *is* the interpreter. `IO` for production, `Either Text` for tests, `Writer [Text]` for narrative. The HKT problem that C# needs brands and wrappers to solve? Haskell's kind system handles it natively: `m` has kind `* -> *`. See the [Haskell companion code](/code/intent-vs-process/haskell/) for the complete implementation.
+> The `m` *is* the interpreter. `IO` for production, `Either Text` for tests, `Writer [Text]` for narrative. The HKT problem that C# needs brands and wrappers to solve? Haskell's kind system handles it natively: `m` has kind `* -> *`. See the [Haskell companion code](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/) for the complete implementation.
 
 ---
 
-> **Companion code**: The full working implementation — including all four interpreters and the test suite — is in the [companion repository](/code/intent-vs-process/). Available in [C#](/code/intent-vs-process/csharp/), [F#](/code/intent-vs-process/fsharp/), and [Haskell](/code/intent-vs-process/haskell/). The blog code is simplified for pedagogy; the companion code compiles and passes all tests.
+> **Companion code**: The full working implementation — including all four interpreters and the test suite — is in the [companion repository](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/). Available in [C#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/csharp/), [F#](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/fsharp/), and [Haskell](https://github.com/johnazariah/johnazariah.github.io/tree/main/code/intent-vs-process/haskell/). The blog code is simplified for pedagogy; the companion code compiles and passes all tests.
 
 ---
 
