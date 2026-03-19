@@ -16,39 +16,35 @@ namespace IntentVsProcess
 module OrderInterpreters =
 
     /// Test interpreter — pure, deterministic, no I/O.
-    let runTest
-        (stockOk: bool)
-        (price: decimal)
-        (chargeOk: bool)
-        (txnId: string)
-        (req: OrderRequest)
-        : OrderResult =
+    let runTest (stockOk: bool) (price: decimal) (chargeOk: bool) (txnId: string) (req: OrderRequest) : OrderResult =
 
         // Step 1: Check stock
         if not stockOk then
             Failure "Out of stock"
         else
 
-        // Step 2: Calculate price
-        let discount =
-            match req.Coupon with
-            | Some c -> price * c.DiscountPercent / 100m
-            | None   -> 0m
-        let _total = price - discount
+            // Step 2: Calculate price
+            let discount =
+                match req.Coupon with
+                | Some c -> price * c.DiscountPercent / 100m
+                | None -> 0m
 
-        // Step 3: Charge payment
-        if not chargeOk then
-            Failure "Payment failed"
-        else
+            let _total = price - discount
 
-        // Step 4 & 5: Reserve + confirm
-        Success txnId
+            // Step 3: Charge payment
+            if not chargeOk then
+                Failure "Payment failed"
+            else
+
+                // Step 4 & 5: Reserve + confirm
+                Success txnId
 
     /// Narrative interpreter — produces a human-readable story.
     let runNarrative (req: OrderRequest) : string =
         let items = req.Items
         let cust = req.Customer
         let pm = req.PaymentMethod
+
         [ sprintf "Check if %d item(s) are in stock." items.Length
           sprintf "Calculate price for %d item(s)." items.Length
           sprintf "Charge payment via %A." pm
@@ -62,6 +58,7 @@ module OrderInterpreters =
         let items = req.Items
         let cust = req.Customer
         let pm = req.PaymentMethod
+
         [ { Operation = "CheckStock"
             Details = sprintf "%d item(s)" items.Length }
           { Operation = "CalculatePrice"

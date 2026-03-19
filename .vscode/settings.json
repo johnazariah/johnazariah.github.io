@@ -3,5 +3,9 @@
     "markdown.validate.enabled": false,
     "[markdown]": {
         "editor.wordWrap": "on"
-    }
+    },
+    "chat.tools.terminal.autoApprove": {
+        "git -c commit.gpgsign=false": true
+    },
+    "dotnet.defaultSolution": "disable"
 }
