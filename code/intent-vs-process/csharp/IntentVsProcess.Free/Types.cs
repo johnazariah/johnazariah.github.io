@@ -76,3 +76,15 @@ public record Failed<T>(string Reason) : OrderProgram<T>;
 /// Continue takes object (the boxed result) and returns the next program.
 /// </summary>
 public record Bind<T>(OrderStepBase Step, Func<object, OrderProgram<T>> Continue) : OrderProgram<T>;
+
+/// <summary>
+/// Run two independent sub-programs in parallel, then combine their results.
+/// This is the APPLICATIVE combinator — it marks computations that don't
+/// depend on each other and can be executed concurrently.
+/// Monadic bind (Bind/Then) is inherently sequential: the next step depends
+/// on the previous result. Both is the escape hatch for independence.
+/// </summary>
+public record Both<T>(
+    OrderProgram<object> Left,
+    OrderProgram<object> Right,
+    Func<object, object, OrderProgram<T>> Combine) : OrderProgram<T>;

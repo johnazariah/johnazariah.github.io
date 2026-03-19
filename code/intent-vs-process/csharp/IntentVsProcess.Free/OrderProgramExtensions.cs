@@ -41,6 +41,10 @@ public static class OrderProgramExtensions
             Bind<T> bind => new Bind<TResult>(
                 bind.Step,
                 x => bind.Continue(x).SelectMany(selector)),
+            Both<T> both => new Both<TResult>(
+                both.Left,
+                both.Right,
+                (l, r) => both.Combine(l, r).SelectMany(selector)),
             _ => throw new InvalidOperationException(
                 $"Unknown OrderProgram type: {source.GetType()}")
         };
@@ -68,4 +72,18 @@ public static class OrderProgramExtensions
             predicate(value)
                 ? new Done<T>(value)
                 : new Failed<T>("Guard condition failed"));
+
+    /// <summary>
+    /// Run two independent programs in parallel and combine their results.
+    /// This is the applicative combinator — it marks computations that
+    /// don't depend on each other. A parallel-aware interpreter can
+    /// execute both branches concurrently.
+    /// </summary>
+    public static OrderProgram<(TA, TB)> Parallel<TA, TB>(
+        OrderProgram<TA> left,
+        OrderProgram<TB> right) =>
+        new Both<(TA, TB)>(
+            left.Select(a => (object)a!),
+            right.Select(b => (object)b!),
+            (a, b) => new Done<(TA, TB)>(((TA)a, (TB)b)));
 }

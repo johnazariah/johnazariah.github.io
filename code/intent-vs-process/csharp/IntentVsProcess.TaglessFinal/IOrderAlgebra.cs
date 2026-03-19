@@ -53,4 +53,14 @@ public interface IOrderAlgebra<TResult>
     /// The continuation is lazy to avoid evaluating downstream steps on failure.
     /// </summary>
     TResult Guard(Func<bool> predicate, Func<TResult> onSuccess, string failureReason);
+
+    /// <summary>
+    /// Run two independent computations and combine their results.
+    /// This is the APPLICATIVE combinator — it marks computations that
+    /// don't depend on each other. A parallel-aware interpreter can
+    /// execute both branches concurrently.
+    /// Default: sequential (left then right). Override for parallelism.
+    /// </summary>
+    TResult Both<A, B>(TResult left, TResult right, Func<A, B, TResult> combine) =>
+        Then<A>(left, a => Then<B>(right, b => combine(a, b)));
 }

@@ -28,6 +28,12 @@ public static class OrderInterpreter
                     var result = executor(bind.Step);
                     current = bind.Continue(result);
                     break;
+                case Both<T> both:
+                    // Sequential fallback for sync interpreter
+                    var leftResult = RunSync(both.Left, executor);
+                    var rightResult = RunSync(both.Right, executor);
+                    current = both.Combine(leftResult, rightResult);
+                    break;
                 default:
                     throw new InvalidOperationException(
                         $"Unknown OrderProgram type: {current.GetType().Name}");

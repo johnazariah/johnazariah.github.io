@@ -41,4 +41,36 @@ public static class OrderPrograms
                 "Out of stock"
             )
         );
+
+    /// <summary>
+    /// PlaceOrder with explicit parallelism.
+    /// CheckStock and CalculatePrice don't depend on each other —
+    /// use Both to mark them as independent. A parallel-aware interpreter
+    /// (or the ToFreeMonad interpreter) can exploit this.
+    /// </summary>
+    public static TResult PlaceOrderParallel<TResult>(
+        IOrderAlgebra<TResult> alg,
+        OrderRequest request) =>
+        alg.Both<StockResult, PriceResult>(
+            alg.CheckStock(request.Items),
+            alg.CalculatePrice(request.Items, request.Coupon),
+            (stock, price) => alg.Guard(
+                () => stock.IsAvailable,
+                () => alg.Then<ChargeResult>(
+                    alg.ChargePayment(request.PaymentMethod, price.Total),
+                    charge => alg.Guard(
+                        () => charge.Succeeded,
+                        () => alg.Then<ReservationResult>(
+                            alg.ReserveInventory(request.Items),
+                            _ => alg.Then<Unit>(
+                                alg.SendConfirmation(request.Customer, price),
+                                __ => alg.Done(OrderResult.Ok(charge.TransactionId!))
+                            )
+                        ),
+                        "Payment failed"
+                    )
+                ),
+                "Out of stock"
+            )
+        );
 }
