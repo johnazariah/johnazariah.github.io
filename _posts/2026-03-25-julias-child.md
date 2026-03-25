@@ -26,7 +26,7 @@ This isn't philosophy. I have receipts.
 
 ## The Problem (briefly)
 
-I'm working on my PhD in quantum computing. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a mentor and collaborator — asked me to compute exact QAOA performance for a class of constraint satisfaction problems — specifically, Max-3-XORSAT on 4-regular hypergraphs. The state of the art could reach circuit depth $p = 5$. We needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
+I'm working on a research project in quantum computing. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a mentor and collaborator — asked me to compute exact QAOA performance for a class of constraint satisfaction problems — specifically, Max-3-XORSAT on 4-regular hypergraphs. The state of the art could reach circuit depth $p = 5$. We needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
 
 The algorithm itself was known: Basso et al. (2021) derived a branch-tensor recurrence, and Farhi et al. (2025) showed it yields exact results for MaxCut ($k = 2$). The question was whether it could be made to work for $k = 3$ at depths beyond $p = 5$.
 
