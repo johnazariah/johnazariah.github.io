@@ -8,6 +8,8 @@
 
 _This post isn't about quantum computing. Not really. It's about what happens when you write code so clean that the mathematics has nowhere to hide._
 
+_On Saturday morning, I didn't know what QAOA was. By Wednesday evening, I was computing depth-11 exact results on a Mac Studio — results that the field considered computationally infeasible. This is the story of how that happened, and why it has more to do with functional programming than with quantum physics._
+
 ---
 
 # Julia's Child
@@ -201,7 +203,7 @@ That's what I mean by "Julia's Child." The language gave birth to the insight. N
 
 ## What's Next
 
-$p = 11$ should land tonight — on that same M4 Max Mac Studio, generously lent by my friend Dr JM at Apple. Then a dual Xeon with 128GB RAM for $p = 13$-$14$. Then the full 15-pair comparison table. And eventually, the paper: _"Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT."_
+$p = 11$ should land tonight — on that same M4 Max Mac Studio, generously provided by my friend Dr JM at Apple. Then a dual Xeon with 128GB RAM for $p = 13$-$14$. Then the full 15-pair comparison table. And eventually, the paper: _"Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT."_
 
 All of this on commodity hardware — a Mac Studio on a desk, and an old rack server gathering dust. No cluster. No cloud. No GPU (yet).
 
