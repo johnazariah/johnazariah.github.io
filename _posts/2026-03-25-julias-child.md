@@ -179,7 +179,7 @@ The numbers tell the story:
 | 8   | 0.8541          | 88 s      | 0.017                |
 | 10  | 0.8674          | 87 min    | **0.003**            |
 
-At $p = 11$ — computing as I write this — QAOA crosses DQI+BP. The computation that was supposed to be infeasible runs on a laptop.
+At $p = 11$ — computing as I write this — QAOA crosses DQI+BP. The computation that was supposed to be infeasible runs on a commodity M4 Max Mac Studio sitting on a desk.
 
 But the punchline isn't the numbers. It's that the **same engine**, with only two parameters changed, reproduces published MaxCut results to full precision. And the same engine, without any code modifications, will fill in the QAOA column for all fifteen $(k, D)$ pairs in the comparison table. Because the fold doesn't know what problem it's solving. It just folds.
 
@@ -198,6 +198,12 @@ The parametric type trick that enabled ForwardDiff didn't come from a design doc
 None of these insights required genius. They required a language that let me write the algorithm in a form clean enough that its hidden structure was visible. C++ would have buried the structure under memory management and template boilerplate. Python would have hidden it behind framework abstractions. Julia let me write the mathematics directly — and the mathematics revealed itself.
 
 That's what I mean by "Julia's Child." The language gave birth to the insight. Not the other way around.
+
+## What's Next
+
+$p = 11$ should land tonight — on that same M4 Max Mac Studio, generously lent by my friend Dr JM at Apple. Then a dual Xeon with 128GB RAM for $p = 13$-$14$. Then the full 15-pair comparison table. And eventually, the paper: _"Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT."_
+
+All of this on commodity hardware — a Mac Studio on a desk, and an old rack server gathering dust. No cluster. No cloud. No GPU (yet).
 
 Bon appétit.
 
