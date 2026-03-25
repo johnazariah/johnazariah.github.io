@@ -3,111 +3,204 @@
     title: "Julia's Child"
     tags: [Julia, quantum-computing, functional-programming, QAOA, catamorphism, performance]
     author: johnazariah
-    summary: "How a functional programmer's instinct — recognising a tensor network contraction as a fold — led to a Walsh-Hadamard factorisation, a manual adjoint, and exact QAOA results that were supposed to be computationally infeasible."
+    summary: "How clean, composable Julia code didn't just implement an algorithm — it revealed hidden mathematical structure that made the impossible tractable. A story about folds, Walsh-Hadamard transforms, and why the language you think in shapes the theorems you find."
 ---
 
-_This post is the story of a weekend. Not the kind where you fix a CSS bug and call it productive — the kind where you accidentally make a computational breakthrough because you couldn't stop yourself from refactoring a loop into a fold._
+_This post isn't about quantum computing. Not really. It's about what happens when you write code so clean that the mathematics has nowhere to hide._
 
 ---
 
 # Julia's Child
 
-## The Assignment
+## Thesis
 
-My PhD supervisor asked me a simple question: _"Can you compute exact QAOA performance for Max-3-XORSAT on 4-regular hypergraphs?"_
+Here's a claim I want to defend:
 
-The context: [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) and collaborators at Google had published a [Nature paper](https://www.nature.com/articles/s41586-024-08033-4) on Decoded Quantum Interferometry (DQI) — a clever quantum algorithm that reduces optimisation to error-correcting code decoding. They had a comparison table with four algorithm columns (Prange, DQI+BP, Regev+FGUM, simulated annealing) across fifteen problem instances. One column was missing: **QAOA** — the Quantum Approximate Optimisation Algorithm.
+> **The language you write in shapes the theorems you discover.** Clean, composable code doesn't just implement algorithms faster — it _reveals structure_ that would remain invisible in less expressive languages. And that revealed structure can be the difference between "computationally infeasible" and "runs on a laptop."
 
-The state of the art, per [Basso et al. (2021)](https://arxiv.org/abs/2110.14206), could evaluate QAOA exactly on these structures. But for 3-body constraints ($k = 3$), the cost was $O(4^{3p})$ per evaluation — exponential in three times the circuit depth. Previous work had reached $p = 5$ at most. At $p = 5$, QAOA scores about 0.82 on our target problem. DQI+BP scores 0.871. The comparison was unresolved: _does QAOA ever catch up?_
+This isn't philosophy. I have receipts.
 
-To answer that, we needed $p \geq 11$. The naive approach would take years.
+## The Problem (briefly)
 
-## The Insight No One Asked For
+I'm working on my PhD in quantum computing. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a mentor and collaborator — asked me to compute exact QAOA performance for a class of constraint satisfaction problems — specifically, Max-3-XORSAT on 4-regular hypergraphs. The state of the art could reach circuit depth $p = 5$. We needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
 
-I'm a functional programmer. I can't help it. When I see a recursive computation over a tree, I see a **fold** — a catamorphism. When I see the same function called with different parameters, I see a **parametric algebra**. When I see a loop doing the same thing $p$ times, I see a **recurrence** that should be separated from the data it operates on.
+The algorithm itself was known: Basso et al. (2021) derived a branch-tensor recurrence, and Farhi et al. (2025) showed it yields exact results for MaxCut ($k = 2$). The question was whether it could be made to work for $k = 3$ at depths beyond $p = 5$.
 
-So when I sat down with the [Basso finite-$D$ branch-tensor iteration](https://arxiv.org/abs/2110.14206) — a perfectly good numerical algorithm that contracts a tensor network from leaves to root on a light-cone factor graph tree — I did what any self-respecting FP person would do.
+I chose Julia. What follows is the story of why that mattered.
 
-I refactored it into a fold.
+## Act 1: The Fold Nobody Asked For
+
+The Basso branch-tensor iteration is a loop. It takes an initial tensor (all ones), and applies a "step" function $p$ times. Each step combines child branch tensors with a constraint kernel to produce the next-level tensor. Here's what it looks like as a loop:
 
 ```julia
-# The branch tensor iteration IS a catamorphism
-current = ones(Complex{T}, N)
-for _ in 1:p
-    current = step(algebra, current)
+current = ones(ComplexF64, N)
+for t in 1:p
+    child_weights = f_function.(configs) .* current
+    kernel = constraint_kernel(angles)
+    current = constraint_fold(child_weights, kernel) .^ degree
 end
 ```
 
-This was supposed to be a cosmetic change. The algorithm was the same. The numbers came out the same. I just separated the _what_ (the algebra — mixer weights, constraint kernels, root observable) from the _how_ (the fold — iterate from leaves to root, accumulate a branch tensor).
+If you're a physicist, this is a tensor network contraction. If you're a computer scientist, this is... well, it's a **fold**. A catamorphism. The tree is being consumed bottom-up, with an algebra dictating what happens at each node.
 
-But then something happened that doesn't usually happen when you refactor for clarity: the refactored code _showed me something new_.
+I'm a functional programmer. I can't not see that. So I refactored:
 
-## The Walsh-Hadamard Discovery
+```julia
+struct CostAlgebra
+    k::Int          # constraint arity
+    D::Int          # regularity
+    clause_sign::Int # +1 for XORSAT, -1 for MaxCut
+end
+```
 
-With the fold explicit, the constraint-fold step stood out as the bottleneck. For $k \geq 3$, it was a sum over all $2^{2p+1}$ branch configurations, for each of $k - 1$ children. This is the $O(4^{kp})$ cost.
+The algebra bundles everything problem-specific: the mixer weight function $f$, the constraint kernel $\kappa$, the constraint fold, and the root fold. The iteration becomes:
 
-But staring at the clean, separated kernel function, I noticed it depended on its arguments only through their **bitwise XOR**. That's a convolution on $\mathbb{Z}_2^{2p+1}$. And convolutions on finite abelian groups are diagonalised by the appropriate Fourier transform — in this case, the **Walsh-Hadamard Transform**.
+```julia
+function evaluate(algebra, angles, p)
+    current = ones(N)
+    for t in 1:p
+        current = step(algebra, angles, current)
+    end
+    root_fold(algebra, angles, current)
+end
+```
+
+**Nothing about the algorithm changed.** The numbers came out identical. This was a refactor, not an optimisation. I separated the _what_ (the algebra) from the _how_ (the fold).
+
+And then the algebra showed me something.
+
+## Act 2: The Structure That Was Hiding
+
+With the constraint kernel $\kappa$ pulled out as a standalone function, I could stare at it in isolation. Here's what it computes for each branch configuration $a$:
+
+$$\kappa(a) = \cos\!\Bigl(\tfrac{1}{2}\sum_i \gamma_i \cdot s_i(a)\Bigr)$$
+
+where $s_i(a) = (-1)^{a_i}$ is the spin eigenvalue of bit $i$.
+
+And the constraint fold — the bottleneck, the $O(4^{kp})$ operation — was this:
+
+$$S(a) = \sum_{b_1, \ldots, b_{k-1}} \kappa(a \oplus b_1 \oplus \cdots \oplus b_{k-1}) \cdot \prod_j g(b_j)$$
+
+Wait. Read that again. The kernel depends on its arguments _only through the bitwise XOR_. That's a **convolution** on $\mathbb{Z}_2^{2p+1}$. And convolutions on finite abelian groups are diagonalised by the appropriate Fourier transform.
+
+For $\mathbb{Z}_2^n$, the Fourier transform is the **Walsh-Hadamard Transform** (WHT). It's the binary analog of the DFT:
 
 $$\hat{S} = \hat{\kappa} \cdot \hat{g}^{k-1}$$
 
-One WHT, one element-wise power, one inverse WHT. Cost: $O(p \cdot 4^p)$ per step, $O(p^2 \cdot 4^p)$ total. For $k = 3$ at $p = 8$, this is **65,000× faster** than the naive approach.
+One WHT, one element-wise power, one inverse WHT. Cost: $O(p \cdot 4^p)$ per step. The full iteration: $O(p^2 \cdot 4^p)$. For $k = 3$ at $p = 8$: **65,000× faster** than the naive approach.
 
-I would not have seen this in a 500-line C++ function with manual memory management and loop indices. The mathematical structure was invisible until the code was clean enough to expose it. _The language didn't implement the math — it revealed it._
+Now here's the thing I want you to notice: **this factorisation was hiding in the original code.** The XOR structure was always there in the Basso recurrence. But in the original formulation — a dense sum over exponentially many configurations — it was invisible. It took _separating the kernel from the fold_ to make the convolution structure obvious.
 
-## Three Gradient Methods Walk Into a Bar
+The clean code didn't just implement the algorithm. It **revealed** that the bottleneck operation had exploitable algebraic structure.
 
-With the evaluator fast, we needed to _optimise_ over $2p$ continuous angle parameters using L-BFGS. That requires gradients.
+> _The abstractions were not imposed top-down; they were read off from code that was clear enough to expose its own structure._
 
-**Attempt 1: Finite differences.** The sensible default. Worked fine at $p = 3$. At $p = 4$, the optimiser hit its iteration limit. At $p = 5$, it burned 91 seconds and 50,000 evaluations trying to converge, then gave up. The gradient noise floor exceeded the convergence tolerance. Dead end.
+## Act 3: Why Julia Specifically
 
-**Attempt 2: ForwardDiff.jl.** Julia's automatic differentiation library. I made one change — turned `QAOAAngles` into a parametric type `QAOAAngles{T<:Real}` — and ForwardDiff's dual numbers flowed through 500 lines of evaluation code _unmodified_. At $p = 5$: converged in 17 iterations, 2.9 seconds. 31× faster than finite differences, and it actually converged.
+Let me be concrete about what Julia's design contributed. This isn't language advocacy — it's an engineering case study.
 
-But ForwardDiff carries $2p$ dual number partials through every operation. At $p = 8$, each gradient costs 19× a plain evaluation. At $p = 12$, it would be 24×.
+### Parametric types enabled automatic differentiation
 
-**Attempt 3: Manual adjoint.** I derived the backward pass by hand. The key insight: **the WHT is its own adjoint** (the Hadamard matrix is symmetric). So the backward pass through the constraint fold is just... another WHT applied to the cotangent. The $\beta$ gradient uses a log-derivative trick: $-\tan\beta$ for cosine factors, $\cot\beta$ for sine factors.
+To optimise the QAOA angles, we need gradients. Julia's `ForwardDiff.jl` provides automatic differentiation by propagating _dual numbers_ — values that carry both the function value and its derivative.
 
-Cost: **1.6× a single evaluation, independent of $p$**. At $p = 8$, that's 12× faster than ForwardDiff. The speedup grows linearly with depth.
+For this to work, every function in the pipeline must accept dual numbers instead of plain `Float64`s. In most languages, this would require rewriting the evaluation code or wrapping it in a framework.
 
-All three gradient methods coexist in the same codebase. I ran them head-to-head on the same problem at the same depths, in the same Julia binary, with a keyword argument toggle. Try doing that in C++.
+In Julia, I made _one change_:
 
-## The Numbers
+```julia
+# Before
+struct QAOAAngles
+    γ::Vector{Float64}
+    β::Vector{Float64}
+end
 
-| $p$ | $\tilde{c}(p)$ | Wall time | Gap to DQI+BP |
-|-----|-----------------|-----------|---------------|
-| 1   | 0.6761          | 1.7 s     | 0.195         |
-| 5   | 0.8205          | 260 ms    | 0.050         |
-| 8   | 0.8541          | 88 s      | 0.017         |
-| 9   | 0.8613          | 6.5 min   | 0.010         |
-| 10  | 0.8674          | 87 min    | **0.003**     |
+# After
+struct QAOAAngles{T<:Real}
+    γ::Vector{T}
+    β::Vector{T}
+end
+```
 
-DQI+BP = 0.871. The gap is closing at a steady rate (~0.006 per step). **At $p = 11$, QAOA crosses DQI+BP.** That computation is running right now, on the same laptop I'm writing this on.
+That's it. Julia's parametric type system infers `T = Dual{Float64, N}` when ForwardDiff calls the function, and the _entire 500-line evaluation pipeline_ — WHTs, constraint folds, branch tensor iterations — works with dual numbers without a single line changed.
 
-## The Punchline
+This experiment revealed something crucial: **finite differences cannot converge at $p \geq 4$** because the gradient noise floor exceeds the optimiser's tolerance. Without ForwardDiff, we would have been stuck at $p = 3$.
 
-The fold engine is generic. MaxCut? Set $k = 2$ and `clause_sign = -1`. We reproduced Farhi et al.'s published MaxCut results to full precision — **no code changes, just different algebra parameters**. The same engine fills in the entire missing QAOA column across all fifteen $(k, D)$ pairs in Jordan et al.'s comparison table.
+### Multiple dispatch enabled the manual adjoint
 
-The code is ~700 lines of Julia. It runs on a laptop. It has 714 tests and 100% coverage. The evaluator, the three gradient methods, the optimiser, the fold algebra, the WHT — all in one composable package.
+ForwardDiff carries $2p$ dual partials through every operation, making each gradient cost $\sim 2p$ times a plain evaluation. At $p = 8$, that's 16× overhead.
 
-## Why Julia
+So I derived the backward (adjoint) pass by hand. The key insight: the WHT is its own adjoint (the Hadamard matrix is symmetric), so the backward pass through the constraint fold is just another WHT applied to the cotangent. The $\beta$ gradient uses a log-derivative trick: $-\tan\beta$ for cosine factors, $\cot\beta$ for sine factors.
 
-This project would have been an order of magnitude harder in Python (framework lock-in for AD, no parametric dispatch, numpy indirection hiding the algebra) and two orders of magnitude more error-prone in C++ (templates for generics, manual memory for the branch-tensor cache, no composable AD ecosystem, and critically — the boilerplate would have hidden the fold structure that led to the WHT discovery).
+In Julia, I added the adjoint as a _new function_ alongside the existing evaluator:
 
-Julia gave us:
-- **Parametric types** → ForwardDiff worked with a one-line change
-- **Multiple dispatch** → the adjoint was a new method, not a rewrite
-- **Zero-cost abstractions** → the generic fold runs at the same speed as hand-written Float64 code
-- **LLVM compilation** → the hot path (WHTs, broadcasts) generates the same machine code as C
+```julia
+function basso_expectation_and_gradient(params, angles; clause_sign=1)
+    cache = forward_pass(params, angles; clause_sign)
+    γ_grad, β_grad = backward_pass(cache)
+    (cache.value, γ_grad, β_grad)
+end
+```
 
-The performance "sacrifice" for all this expressivity? Zero. The WHT is memory-bandwidth-bound at every depth. Julia and C++ produce the same SIMD code for the same butterfly.
+No existing code was modified. Multiple dispatch routes the optimiser to the adjoint when gradients are needed, and to the plain evaluator when they aren't. The adjoint costs **1.6× a single evaluation**, independent of $p$ — compared to ForwardDiff's $2p$ times.
 
-## What's Next
+### Zero-cost abstraction means the generality is free
 
-$p = 11$ should land tonight. Then the dual Xeon with 128GB RAM for $p = 13$-$14$. Then the full 15-pair comparison table. And eventually, the paper: _"Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT."_
+Julia compiles through LLVM. The generic `QAOAAngles{Float64}` specialises to exactly the same machine code as if I'd written `Float64` everywhere. The WHT butterfly, the broadcast multiplications, the trigonometric table lookups — they all compile to the same SIMD instructions regardless of whether the source code is generic or concrete.
 
-The fold engine is the lasting contribution. The QAOA numbers are the headline. The Walsh-Hadamard factorisation is the trick. The adjoint is the performance enabler. But the thing I'm proudest of is this: **the mathematical insight came from writing clear code**. Not the other way around.
+The cost algebra abstraction? The compiler erases it. At runtime, the fold over a `CostAlgebra` with `k=3, D=4, clause_sign=1` generates specialised code — no virtual dispatch, no heap allocation, no indirection. The generic engine runs at the same speed as a hand-written, hardcoded evaluator for Max-3-XORSAT.
+
+### The three-way AD experiment
+
+This is the part that wouldn't have been possible in any other language I know.
+
+I ran all three gradient strategies — finite differences, ForwardDiff, and the manual adjoint — on the **same problem, at the same depths, in the same Julia binary**, toggled by a keyword argument:
+
+```julia
+optimize_depth_sequence(k, D, 1:10; autodiff=:finite)   # finite differences
+optimize_depth_sequence(k, D, 1:10; autodiff=:forward)   # ForwardDiff
+optimize_depth_sequence(k, D, 1:10; autodiff=:adjoint)   # manual adjoint
+```
+
+| Method | $p = 5$ time | $p = 8$ time | Converges at $p \geq 4$? |
+|--------|-------------|-------------|--------------------------|
+| Finite diff | 91 s | — | ❌ |
+| ForwardDiff | 9.5 ms | 971 ms | ✅ |
+| **Adjoint** | **0.85 ms** | **81 ms** | ✅ |
+
+This head-to-head comparison — which directly informed the production design — would have required three separate codebases in C++. In Python, you'd need to wrap the evaluator in JAX or PyTorch, losing the mathematical transparency of the fold.
+
+## Act 4: The Results (briefly)
+
+The numbers tell the story:
+
+| $p$ | $\tilde{c}(p)$ | Wall time | Gap to DQI+BP (0.871) |
+|-----|-----------------|-----------|----------------------|
+| 5   | 0.8205          | 260 ms    | 0.050                |
+| 8   | 0.8541          | 88 s      | 0.017                |
+| 10  | 0.8674          | 87 min    | **0.003**            |
+
+At $p = 11$ — computing as I write this — QAOA crosses DQI+BP. The computation that was supposed to be infeasible runs on a laptop.
+
+But the punchline isn't the numbers. It's that the **same engine**, with only two parameters changed, reproduces published MaxCut results to full precision. And the same engine, without any code modifications, will fill in the QAOA column for all fifteen $(k, D)$ pairs in the comparison table. Because the fold doesn't know what problem it's solving. It just folds.
+
+## The Lesson
+
+I want to come back to the thesis:
+
+> **The language you write in shapes the theorems you discover.**
+
+The Walsh-Hadamard factorisation didn't come from studying the Basso recurrence on a whiteboard. It came from _refactoring the code_ until the constraint kernel was a standalone function with a clear type signature. At that point, the XOR structure was staring me in the face. The mathematical insight was a _consequence_ of code clarity.
+
+The adjoint differentiation didn't come from working through the chain rule on paper. It came from seeing the cached forward pass as a data structure that could be traversed in reverse — a pattern that's natural in a language where data structures and functions are first-class.
+
+The parametric type trick that enabled ForwardDiff didn't come from a design document. It came from Julia's type system being expressive enough that the "right" generalisation was a one-line edit.
+
+None of these insights required genius. They required a language that let me write the algorithm in a form clean enough that its hidden structure was visible. C++ would have buried the structure under memory management and template boilerplate. Python would have hidden it behind framework abstractions. Julia let me write the mathematics directly — and the mathematics revealed itself.
+
+That's what I mean by "Julia's Child." The language gave birth to the insight. Not the other way around.
 
 Bon appétit.
 
 ---
 
-_The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The paper draft is in progress. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
+_The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The paper draft ("Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT") is in progress. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
