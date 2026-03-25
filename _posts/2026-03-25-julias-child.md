@@ -14,6 +14,8 @@ _On Saturday morning, I didn't know what QAOA was. By Wednesday evening, I was c
 
 # Julia's Child
 
+_The title has a double meaning, and both are intended. [Julia Child](https://en.wikipedia.org/wiki/Julia_Child) made French cuisine accessible to American home cooks by demystifying technique and insisting that good results come from clarity, not complexity. [Julia](https://julialang.org) the programming language did the same thing for this project: it made a computationally intractable quantum physics problem accessible to a functional programmer by letting the mathematics speak clearly through the code. The result — the "child" — is a set of exact numbers that weren't supposed to be computable on commodity hardware._
+
 ## Thesis
 
 Here's a claim I want to defend:
