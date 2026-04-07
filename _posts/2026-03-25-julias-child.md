@@ -253,7 +253,9 @@ The fix was threshold-based normalisation: before each power operation, if the m
 
 **The landscape wall.** Even with overflow fixed, the high-$(k, D)$ pairs were stuck at $\tilde{c} = 0.5$. Not overflow — the landscape is genuinely flat at random angles. Standard L-BFGS with warm-starting from $p - 1$ fails at $p = 3$ for $(7, 8)$. Most starting points see no signal at all.
 
-The fix was a _memetic optimizer_ — a population-based search that borrows from genetic algorithms. One hundred random starting points, short L-BFGS bursts, cull the worst half, replenish with crossovers from the survivors and fresh random starts. When the population stops improving (three stagnant generations), stop the swarm and run a full L-BFGS polish on the winner. The swarm finds the basin; L-BFGS converges it.
+The fix came from an unexpected direction: a [blog series I wrote five years ago](/2021/12/10/scientific-computing-with-fsharp-3.html) about implementing BRKGA — a Biased Random-Key Genetic Algorithm — in F# under the tutelage of [Dr. Helmut Katzgraber](https://scholar.google.com/citations?user=6l0K5KwAAAAJ). Helmut taught me that when a gradient-based optimizer can't find the basin, you let a _population_ of candidates explore the landscape, cull the failures, breed the survivors, and let natural selection do the work. The pattern stuck.
+
+So I built a _memetic optimizer_ — a population-based search that combines Helmut's evolutionary approach with the L-BFGS polishing that Julia makes effortless. One hundred random starting points, short L-BFGS bursts, cull the worst half, replenish with crossovers from the survivors and fresh random starts. When the population stops improving (three stagnant generations), stop the swarm and run a full L-BFGS polish on the winner. The swarm finds the basin; L-BFGS converges it.
 
 Result: $(7, 8)$ went from failing at $p = 3$ to $\tilde{c} = 0.789$ at $p = 8$. All fifteen pairs now have valid results at depths where the standard approach collapsed.
 
