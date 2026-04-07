@@ -4,6 +4,7 @@
     tags: [Julia, quantum-computing, functional-programming, QAOA, catamorphism, performance]
     author: johnazariah
     summary: "How clean, composable Julia code didn't just implement an algorithm — it revealed hidden mathematical structure that made the impossible tractable. A story about folds, Walsh-Hadamard transforms, and why the language you think in shapes the theorems you find."
+    update_date: 2026-04-07
 ---
 
 _This post isn't about quantum computing. Not really. It's about what happens when you write code so clean that the mathematics has nowhere to hide._
@@ -173,19 +174,35 @@ optimize_depth_sequence(k, D, 1:10; autodiff=:adjoint)   # manual adjoint
 
 This head-to-head comparison — which directly informed the production design — would have required three separate codebases in C++. In Python, you'd need to wrap the evaluator in JAX or PyTorch, losing the mathematical transparency of the fold.
 
-## Act 4: The Results (briefly)
+## Act 4: The Results
 
-The numbers tell the story:
+The numbers tell the story. Here's the primary target — $(k{=}3, D{=}4)$ — through $p = 13$:
 
 | $p$ | $\tilde{c}(p)$ | Wall time | Gap to DQI+BP (0.871) |
 |-----|-----------------|-----------|----------------------|
 | 5   | 0.8205          | 260 ms    | 0.050                |
 | 8   | 0.8541          | 88 s      | 0.017                |
-| 10  | 0.8674          | 87 min    | **0.003**            |
+| 10  | 0.8674          | 11 min    | **0.004**            |
+| 11  | 0.8725          | 10 min    | **−0.002** ← crosses |
+| 12  | 0.8769          | 40 min    | **−0.006**           |
+| **13** | **0.8807**   | **84 hr** | **−0.010**           |
 
-At $p = 11$ — computing as I write this — QAOA crosses DQI+BP. The computation that was supposed to be infeasible runs on a commodity M4 Max Mac Studio sitting on a desk.
+At $p = 11$, QAOA crosses DQI+BP. At $p = 12$, it crosses Prange. At $p = 13$ — computed on Stephen Jordan's 50-node SLURM cluster at Google — QAOA leads DQI+BP by a full percentage point. At $(3, 5)$, $p = 13$ yields $\tilde{c} = 0.843$, crossing the Regev+FGUM bound of $0.836$.
 
-But the punchline isn't the numbers. It's that the **same engine**, with only two parameters changed, reproduces published MaxCut results to full precision. And the same engine, without any code modifications, will fill in the QAOA column for all fifteen $(k, D)$ pairs in the comparison table. Because the fold doesn't know what problem it's solving. It just folds.
+But the story didn't stop at the $k = 3$ family. We filled in the QAOA column for all fifteen $(k, D)$ pairs in the Jordan et al. comparison table — the column that had been blank:
+
+| $(k,D)$ | $p$ | $\tilde{c}$ | $(k,D)$ | $p$ | $\tilde{c}$ | $(k,D)$ | $p$ | $\tilde{c}$ |
+|---------|-----|------|---------|-----|------|---------|-----|------|
+| (3,4) | 13 | 0.881 | (4,5) | 12 | 0.869 | (5,6) | 11 | 0.785 |
+| (3,5) | 13 | 0.843 | (4,6) | 11 | 0.836 | (5,7) | 8 | 0.789 |
+| (3,6) | 13 | 0.814 | (4,7) | 11 | 0.856 | (5,8) | 7 | 0.769 |
+| (3,7) | 12 | 0.783 | (4,8) | 11 | 0.818 | (6,7) | 9 | 0.838 |
+| (3,8) | 12 | 0.801 | | | | (6,8) | 8 | 0.801 |
+| | | | | | | (7,8) | 8 | 0.789 |
+
+QAOA surpasses DQI+BP for eleven of fifteen pairs. Five pairs beat Regev+FGUM. To our knowledge, no prior exact finite-$D$ QAOA evaluation has been performed for $k \geq 3$.
+
+And yes — the same engine, with only two parameters changed, reproduces published MaxCut results to full precision. The fold doesn't know what problem it's solving. It just folds.
 
 ## The Lesson
 
@@ -203,14 +220,38 @@ None of these insights required genius. They required a language that let me wri
 
 That's what I mean by "Julia's Child." The language gave birth to the insight. Not the other way around.
 
-## What's Next
+## What Happened Next
 
-$p = 11$ should land tonight — on that same M4 Max Mac Studio, generously provided by my friend Dr JM at Apple. Then a dual Xeon with 128GB RAM for $p = 13$-$14$. Then the full 15-pair comparison table. And eventually, the paper: _"Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT."_
+The original version of this post ended with "$p = 11$ should land tonight." It did. And then the walls started.
 
-All of this on commodity hardware — a Mac Studio on a desk, and an old rack server gathering dust. No cluster. No cloud. No GPU (yet).
+**The overflow wall.** At high arity — $(k{=}7, D{=}8)$ — the branch tensor entries grow exponentially through repeated `^(k-1)` and `^(D-1)` operations. By $p = 9$, they overflow Float64. The evaluator was returning `NaN` and `Inf`, and the optimizer was happily accepting them as "best values." (An overflowed $\tilde{c} = 21.44$ beats a valid $\tilde{c} = 0.88$ in a raw `argmax`.)
+
+The fix was threshold-based normalisation: before each power operation, if the max magnitude exceeds $10^{30}$, divide by it and track the accumulated scale in log space. The backward pass operates entirely on normalised intermediates. Julia's parametric types meant the change was invisible to the rest of the pipeline — the optimiser, the adjoint, the fold engine all worked unchanged.
+
+**The landscape wall.** Even with overflow fixed, the high-$(k, D)$ pairs were stuck at $\tilde{c} = 0.5$. Not overflow — the landscape is genuinely flat at random angles. Standard L-BFGS with warm-starting from $p - 1$ fails at $p = 3$ for $(7, 8)$. Most starting points see no signal at all.
+
+The fix was a _memetic optimizer_ — a population-based search that borrows from genetic algorithms. One hundred random starting points, short L-BFGS bursts, cull the worst half, replenish with crossovers from the survivors and fresh random starts. When the population stops improving (three stagnant generations), stop the swarm and run a full L-BFGS polish on the winner. The swarm finds the basin; L-BFGS converges it.
+
+Result: $(7, 8)$ went from failing at $p = 3$ to $\tilde{c} = 0.789$ at $p = 8$. All fifteen pairs now have valid results at depths where the standard approach collapsed.
+
+**The scale wall.** A Mac Studio can compute $p = 12$ in forty minutes but $p = 13$ needs 84 GB of RAM and days of wall time. So the computation spread: an Azure fleet of VMs, an old dual-Xeon P710 workstation running Windows, and Stephen Jordan's fifty-node SLURM cluster at Google — each machine warm-started from the best angles found by the others, coordinated through git branches and CSV files.
+
+The fold engine didn't know it was running on five different architectures across three continents. It just folded.
+
+## The Lesson (reprise)
+
+I want to come back to the thesis one more time, now with the full story in hand:
+
+> **The language you write in shapes the theorems you discover.**
+
+The Walsh-Hadamard factorisation came from _refactoring the code_ until the constraint kernel was a standalone function. The normalisation fix came from _staring at the forward pass_ until the overflow pattern was clear. The memetic optimizer came from _watching the landscape_ through the evaluator's eyes.
+
+In each case, the insight was a consequence of code clarity — not the other way around. Julia let me write the mathematics directly, and whenever the mathematics hit a wall, the code was clear enough to show me where to push.
+
+That's still what I mean by "Julia's Child." The language gave birth to the insight. The insight gave birth to the numbers. And the numbers are filling in a column in a comparison table that matters to people who care about the boundary between quantum and classical computation.
 
 Bon appétit.
 
 ---
 
-_The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The paper draft ("Filling in the Gaps: Generic Tree Folding for Exact QAOA on Max-$k$-XORSAT") is in progress. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
+_**Update (April 7, 2026):** We've been invited as co-authors on the Google Quantum AI paper by Stephen Jordan. $p = 13$ results are in. The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat) (DOI: [10.5281/zenodo.19211958](https://doi.org/10.5281/zenodo.19211958)). 1,741 tests passing. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
