@@ -229,22 +229,6 @@ Eleven of fifteen pairs beat DQI+BP. Five beat Regev+FGUM. To our knowledge, no 
 
 And yes — the same engine, with only two parameters changed, reproduces published MaxCut results to full precision. The fold doesn't know what problem it's solving. It just folds.
 
-## The Lesson
-
-I want to come back to the thesis:
-
-> **The language you write in shapes the theorems you discover.**
-
-The Walsh-Hadamard factorisation didn't come from studying the Basso recurrence on a whiteboard. It came from _refactoring the code_ until the constraint kernel was a standalone function with a clear type signature. At that point, the XOR structure was staring me in the face. The mathematical insight was a _consequence_ of code clarity.
-
-The adjoint differentiation didn't come from working through the chain rule on paper. It came from seeing the cached forward pass as a data structure that could be traversed in reverse — a pattern that's natural in a language where data structures and functions are first-class.
-
-The parametric type trick that enabled ForwardDiff didn't come from a design document. It came from Julia's type system being expressive enough that the "right" generalisation was a one-line edit.
-
-None of these insights required genius. They required a language that let me write the algorithm in a form clean enough that its hidden structure was visible. C++ would have buried the structure under memory management and template boilerplate. Python would have hidden it behind framework abstractions. Julia let me write the mathematics directly — and the mathematics revealed itself.
-
-That's what I mean by "Julia's Child." The language gave birth to the insight. Not the other way around.
-
 ## What Happened Next
 
 The original version of this post ended with "$p = 11$ should land tonight." It did. And then the walls started.
@@ -265,9 +249,9 @@ Result: $(7, 8)$ went from failing at $p = 3$ to $\tilde{c} = 0.789$ at $p = 8$.
 
 The fold engine didn't know it was running on five different architectures across three continents. It just folded.
 
-## The Lesson (reprise)
+## The Lesson
 
-I want to come back to the thesis one more time, now with the full story in hand:
+I want to come back to the thesis, now with the full story in hand:
 
 > **The language you write in shapes the theorems you discover.**
 
