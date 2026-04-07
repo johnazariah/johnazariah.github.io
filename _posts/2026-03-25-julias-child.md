@@ -27,13 +27,15 @@ This isn't philosophy. I have receipts.
 
 ## The Problem (briefly)
 
-I'm a PhD student in quantum information at UTS. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a researcher at Google Quantum AI — had a software problem. His team was writing a paper comparing algorithms for Max-$k$-XORSAT on regular hypergraphs, and they had results for every algorithm _except_ QAOA. The Basso et al. (2021) branch-tensor recurrence existed in theory, but nobody had made it work at finite degree $D$ beyond shallow depths. The QAOA column in their comparison table was blank.
+[Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) and I were colleagues at Microsoft Research. He's now at Google Quantum AI; I went a different direction. But Stephen has a gift for keeping conversations alive across years and career changes, and he's kept my interest in quantum computing burning with insightful discussions long after I left the field professionally.
+
+One of those conversations turned into a problem. His team was writing a paper comparing algorithms for Max-$k$-XORSAT on regular hypergraphs, and they had results for every algorithm _except_ QAOA. The Basso et al. (2021) branch-tensor recurrence existed in theory, but nobody had made it work at finite degree $D$ beyond shallow depths. The QAOA column in their comparison table was blank.
 
 "Could you have a crack at implementing this?" he asked.
 
 The state of the art could reach circuit depth $p = 5$. They needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
 
-I chose Julia. What follows is the story of why that mattered — and how "having a crack" at a software problem turned into a research collaboration, with Stephen running the code on Google's cluster, debugging overflow symptoms alongside me at midnight, and ultimately inviting me as co-author on the paper.
+I chose Julia. What follows is the story of why that mattered.
 
 ## Act 1: The Fold Nobody Asked For
 
@@ -275,7 +277,7 @@ In each case, the insight was a consequence of code clarity — not the other wa
 
 That's still what I mean by "Julia's Child." The language gave birth to the insight. The insight gave birth to the numbers. And the numbers filled in a blank column in a comparison table that matters to people who care about the boundary between quantum and classical computation.
 
-Stephen asked me to "have a crack" at a software problem. Two weeks later, I was a co-author on a Google Quantum AI paper. Not because I knew quantum physics — I still don't, not really — but because the code was clean enough to find structure that the physics had been hiding.
+What started as a conversation between friends turned into a collaboration — Stephen running the code on Google's cluster, both of us debugging overflow symptoms at midnight, and eventually a shared paper. I didn't set out to do research. I set out to write clean code for a friend's problem. The research happened because the code was clear enough to show us where to look.
 
 Bon appétit.
 
