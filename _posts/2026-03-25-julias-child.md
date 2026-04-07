@@ -220,12 +220,12 @@ The $k \geq 5$ pairs (needed the memetic optimizer):
 |-----------|-----------|--------------|-----------|
 | (5, 6) | 11 | 0.785 | trailing |
 | (5, 7) | 8 | 0.789 | trailing |
-| (5, 8) | 7 | 0.769 | trailing |
+| (5, 8) | 9 | **0.800** | beats ✓ |
 | (6, 7) | 9 | **0.838** | beats ✓ |
 | (6, 8) | 8 | 0.801 | trailing |
 | (7, 8) | 8 | 0.789 | trailing |
 
-Eleven of fifteen pairs beat DQI+BP. Five beat Regev+FGUM. To our knowledge, no prior exact finite-$D$ QAOA evaluation has been performed for $k \geq 3$.
+Twelve of fifteen pairs beat DQI+BP. Five beat Regev+FGUM. To our knowledge, no prior exact finite-$D$ QAOA evaluation has been performed for $k \geq 3$.
 
 And yes — the same engine, with only two parameters changed, reproduces published MaxCut results to full precision. The fold doesn't know what problem it's solving. It just folds.
 
