@@ -9,7 +9,7 @@
 
 _This post isn't about quantum computing. Not really. It's about what happens when you write code so clean that the mathematics has nowhere to hide._
 
-_On Saturday morning, I didn't know what QAOA was. By Wednesday evening, I was computing depth-11 exact results on a Mac Studio — results that the field considered computationally infeasible. This is the story of how that happened, and why it has more to do with functional programming than with quantum physics._
+_On Saturday morning, I didn't know what QAOA was. By Wednesday evening, I was computing depth-11 exact results on a Mac Studio — results that the field considered computationally infeasible. Two weeks later, I was a co-author on a Google Quantum AI paper. This is the story of how that happened, and why it has more to do with functional programming than with quantum physics._
 
 ---
 
@@ -27,11 +27,13 @@ This isn't philosophy. I have receipts.
 
 ## The Problem (briefly)
 
-I'm working on a research project in quantum computing. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a mentor and collaborator — asked me to compute exact QAOA performance for a class of constraint satisfaction problems — specifically, Max-3-XORSAT on 4-regular hypergraphs. The state of the art could reach circuit depth $p = 5$. We needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
+I'm a PhD student in quantum information at UTS. [Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) — a researcher at Google Quantum AI — had a software problem. His team was writing a paper comparing algorithms for Max-$k$-XORSAT on regular hypergraphs, and they had results for every algorithm _except_ QAOA. The Basso et al. (2021) branch-tensor recurrence existed in theory, but nobody had made it work at finite degree $D$ beyond shallow depths. The QAOA column in their comparison table was blank.
 
-The algorithm itself was known: Basso et al. (2021) derived a branch-tensor recurrence, and Farhi et al. (2025) showed it yields exact results for MaxCut ($k = 2$). The question was whether it could be made to work for $k = 3$ at depths beyond $p = 5$.
+"Could you have a crack at implementing this?" he asked.
 
-I chose Julia. What follows is the story of why that mattered.
+The state of the art could reach circuit depth $p = 5$. They needed $p \geq 11$ to answer the scientific question. The naive cost is $O(4^{3p})$ — at $p = 11$, that's $4^{33} \approx 7 \times 10^{19}$ operations per evaluation. Not happening.
+
+I chose Julia. What follows is the story of why that mattered — and how "having a crack" at a software problem turned into a research collaboration, with Stephen running the code on Google's cluster, debugging overflow symptoms alongside me at midnight, and ultimately inviting me as co-author on the paper.
 
 ## Act 1: The Fold Nobody Asked For
 
@@ -189,18 +191,39 @@ The numbers tell the story. Here's the primary target — $(k{=}3, D{=}4)$ — t
 
 At $p = 11$, QAOA crosses DQI+BP. At $p = 12$, it crosses Prange. At $p = 13$ — computed on Stephen Jordan's 50-node SLURM cluster at Google — QAOA leads DQI+BP by a full percentage point. At $(3, 5)$, $p = 13$ yields $\tilde{c} = 0.843$, crossing the Regev+FGUM bound of $0.836$.
 
-But the story didn't stop at the $k = 3$ family. We filled in the QAOA column for all fifteen $(k, D)$ pairs in the Jordan et al. comparison table — the column that had been blank:
+But the story didn't stop at the $k = 3$ family. We filled in the QAOA column for all fifteen $(k, D)$ pairs in the Jordan et al. comparison table — the column that had been blank.
 
-| $(k,D)$ | $p$ | $\tilde{c}$ | $(k,D)$ | $p$ | $\tilde{c}$ | $(k,D)$ | $p$ | $\tilde{c}$ |
-|---------|-----|------|---------|-----|------|---------|-----|------|
-| (3,4) | 13 | 0.881 | (4,5) | 12 | 0.869 | (5,6) | 11 | 0.785 |
-| (3,5) | 13 | 0.843 | (4,6) | 11 | 0.836 | (5,7) | 8 | 0.789 |
-| (3,6) | 13 | 0.814 | (4,7) | 11 | 0.856 | (5,8) | 7 | 0.769 |
-| (3,7) | 12 | 0.783 | (4,8) | 11 | 0.818 | (6,7) | 9 | 0.838 |
-| (3,8) | 12 | 0.801 | | | | (6,8) | 8 | 0.801 |
-| | | | | | | (7,8) | 8 | 0.789 |
+The $k = 3$ family (easiest — warm-starting works reliably):
 
-QAOA surpasses DQI+BP for eleven of fifteen pairs. Five pairs beat Regev+FGUM. To our knowledge, no prior exact finite-$D$ QAOA evaluation has been performed for $k \geq 3$.
+| $(k, D)$ | depth $p$ | $\tilde{c}$ | vs DQI+BP | vs Prange |
+|-----------|-----------|--------------|-----------|-----------|
+| (3, 4) | 13 | **0.881** | beats ✓ | beats ✓ |
+| (3, 5) | 13 | **0.843** | beats ✓ | beats ✓ |
+| (3, 6) | 13 | **0.814** | beats ✓ | beats ✓ |
+| (3, 7) | 12 | **0.783** | beats ✓ | beats ✓ |
+| (3, 8) | 12 | **0.801** | beats ✓ | beats ✓ |
+
+The $k = 4$ family (needed fleet compute):
+
+| $(k, D)$ | depth $p$ | $\tilde{c}$ | vs DQI+BP | vs Prange |
+|-----------|-----------|--------------|-----------|-----------|
+| (4, 5) | 12 | **0.869** | beats ✓ | beats ✓ |
+| (4, 6) | 11 | **0.836** | beats ✓ | beats ✓ |
+| (4, 7) | 11 | **0.856** | beats ✓ | beats ✓ |
+| (4, 8) | 11 | **0.818** | beats ✓ | beats ✓ |
+
+The $k \geq 5$ pairs (needed the memetic optimizer):
+
+| $(k, D)$ | depth $p$ | $\tilde{c}$ | vs DQI+BP |
+|-----------|-----------|--------------|-----------|
+| (5, 6) | 11 | 0.785 | trailing |
+| (5, 7) | 8 | 0.789 | trailing |
+| (5, 8) | 7 | 0.769 | trailing |
+| (6, 7) | 9 | **0.838** | beats ✓ |
+| (6, 8) | 8 | 0.801 | trailing |
+| (7, 8) | 8 | 0.789 | trailing |
+
+Eleven of fifteen pairs beat DQI+BP. Five beat Regev+FGUM. To our knowledge, no prior exact finite-$D$ QAOA evaluation has been performed for $k \geq 3$.
 
 And yes — the same engine, with only two parameters changed, reproduces published MaxCut results to full precision. The fold doesn't know what problem it's solving. It just folds.
 
@@ -248,10 +271,12 @@ The Walsh-Hadamard factorisation came from _refactoring the code_ until the cons
 
 In each case, the insight was a consequence of code clarity — not the other way around. Julia let me write the mathematics directly, and whenever the mathematics hit a wall, the code was clear enough to show me where to push.
 
-That's still what I mean by "Julia's Child." The language gave birth to the insight. The insight gave birth to the numbers. And the numbers are filling in a column in a comparison table that matters to people who care about the boundary between quantum and classical computation.
+That's still what I mean by "Julia's Child." The language gave birth to the insight. The insight gave birth to the numbers. And the numbers filled in a blank column in a comparison table that matters to people who care about the boundary between quantum and classical computation.
+
+Stephen asked me to "have a crack" at a software problem. Two weeks later, I was a co-author on a Google Quantum AI paper. Not because I knew quantum physics — I still don't, not really — but because the code was clean enough to find structure that the physics had been hiding.
 
 Bon appétit.
 
 ---
 
-_**Update (April 7, 2026):** We've been invited as co-authors on the Google Quantum AI paper by Stephen Jordan. $p = 13$ results are in. The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat) (DOI: [10.5281/zenodo.19211958](https://doi.org/10.5281/zenodo.19211958)). 1,741 tests passing. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
+_The paper — "Optimization Using Locally-Quantum Decoders" by Shutty, Jordan, and Azariah — is available on [arXiv](https://arxiv.org). The code is at [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat) (DOI: [10.5281/zenodo.19211958](https://doi.org/10.5281/zenodo.19211958)). 1,741 tests passing. Comments welcome [on Bluesky](https://bsky.app/profile/johnazariah.bsky.social)._
