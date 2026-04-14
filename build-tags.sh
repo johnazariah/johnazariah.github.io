@@ -1,11 +1,24 @@
 #!/bin/bash
-function emitTag {
-    mkdir -p tags/$1
-    echo "---"              >> tags/$1/index.html
-	echo "layout : tagpage" >> tags/$1/index.html
-	echo "tag : $1"         >> tags/$1/index.html
-	echo "---"              >> tags/$1/index.html
-}
 
+# Generate tag index pages from post front matter
 rm -rf tags
-grep tags _posts/* | gawk -F: '{print $3}' | sed -e "s/\[//g; s/\]//g" | gawk -F, '{for(i=1;i<=NF;i++) {printf "%s \n", $i}}' | sort | uniq | while read n; do emitTag $n; done
+
+# Extract tags from front matter, normalize, and create pages
+grep -h "^    tags:" _posts/*.md \
+  | sed 's/\r//g' \
+  | sed 's/^    tags: *\[//; s/\] *$//' \
+  | tr ',' '\n' \
+  | sed 's/^ *//; s/ *$//' \
+  | sort -u \
+  | while read -r tag; do
+      [ -z "$tag" ] && continue
+      # Use lowercase directory name for URL consistency
+      dir=$(echo "$tag" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+      mkdir -p "tags/$dir"
+      cat > "tags/$dir/index.html" <<EOF
+---
+layout: tagpage
+tag: $tag
+---
+EOF
+    done
