@@ -677,3 +677,123 @@ footer {
     }
   }
 }
+
+// ============================================
+// LANDING PAGE — Curated Highlights
+// ============================================
+
+.hero-intro {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $color-border-light;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: $color-text;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-heading {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $color-heading;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid $color-primary;
+  display: inline-block;
+}
+
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.series-card {
+  background: $color-bg-alt;
+  border: 1px solid $color-border-light;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: $color-primary;
+    box-shadow: 0 2px 8px rgba(9, 105, 218, 0.1);
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.4rem;
+
+    a {
+      color: $color-heading;
+      text-decoration: none;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+
+  .series-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: $color-text-light;
+    margin-bottom: 0.6rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $color-text;
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid $color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .post-date {
+    font-size: 0.8rem;
+    color: $color-text-light;
+    min-width: 5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a {
+    font-weight: 500;
+    color: $color-heading;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  .post-summary {
+    flex-basis: 100%;
+    font-size: 0.85rem;
+    color: $color-text-light;
+    line-height: 1.4;
+    padding-left: 5.5rem;
+  }
+}
+}

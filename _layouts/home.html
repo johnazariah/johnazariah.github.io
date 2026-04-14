@@ -45,13 +45,89 @@
   <div id="content-wrapper">
     <div class="inner clearfix">
       <section id="main-content">
-        <ul>
-          {% for post in site.posts %}
-          <li>
-            <a href="{{ post.url }}">{{ post.title }}</a>
+
+        <!-- Hero / Intro -->
+        <div class="hero-intro">
+          <p>I'm <strong>John Azariah</strong> — a software engineer who thinks in types, composes with functions, and believes that the best abstractions are the ones mathematics already discovered.</p>
+          <p>This blog explores functional programming, language design, and the ideas that connect theory to practice — mostly in <strong>F#</strong>, <strong>C#</strong>, and <strong>Python</strong>.</p>
+        </div>
+
+        <!-- Featured Series -->
+        <h2 class="section-heading">Series</h2>
+
+        <div class="series-grid">
+          <div class="series-card">
+            <h3><a href="/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html">Intent vs Process</a></h3>
+            <span class="series-meta">6 parts · C#, F#, Category Theory</span>
+            <p>N-tier, Clean Architecture, CQRS — they all share the same unspoken coupling. This series names it, then fixes it with algebra.</p>
+          </div>
+
+          <div class="series-card">
+            <h3><a href="/2025/12/12/tagless-final-01-froggy-tree-house.html">Tagless Final in F#</a></h3>
+            <span class="series-meta">6 parts · F#, DSLs, Computation Expressions</span>
+            <p>Building DSLs with the Tagless-Final pattern — from a tiny frog game to elevator verification and model checking.</p>
+          </div>
+
+          <div class="series-card">
+            <h3><a href="/2024/12/15/the-parseltongue-chronicles-intro.html">The Parseltongue Chronicles</a></h3>
+            <span class="series-meta">5 parts · Python, Functional Programming</span>
+            <p>A functional programmer's journey into Python — decorators, pipelines, trampolines, and finding the beauty in the snake.</p>
+          </div>
+
+          <div class="series-card">
+            <h3><a href="/2021/12/10/scientific-computing-with-fsharp-1.html">Scientific Computing with F#</a></h3>
+            <span class="series-meta">5 parts · F#, Optimization, BRKGA</span>
+            <p>Evolutionary algorithms, the Ising model, and the Travelling Salesman — all in F#.</p>
+          </div>
+
+          <div class="series-card">
+            <h3><a href="/2019/12/09/lego-railway%20tracks-origami-post-1.html">Lego, Railway Tracks, and Origami</a></h3>
+            <span class="series-meta">5 parts · F#, Functors, Monads</span>
+            <p>How the foundations of functional programming — functors, applicatives, monads — have neat effects on real-life code.</p>
+          </div>
+        </div>
+
+        <!-- Standalone Posts -->
+        <h2 class="section-heading">Standalone Posts</h2>
+
+        <ul class="post-list">
+          <li class="post-item">
+            <span class="post-date">Feb 2026</span>
+            <a href="/2026/02/08/one-loop-to-traverse-them-all.html">One Loop to Traverse Them All</a>
+            <span class="post-summary">DFS, BFS, Dijkstra, and A* are all the same loop with different bags.</span>
           </li>
-          {% endfor %}
+          <li class="post-item">
+            <span class="post-date">Mar 2026</span>
+            <a href="/2026/03/04/the-trampoline-is-a-monad.html">The Trampoline is a Monad</a>
+            <span class="post-summary">The trampoline was a monad all along — and recognizing this gives us composability for free.</span>
+          </li>
+          <li class="post-item">
+            <span class="post-date">Dec 2023</span>
+            <a href="/2023/12/12/y-oh-y.html">Y, oh Y!</a>
+            <span class="post-summary">How to derive recursion in a purely functional context.</span>
+          </li>
+          <li class="post-item">
+            <span class="post-date">Dec 2022</span>
+            <a href="/2022/12/06/this-is-not-a-monad-tutorial.html">This is not a Monad Tutorial</a>
+            <span class="post-summary">Some fundamentals of functional programming.</span>
+          </li>
+          <li class="post-item">
+            <span class="post-date">Dec 2020</span>
+            <a href="/2020/12/07/bouncing-around-with-recursion.html">Bouncing around with Recursion</a>
+            <span class="post-summary">Using advanced techniques to retain the elegance of recursive expression.</span>
+          </li>
+          <li class="post-item">
+            <span class="post-date">Dec 2018</span>
+            <a href="/2018/12/04/tale-of-two-languages.html">F# &amp; Q# — A Tale of Two Languages</a>
+            <span class="post-summary">How F# influenced and enabled the development of Q#.</span>
+          </li>
+          <li class="post-item">
+            <span class="post-date">Dec 2017</span>
+            <a href="/2017/12/23/fun-with-trees.html">Monkeying Around: Fun with Trees</a>
+            <span class="post-summary">Trees, free monads, and recursion schemes in F#.</span>
+          </li>
         </ul>
+
       </section>
 
       <aside id="sidebar">
