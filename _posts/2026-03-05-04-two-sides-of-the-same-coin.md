@@ -95,7 +95,7 @@ That's it. No mystery. A category is just "things with composable arrows." But t
 
 ### Functors — Structure-Preserving Maps
 
-A *functor* maps one category to another while preserving composition and identity. Formally: a functor $F$ maps objects to objects and arrows to arrows, such that <span>$F(\text{id}_A) = \text{id}_{F(A)}$</span> and <span>$F(g \circ f) = F(g) \circ F(f)$</span>.
+A *functor* maps one category to another while preserving composition and identity. Formally: a functor $F$ maps objects to objects and arrows to arrows, such that $F(\text{id}\_A) = \text{id}\_{F(A)}$ and $F(g \circ f) = F(g) \circ F(f)$.
 
 In C# terms, an endofunctor on our category is a generic type constructor with a lawful `Select`/`Map` method:
 
