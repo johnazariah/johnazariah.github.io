@@ -100,8 +100,13 @@ A *functor* maps one category to another while preserving composition and identi
 In C# terms, an endofunctor on our category is a generic type constructor with a lawful `Select`/`Map` method:
 
 ```csharp
-// Task<T> is a functor: for any f : A → B, Task<A>.Select(f) : Task<B>
-// IEnumerable<T> is a functor: items.Select(f) maps f over every element
+// Task<T> is a functor: Select lifts a function over the async boundary
+public static async Task<B> Select<A, B>(this Task<A> source, Func<A, B> f)
+    => f(await source);
+
+// IEnumerable<T> is a functor: Select applies a function to every element
+public static IEnumerable<B> Select<A, B>(this IEnumerable<A> source, Func<A, B> f)
+    => source.Select(f);  // LINQ's built-in Select is exactly this
 ```
 
 The `Select` method *is* the functor's action on arrows: given any function $f: \mathcal{V}(A) \to \mathcal{V}(B)$, it produces a function from $F(\mathcal{V}(A))$ to $F(\mathcal{V}(B))$, and it respects composition and identity.
