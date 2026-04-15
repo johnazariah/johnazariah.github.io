@@ -48,8 +48,27 @@
 
         <!-- Hero / Intro -->
         <div class="hero-intro">
-          <p>I'm <strong>John Azariah</strong> — a software engineer who thinks in types, composes with functions, and believes that the best abstractions are the ones mathematics already discovered.</p>
-          <p>This blog explores functional programming, language design, and the ideas that connect theory to practice — mostly in <strong>F#</strong>, <strong>C#</strong>, and <strong>Python</strong>.</p>
+          <p>I'm <strong>John Azariah</strong> — a software engineer who thinks in types, composes with functions, and
+            believes that the best abstractions are the ones mathematics already discovered.</p>
+          <p>This blog explores functional programming, language design, and the ideas that connect theory to practice —
+            mostly in <strong>F#</strong>, <strong>C#</strong>, and <strong>Python</strong>.</p>
+        </div>
+
+        <!-- Highlights -->
+        <h2 class="section-heading">Highlights</h2>
+
+        <div class="series-grid">
+          <div class="series-card">
+            <h3><a href="/2018/12/04/tale-of-two-languages.html">F# &amp; Q# &mdash; A Tale of Two Languages</a></h3>
+            <span class="series-meta">FsAdvent &amp; QsAdvent 2018</span>
+            <p>F# and Q# are more tightly related than you might expect. The story of how F# influenced and enabled the development of Q# &mdash; Microsoft's language for Quantum Computing.</p>
+          </div>
+
+          <div class="series-card">
+            <h3><a href="/2022/12/06/this-is-not-a-monad-tutorial.html">This is not a Monad Tutorial</a></h3>
+            <span class="series-meta">FsAdvent 2022</span>
+            <p>Some fundamentals of functional programming &mdash; what monads actually are, without the hand-waving.</p>
+          </div>
         </div>
 
         <!-- Featured Series -->
@@ -59,19 +78,22 @@
           <div class="series-card">
             <h3><a href="/2026/03/05/01-your-clean-architecture-has-a-dirty-secret.html">Intent vs Process</a></h3>
             <span class="series-meta">6 parts · C#, F#, Category Theory</span>
-            <p>N-tier, Clean Architecture, CQRS — they all share the same unspoken coupling. This series names it, then fixes it with algebra.</p>
+            <p>N-tier, Clean Architecture, CQRS — they all share the same unspoken coupling. This series names it, then
+              fixes it with algebra.</p>
           </div>
 
           <div class="series-card">
             <h3><a href="/2025/12/12/tagless-final-01-froggy-tree-house.html">Tagless Final in F#</a></h3>
             <span class="series-meta">6 parts · F#, DSLs, Computation Expressions</span>
-            <p>Building DSLs with the Tagless-Final pattern — from a tiny frog game to elevator verification and model checking.</p>
+            <p>Building DSLs with the Tagless-Final pattern — from a tiny frog game to elevator verification and model
+              checking.</p>
           </div>
 
           <div class="series-card">
             <h3><a href="/2024/12/15/the-parseltongue-chronicles-intro.html">The Parseltongue Chronicles</a></h3>
             <span class="series-meta">5 parts · Python, Functional Programming</span>
-            <p>A functional programmer's journey into Python — decorators, pipelines, trampolines, and finding the beauty in the snake.</p>
+            <p>A functional programmer's journey into Python — decorators, pipelines, trampolines, and finding the
+              beauty in the snake.</p>
           </div>
 
           <div class="series-card">
@@ -81,9 +103,11 @@
           </div>
 
           <div class="series-card">
-            <h3><a href="/2019/12/09/lego-railway%20tracks-origami-post-1.html">Lego, Railway Tracks, and Origami</a></h3>
+            <h3><a href="/2019/12/09/lego-railway%20tracks-origami-post-1.html">Lego, Railway Tracks, and Origami</a>
+            </h3>
             <span class="series-meta">5 parts · F#, Functors, Monads</span>
-            <p>How the foundations of functional programming — functors, applicatives, monads — have neat effects on real-life code.</p>
+            <p>How the foundations of functional programming — functors, applicatives, monads — have neat effects on
+              real-life code.</p>
           </div>
         </div>
 
@@ -99,7 +123,8 @@
           <li class="post-item">
             <span class="post-date">Mar 2026</span>
             <a href="/2026/03/04/the-trampoline-is-a-monad.html">The Trampoline is a Monad</a>
-            <span class="post-summary">The trampoline was a monad all along — and recognizing this gives us composability for free.</span>
+            <span class="post-summary">The trampoline was a monad all along — and recognizing this gives us
+              composability for free.</span>
           </li>
           <li class="post-item">
             <span class="post-date">Dec 2023</span>
@@ -107,19 +132,9 @@
             <span class="post-summary">How to derive recursion in a purely functional context.</span>
           </li>
           <li class="post-item">
-            <span class="post-date">Dec 2022</span>
-            <a href="/2022/12/06/this-is-not-a-monad-tutorial.html">This is not a Monad Tutorial</a>
-            <span class="post-summary">Some fundamentals of functional programming.</span>
-          </li>
-          <li class="post-item">
             <span class="post-date">Dec 2020</span>
             <a href="/2020/12/07/bouncing-around-with-recursion.html">Bouncing around with Recursion</a>
             <span class="post-summary">Using advanced techniques to retain the elegance of recursive expression.</span>
-          </li>
-          <li class="post-item">
-            <span class="post-date">Dec 2018</span>
-            <a href="/2018/12/04/tale-of-two-languages.html">F# &amp; Q# — A Tale of Two Languages</a>
-            <span class="post-summary">How F# influenced and enabled the development of Q#.</span>
           </li>
           <li class="post-item">
             <span class="post-date">Dec 2017</span>
@@ -134,14 +149,24 @@
         <a class="btn btn-rss" href="/feed.xml" target="_blank">RSS</a>
         <hr />
 
-        {% assign tags = site.tags | sort %}
-        {% for tag in tags %}
-        <div class="site-tag">
-          <a href="/tags/{{ tag | first | slugify }}/" style="font-size: 100%">
-            {{ tag[0] | replace:'-', ' ' }} ({{ tag | last | size }})
-          </a>
+        <h3 class="sidebar-heading">Topics</h3>
+        <div class="tag-cloud">
+          {% assign sorted_tags = site.tags | sort %}
+          {% for tag in sorted_tags %}
+          {% assign count = tag | last | size %}
+          {% if count >= 6 %}
+          {% assign tag_class = "tag-xl" %}
+          {% elsif count >= 4 %}
+          {% assign tag_class = "tag-lg" %}
+          {% elsif count >= 2 %}
+          {% assign tag_class = "tag-md" %}
+          {% else %}
+          {% assign tag_class = "tag-sm" %}
+          {% endif %}
+          <a href="/tags/{{ tag | first | slugify }}/" class="cloud-tag {{ tag_class }}">{{ tag[0] | replace:'-', ' '
+            }}</a>
+          {% endfor %}
         </div>
-        {% endfor %}
         <hr />
 
         {% if site.show_downloads %}

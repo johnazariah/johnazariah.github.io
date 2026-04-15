@@ -131,23 +131,46 @@ aside#sidebar {
     }
   }
 
-  .site-tag {
-    display: inline-block;
-    margin: 0.2em;
+  .sidebar-heading {
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color-text-light;
+    margin: 0 0 0.4em 0;
+  }
 
-    a {
-      display: inline-block;
-      padding: 0.15em 0.55em;
-      font-size: 0.85em;
-      background: $color-bg-alt;
-      border-radius: 20px;
-      border: 1px solid $color-border-light;
-      transition: all 0.15s ease;
+  .tag-cloud {
+    line-height: 2;
+
+    .cloud-tag {
+      display: inline;
+      padding: 0.1em 0.2em;
+      border-radius: 3px;
+      white-space: nowrap;
+      transition: color 0.15s ease;
 
       &:hover {
-        background: $color-primary;
-        color: white;
-        border-color: $color-primary;
+        color: $color-primary;
+      }
+
+      &.tag-sm {
+        font-size: 0.72em;
+        color: lighten($color-text, 35%);
+      }
+
+      &.tag-md {
+        font-size: 0.82em;
+      }
+
+      &.tag-lg {
+        font-size: 0.95em;
+        font-weight: 500;
+      }
+
+      &.tag-xl {
+        font-size: 1.1em;
+        font-weight: 600;
       }
     }
   }
