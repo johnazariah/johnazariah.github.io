@@ -6,19 +6,15 @@ Pick your fighter. These are ordered from most provocative to most professional.
 
 ## Option 1: Maximum Flame 🔥
 
-Jensen Huang says nobody needs to program. Karpathy coined "vibe coding." Uncle Bob is having the time of his life with Claude. Lee Mager says the discourse has shifted.
+Uncle Bob didn't derive SOLID from first principles. He intuited it from experience and codified it into dogma.
 
-They're all right. And they're all wrong.
+The Gang of Four catalogued recurring solutions and called them "Design Patterns." None of them asked *why* the patterns work or what mathematical structure they encode.
 
-They're right that syntax doesn't matter. They're wrong that *structure* doesn't. And they've confused the two.
+In 2012, Erik Meijer stood on stage at YOW! Melbourne and reduced the entire GoF pattern index to two constructions: monads and comonads. Every pattern was a workaround for a missing language abstraction. The industry didn't listen.
 
-The industry spent 20 years teaching developers to cargo-cult patterns — Factory, Strategy, Repository, Decorator — without ever explaining *why* they work or what mathematical structure they encode. Uncle Bob intuited SOLID from experience and codified it into dogma. The Gang of Four catalogued recurring solutions and called them "Design Patterns."
+Now AI generates pattern-code faster than any human. And the industry thinks the craft is dead.
 
-None of them asked: *what is the structure of this problem?*
-
-Now AI generates pattern-code faster than any human. And the industry thinks the craft is dead. But the craft was never the patterns. The craft was the *structure* — and most people never learned it.
-
-I wrote a blog post about this. It's inflammatory. It names names. And it shows — with real code — that the developers who learn the actual structure (not the patterns) are the ones AI amplifies most.
+The craft was never the patterns. New post: "The Craft Isn't Dead. You Just Never Learned It."
 
 👉 [link]
 
@@ -28,39 +24,41 @@ I wrote a blog post about this. It's inflammatory. It names names. And it shows 
 
 ---
 
-## Option 2: The Challenger
+## Option 2: The Challenger (Recommended)
 
 "The programming language is human." — Jensen Huang, 2024
 
 "English is the new programming language." — Andrej Karpathy
 
-"Holy crap this is doing weeks of high quality work in a single session." — Lee Mager, on Uncle Bob Martin discovering Claude Code
-
-The consensus is in: the craft is dead. Just vibe it.
+The consensus is in: the craft of software engineering is dead. Just vibe it.
 
 I disagree. Not because AI is bad at code — because it's *good* at code. And principled structure makes it dramatically better.
 
 The problem is that what most people call "the craft" was never the real thing. It was patterns, dogma, and ceremony. Folk medicine — effective sometimes, harmful sometimes, with no theory to tell you which.
 
-The real craft is mathematical. It's finding the *structure* in your problem before you write a line of code. It's algebras, not patterns. Theorems, not heuristics. And it's exactly what AI needs from you to do its best work.
+The real answers existed. In 2012, Erik Meijer gave a talk called "I Eat Co-Monads for Breakfast" at YOW! Melbourne where he reduced every Gang of Four pattern to two mathematical constructions: monads and comonads. The patterns weren't discoveries — they were *symptoms* of languages that couldn't express the underlying structure.
+
+The industry didn't listen. It kept teaching the patterns. It kept training apprentices.
+
+Now AI generates the ceremony faster than any human, and everyone thinks the craft is dead. But the craft was never the ceremony. It was the structure underneath — and most people were never taught it.
 
 New post: "The Craft Isn't Dead. You Just Never Learned It."
 
 👉 [link]
 
+#SoftwareEngineering #AI #FunctionalProgramming #CleanCode
+
 ---
 
-## Option 3: The Professional Provocateur
+## Option 3: The Short Sharp Hook
 
-Everyone's talking about whether software craftsmanship matters in the age of AI. Jensen Huang says no. Karpathy says "vibe code." Uncle Bob is excited about Claude.
+In 2012, Erik Meijer reduced the entire Gang of Four pattern book to two mathematical constructions.
 
-Here's what nobody's saying: the thing they call "craftsmanship" — SOLID, Clean Code, design patterns — was never the real craft. It was intuition codified into dogma. Effective sometimes. Ceremony often. And AI generates it perfectly.
+The industry didn't listen.
 
-The *real* craft is structural. It's seeing the mathematical shape of your problem and encoding it in types and algebras. It's the Expression Problem (named by Shriram Krishnamurthi), solved by constructions with proofs — not patterns with vibes.
+Now AI generates pattern-code faster than any human, and everyone thinks the craft is dead.
 
-I wrote about this, drawing on two blog series I've published: one where a frog game became a verified elevator controller (Tagless Final in F#), and one where I took Clean Architecture apart and rebuilt it with algebras (in C#).
-
-The punchline: developers who learn the actual structure get the *best* AI experience. Everyone else is just regenerating and praying.
+It's not dead. You just never learned it.
 
 👉 [link]
 
@@ -68,8 +66,7 @@ The punchline: developers who learn the actual structure get the *best* AI exper
 
 ## Tagging Strategy
 
-Consider tagging/mentioning:
-- Shriram Krishnamurthi (if you know him — credit where due)
-- The post itself links to your Tagless Final and Clean Architecture series
+- Tag Erik Meijer — he deserves the credit and will likely engage
+- Tag Shriram Krishnamurthi — named the Expression Problem, referenced in the post
 - Don't @ Uncle Bob — let the post speak. The people who need to see it will share it.
 - Hashtags: #SoftwareEngineering #AI #FunctionalProgramming #CleanCode #VibeCoding
