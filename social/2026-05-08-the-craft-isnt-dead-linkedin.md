@@ -56,6 +56,14 @@ It's not dead. You just never learned it.
 
 ---
 
+## Bluesky ✅ POSTED
+
+Everyone's vibing with AI-generated code and wondering why it keeps breaking. The answer's been known since @shriram.bsky.social named the Expression Problem. Learn the two mathematical solutions and AI goes from lucky to precise.
+
+johnazariah.github.io/2026/05/08/the-craft-isnt-dead.html
+
+---
+
 ## Tagging Strategy
 
 - Tag Erik Meijer — he deserves the credit and will likely engage
