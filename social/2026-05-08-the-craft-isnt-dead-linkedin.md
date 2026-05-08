@@ -26,27 +26,24 @@ The craft was never the patterns. New post: "The Craft Isn't Dead. You Just Neve
 
 ## Option 2: The Challenger (Recommended)
 
-"The programming language is human." — Jensen Huang, 2024
-
+"The programming language is human." — Jensen Huang
 "English is the new programming language." — Andrej Karpathy
 
-The consensus is in: the craft of software engineering is dead. Just vibe it.
+Three misconceptions in one:
 
-I disagree. Not because AI is bad at code — because it's *good* at code. And principled structure makes it dramatically better.
+1. That "coding" means typing syntax. It doesn't. It means finding structure.
+2. That design patterns ARE the structure. They're not. They're workarounds for languages that can't express it.
+3. That AI makes the structure irrelevant. It's the opposite. Structure is what makes AI precise instead of lucky.
 
-The problem is that what most people call "the craft" was never the real thing. It was patterns, dogma, and ceremony. Folk medicine — effective sometimes, harmful sometimes, with no theory to tell you which.
+In 2012, Erik Meijer reduced the entire Gang of Four pattern book to monads and comonads. Nobody listened. The industry kept teaching the patterns instead of the math underneath.
 
-The real answers existed. In 2012, Erik Meijer gave a talk called "I Eat Co-Monads for Breakfast" at YOW! Melbourne where he reduced every Gang of Four pattern to two mathematical constructions: monads and comonads. The patterns weren't discoveries — they were *symptoms* of languages that couldn't express the underlying structure.
+Now AI generates pattern-code faster than any human. And everyone thinks the craft is dead.
 
-The industry didn't listen. It kept teaching the patterns. It kept training apprentices.
-
-Now AI generates the ceremony faster than any human, and everyone thinks the craft is dead. But the craft was never the ceremony. It was the structure underneath — and most people were never taught it.
-
-New post: "The Craft Isn't Dead. You Just Never Learned It."
+It's not dead. You just never learned it.
 
 👉 [link]
 
-#SoftwareEngineering #AI #FunctionalProgramming #CleanCode
+#SoftwareEngineering #AI #FunctionalProgramming
 
 ---
 
