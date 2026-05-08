@@ -276,6 +276,8 @@ Most developers are apprentices. Not because they're stupid — because the indu
 
 Except the experts weren't. Uncle Bob didn't derive SOLID from first principles. He _intuited_ it — from decades of experience, sure, but intuition isn't foundation. He codified his gut feelings into dogma and called it "Clean Code." The Gang of Four catalogued recurring solutions and called them "Design Patterns." None of them asked: _why_ does the Strategy pattern work? _What_ mathematical structure does Dependency Injection encode? _When_ does the Visitor pattern break, and is there a construction that doesn't?
 
+Someone _did_ ask those questions. In 2012, [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist)) gave a keynote at DDD Melbourne where he systematically reduced the entire Gang of Four pattern index to just two mathematical constructions: monads and comonads. Every pattern — Strategy, Visitor, Iterator, Observer, Decorator — was a workaround for a missing language abstraction. The patterns weren't discoveries. They were _symptoms_ of languages that couldn't express the underlying structure directly. I was in the audience, and I've never looked at a design pattern the same way since.
+
 They couldn't answer those questions because they never asked them. They were practising folk medicine — effective sometimes, harmful sometimes, and with no theory to tell you which was which. And they built an entire industry of apprentices who memorize the prescriptions without understanding the pharmacology.
 
 Twenty years of that, and you have a profession that can't tell the difference between ceremony and structure. And now that AI can generate the ceremony faster than any human, they think the craft is dead.
