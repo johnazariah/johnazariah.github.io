@@ -142,7 +142,7 @@ But I'm getting ahead of myself. Let me show you _why_ this works — and why it
 
 ## The Expression Problem: What Patterns Are Secretly Fighting
 
-Here's the thing nobody tells you in a patterns book: there's a famous problem in computer science — named by [Shriram Krishnamurthi](https://cs.brown.edu/~sk/) and popularized by Philip Wadler — called the **Expression Problem**, and every design pattern you've ever memorized is a workaround for it.
+Here's the thing nobody tells you in a patterns book: there's a famous problem in computer science — named by [Shriram Krishnamurthi](https://bsky.app/profile/shriram.bsky.social) and popularized by Philip Wadler — called the **Expression Problem**, and every design pattern you've ever memorized is a workaround for it.
 
 It goes like this:
 
