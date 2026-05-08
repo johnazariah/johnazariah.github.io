@@ -24,26 +24,21 @@ The craft was never the patterns. New post: "The Craft Isn't Dead. You Just Neve
 
 ---
 
-## Option 2: The Challenger (Recommended)
+## Option 2: The Challenger ✅ POSTED
 
 "The programming language is human." — Jensen Huang
+
 "English is the new programming language." — Andrej Karpathy
 
-Three misconceptions in one:
+The consensus is in: the craft of software engineering is dead. Just vibe it. And there's really nothing to building software anymore!
 
-1. That "coding" means typing syntax. It doesn't. It means finding structure.
-2. That design patterns ARE the structure. They're not. They're workarounds for languages that can't express it.
-3. That AI makes the structure irrelevant. It's the opposite. Structure is what makes AI precise instead of lucky.
+They're wrong - but not for the reasons you'd expect. They're wrong because what they're calling "the craft" was never the real thing. SOLID, Clean Code, design patterns - that was intuition codified into dogma. Folk medicine.
 
-In 2012, Erik Meijer reduced the entire Gang of Four pattern book to monads and comonads. Nobody listened. The industry kept teaching the patterns instead of the math underneath.
+In 2012 I watched Erik Meijer reduce the entire Gang of Four pattern book to monads and co-monads on stage at YOW! Melbourne. The patterns weren't discoveries - they were symptoms of the fact that popular languages didn't capture structure well. The "experts" didn't understand the mathematics that captured the missing structure and continued to flog their patterns as dogma, reducing their readers from thinkers to apprentices.
 
-Now AI generates pattern-code faster than any human. And everyone thinks the craft is dead.
+And now that AI can write the patterns faster than anyone, these same "experts" talk about how the craft is superfluous. Wrong again. When you learn that the craft of software engineering is about discovering and encoding structure and leaning on its mathematical foundations, you actually stop playing with AI and unleash it to do *really* mighty things!
 
-It's not dead. You just never learned it.
-
-👉 [link]
-
-#SoftwareEngineering #AI #FunctionalProgramming
+https://johnazariah.github.io/2026/05/08/the-craft-isnt-dead.html
 
 ---
 
