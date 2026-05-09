@@ -171,15 +171,13 @@ type FrogInterpreter<'a> = {
     Jump   : unit -> 'a
     Croak  : unit -> 'a
     EatFly : unit -> 'a
-    Bind   : 'a -> (unit -> 'a) -> 'a
-    Return : unit -> 'a
 }
 
 // The program is a FUNCTION: give me an interpreter, I'll give you a result
 type FrogProgram<'a> = FrogInterpreter<'a> -> 'a
 ```
 
-The key property: the program is **opaque**. You can run it, but you can't look inside it. You can't inspect it, optimize it, or transform it before execution.
+The key property: the program is **opaque**. You can run it, but you can't look inside it. You can't inspect it, optimize it, or transform it before execution. And the algebra captures only the domain operations — composition is handled separately by the [computation expression builder](/2025/12/12/tagless-final-01-froggy-tree-house.html).
 
 ### Side 2: Free Monad — Programs as Data
 
