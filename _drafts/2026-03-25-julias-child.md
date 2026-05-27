@@ -27,7 +27,7 @@ This isn't philosophy. I have receipts.
 
 ## The Problem (briefly)
 
-[Stephen Jordan](https://scholar.google.com/citations?user=XZj4RPIAAAAJ) and I were colleagues at Microsoft Research. He's now at Google Quantum AI; I went a different direction. But Stephen has a gift for keeping conversations alive across years and career changes, and he's kept my interest in quantum computing burning with insightful discussions long after I left the field professionally.
+[Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao) and I were colleagues at Microsoft Research. He's now at Google Quantum AI; I went a different direction. But Stephen has a gift for keeping conversations alive across years and career changes, and he's kept my interest in quantum computing burning with insightful discussions long after I left the field professionally.
 
 One of those conversations turned into a problem. His team was writing a paper comparing algorithms for Max-$k$-XORSAT on regular hypergraphs, and they had results for every algorithm _except_ QAOA. The Basso et al. (2021) branch-tensor recurrence existed in theory, but nobody had made it work at finite degree $D$ beyond shallow depths. The QAOA column in their comparison table was blank.
 
