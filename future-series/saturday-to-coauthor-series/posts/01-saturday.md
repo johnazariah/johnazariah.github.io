@@ -39,7 +39,7 @@ The work was not done alone. The "we" you will read across these posts includes:
 - Stephen, whose questions, encouragement, and editorial steering shaped every part of it.
 - The team at Google Quantum AI whose prior published work made the problem statable in the first place.
 - Researchers at JPMorganChase, whose open-source code we later learnt from, whose answers we cross-validated against, and who appear with us as co-authors on the paper that came out the other side.
-- AI coding assistants (Gemini, Claude, Copilot), called out to Stephen right from the the second day, without which this would not have shipped on the timeline it did.
+- AI coding assistants (Gemini, Claude, Copilot), called out to Stephen right from the second day, without which this would not have shipped on the timeline it did.
 - The tools: Julia, a 64GB Mac Studio, a 2016-vintage 128GB dual-Xeon workstation sans GPU, fifteen nodes of a SLURM cluster Stephen runs, and fifty dollars of Azure spend that did not pan out.
 
 The series does not use "we" loosely. Where the work was done by a person, it says so. Where it was done with a tool or a paper or someone else's code, it says so. The point of the record is the receipt.
@@ -90,7 +90,7 @@ On 27 April 2026, [the paper](https://arxiv.org/pdf/2604.24633) went to arXiv. S
 
 The paper was a finish line for the first question. It was also a starting line for the next one: a single number, in a closely related family of optimisation problems, pushed to the highest depth a 64-gigabyte machine could be persuaded to hold without crashing.
 
-That number, as of this week, is depth fourteen on the smallest non-trivial graph: $\tilde c = 0.891384992947$, computed on the Mac Studio in eight hours and fifty-eight minutes, peak memory fifty-five and a half gigabytes. It is the answer to a question that several groups have been trying to compute. I do not know of another group that has computed it at depth fourteen on a single workstation. It is also, on its face, just a number; the eight posts between this one and the one that explains it are what make it meaningful.
+That number, as of this week, is depth fourteen on the smallest non-trivial graph: $\tilde c = 0.891384992947$, computed on the Mac Studio in eight hours and fifty-nine minutes, peak memory fifty-five and a half gigabytes. Four further values of regularity now have depth-fourteen numbers from the same Mac; two more are in flight. It is the answer to a question that several groups have been trying to compute. I do not know of another group that has computed it at depth fourteen on a single workstation. It is also, on its face, just a number; the eight posts between this one and the one that explains it are what make it meaningful.
 
 ---
 
@@ -105,7 +105,7 @@ The remaining nine posts are mostly self-contained. Most of them are an account 
 6. **Eighteen hundred reasons.** The testing architecture that gave us confidence to publish numbers with no external reference to compare against, except the ones we computed ourselves, four different ways, that had to agree.
 7. **Learning from the masters.** Studying the JPMorganChase team's published code, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia.
 8. **Fourteen.** What it took to get the last two depths out of a Mac Studio with sixty-four gigabytes of memory.
-9. **The collaborator that never sleeps.** An honest account of what AI coding assistants did, what they did not do, and what the human role looks like when the assistants can write a tested module in twenty minutes.
+9. **The collaborator that never sleeps.** The disciplines and techniques that made eight weeks of AI-assisted research productive, and the shape of the human contribution alongside an instrument that can write a tested module in twenty minutes.
 10. **What language taught us about mathematics.** The closing reflection, with two screenshots a week apart.
 
 ---

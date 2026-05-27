@@ -3,7 +3,7 @@
     title: "Learning from the masters"
     tags: [quantum-computing, scientific-computing, Julia, from-saturday-to-coauthor, automatic-differentiation, software-engineering]
     author: johnazariah
-    summary: Part 7 of the project report. Studying the QOKit team's published implementation, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia.
+    summary: Part 7 of the project report. Studying QOKit, the JPM team's published implementation, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia.
 ---
 
 _Part 7 of From Saturday to Co-Author. [Part 6 covered the test architecture](/tags/from-saturday-to-coauthor/). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
@@ -18,7 +18,7 @@ The natural follow-on question after Phase 1 was MaxCut at depth: how far could 
 
 ## The implementation next door
 
-[QOKit](https://github.com/jpmorganchase/QOKit) is an open-source QAOA toolkit from JPMorganChase's Global Technology Applied Research group. It implements exact finite-depth QAOA evaluation for several problem classes, including Max-$k$-XORSAT. The JPMC team had pushed depth further than we had during Phase 1, using cluster compute and GPU acceleration; three members of that team, Abid Khan, Ruslan Shaydulin and Sami Boulebnane, were among the eventual co-authors on the joint paper.
+[QOKit](https://github.com/jpmorganchase/QOKit) is an open-source QAOA toolkit from JPMorganChase's Global Technology Applied Research group. It implements exact finite-depth QAOA evaluation for several problem classes, including Max-$k$-XORSAT. The JPM team had pushed depth further than we had during Phase 1, using cluster compute and GPU acceleration; three members of that team, Abid Khan, Ruslan Shaydulin and Sami Boulebnane, were among the eventual co-authors on the joint paper.
 
 When the dust from Phase 1 settled, the natural next thing was to read their code. The version of the engine we had been running ([Part 2](/tags/from-saturday-to-coauthor/)) was $O(p^2 \cdot 4^p)$. They were running at the same arities at depths we had not reached. Either their constant factor was much better than ours, which would have been surprising at the scale of the gap, or they had a structurally different algorithm.
 
@@ -28,15 +28,15 @@ They had a structurally different algorithm.
 
 The Basso branch-tensor representation our evaluator uses lives on a vector of $2^{2p+1}$ amplitudes that gets folded $p$ times. Each fold uses a Walsh-Hadamard transform over the full vector and costs $O(p \cdot 4^p)$ per level; $p$ levels gives $O(p^2 \cdot 4^p)$. That was the engine the Phase 1 paper ran on.
 
-The QOKit team's evaluator decomposes the doubled density matrix into four independent *charge channels* via the $\mathbb{Z}_2 \times \mathbb{Z}_2$ character table. Each channel is a $4^p$-element tensor on which the fold reduces to a sequence of *mode products*: $4 \times 4$ matrix multiplications applied along successive axes. One pass through all $p$ axes of the tensor costs $O(p \cdot 4^p)$. There is no outer loop over $p$ rounds at this cost; the per-channel pass *is* the round structure, telescoped. The whole evaluator runs at $O(p \cdot 4^p)$.
+The JPM team's evaluator decomposes the doubled density matrix into four independent *charge channels* via the $\mathbb{Z}_2 \times \mathbb{Z}_2$ character table. Each channel is a $4^p$-element tensor on which the fold reduces to a sequence of *mode products*: $4 \times 4$ matrix multiplications applied along successive axes. One pass through all $p$ axes of the tensor costs $O(p \cdot 4^p)$. There is no outer loop over $p$ rounds at this cost; the per-channel pass *is* the round structure, telescoped. The whole evaluator runs at $O(p \cdot 4^p)$.
 
 One factor of $p$ stripped from the forward cost. The kind of speedup that does not change the asymptotic class of the algorithm but does change which depths are reachable on which hardware. At the arities and depths Phase 2 wanted to reach, it was the difference between feasible and not.
 
-This is exactly the kind of mathematical structure I would not have found on my own. The factorisation in [Part 2](/tags/from-saturday-to-coauthor/) was visible because the Basso recurrence, written as a fold, exposes its XOR convolution structure naturally to anyone who has spent time around Walsh-Hadamard transforms. The charge decomposition is one level deeper: it is a representation-theory observation about how the doubled circuit factors under a discrete symmetry, and it is the kind of observation that comes from people who have lived inside QAOA for years. The QOKit team had lived inside QAOA for years; I had been inside it for a month.
+This is exactly the kind of mathematical structure I would not have found on my own. The factorisation in [Part 2](/tags/from-saturday-to-coauthor/) was visible because the Basso recurrence, written as a fold, exposes its XOR convolution structure naturally to anyone who has spent time around Walsh-Hadamard transforms. The charge decomposition is one level deeper: it is a representation-theory observation about how the doubled circuit factors under a discrete symmetry, and it is the kind of observation that comes from people who have lived inside QAOA for years. The JPM team had lived inside QAOA for years; I had been inside it for a month.
 
 ## What we owed and what we added
 
-The JPMC team derived the charge decomposition. They published the mathematics. They open-sourced clean, readable code in Python and JAX. When the dust settled, what we owed them was the entire structural speedup that made Phase 2 thinkable on commodity hardware.
+The JPM team derived the charge decomposition. They published the mathematics. They open-sourced clean, readable code in Python and JAX. When the dust settled, what we owed them was the entire structural speedup that made Phase 2 thinkable on commodity hardware.
 
 What we could add, on the other side, was independence of the implementation. Their evaluator and ours, sharing no code, agreeing to ten digits, is a stronger validation of both than any single implementation could be on its own. That is the Layer 3 argument from [Part 6](/tags/from-saturday-to-coauthor/) in action. The cross-validation is not a courtesy; it is the structural reason their numbers and ours both deserve to be trusted in a joint paper.
 
@@ -103,17 +103,17 @@ All three: invisible at the degenerate case, surfaced by the harness at the firs
 
 The first version of the adjoint reconstructed the forward intermediates by replaying the forward pass for every backward level. The forward already computed those intermediates; the replay threw them away and recomputed them. The replacement was an instrumented forward (`_charge_branch_instrumented`) that retains the per-level $V$, $F$ and coefficient tensors on the way up, so the backward can read them on the way down.
 
-Measured cost of the charge manual adjoint after this fix: **about 4.5 times a single forward evaluation, independent of $p$**. The QOKit team's C++ adjoint sits at around three times forward; the gap is allocation overhead in the recursive Phase 2 backward, where their C++ preallocates a pool and our Julia allocates per level. Closing that gap is doable and has diminishing returns. Four-and-a-half-times-forward was the number we shipped, and it is the number the Phase 2 $p = 14$ runs in [Part 8](/tags/from-saturday-to-coauthor/) depend on.
+Measured cost of the charge manual adjoint after this fix: **about 4.5 times a single forward evaluation, independent of $p$**. The JPM team's C++ adjoint in QOKit sits at around three times forward; the gap is allocation overhead in the recursive Phase 2 backward, where their C++ preallocates a pool and our Julia allocates per level. Closing that gap is doable and has diminishing returns. Four-and-a-half-times-forward was the number we shipped, and it is the number the Phase 2 $p = 14$ runs in [Part 8](/tags/from-saturday-to-coauthor/) depend on.
 
 ## A note about how this is supposed to work
 
 This is the post that most embodies the dedication at the top of the series.
 
-The mathematics of the charge decomposition is the QOKit team's. They derived it; they implemented it; they published it; they made the code clean enough that someone outside their group could read it. What we contributed was an independent Julia implementation, the cross-evaluator congruence proof, and the algebra integration that let the rest of the pipeline absorb it. The joint paper is stronger because both implementations agree, not because either of them is the canonical one.
+The mathematics of the charge decomposition is the JPM team's. They derived it; they implemented it; they published it; they made the code clean enough that someone outside their group could read it. What we contributed was an independent Julia implementation, the cross-evaluator congruence proof, and the algebra integration that let the rest of the pipeline absorb it. The joint paper is stronger because both implementations agree, not because either of them is the canonical one.
 
 Studying a colleague's implementation is a research skill in its own right. It takes humility: they solved something you did not. It takes patience: their conventions are not your conventions, and every difference is a potential bug. It takes a test harness, because the differences will not all be visible at $p = 1$. The payoff is that you get to stand on someone's shoulders rather than dig your own foundation.
 
-Thank you to the QOKit team for code clear enough that the mathematics had nowhere to hide.
+Thank you to the JPM team for QOKit, code clear enough that the mathematics had nowhere to hide.
 
 ---
 
@@ -121,6 +121,6 @@ The charge evaluator and its manual adjoint were what made depth fourteen on a M
 
 ---
 
-_Next: **Fourteen**, on what it took to compute $p = 14$ MaxCut at $D = 3, 4, 5$ on a sixty-four-gigabyte Mac Studio, the five memory fixes that brought a hundred-and-twenty-gigabyte projected working set down inside the machine, and the diagnostics module that was born from an earlier silent failure._
+_Next: **Fourteen**, on what it took to compute $p = 14$ MaxCut at $D = 3, 4, 5, 6, 7$ on a sixty-four-gigabyte Mac Studio, the five memory fixes that brought a hundred-and-twenty-gigabyte projected working set down inside the machine, and the diagnostics module that was born from an earlier silent failure._
 
 _Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The charge evaluator is in `src/charge.jl`; the manual charge adjoint is in `src/charge_manual_adjoint.jl`; the 76-assertion adjoint test set is in `test/test_charge_adjoint.jl`. The QOKit codebase, whose mathematics this post is built on, is at [github.com/jpmorganchase/QOKit](https://github.com/jpmorganchase/QOKit)._

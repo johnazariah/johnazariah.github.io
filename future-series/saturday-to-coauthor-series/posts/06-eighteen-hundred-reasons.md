@@ -133,6 +133,6 @@ The cross-evaluator congruence in Layer 3 assumes there is a second evaluator to
 
 ---
 
-_Next: **Learning from the masters**, on studying the QOKit team's open-source implementation, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia._
+_Next: **Learning from the masters**, on studying QOKit, the JPM team's open-source toolkit, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia._
 
 _Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The full test suite is in [`test/`](https://github.com/johnazariah/qaoa-xorsat/tree/main/test). The cross-evaluator congruence tests live in `test/test_charge.jl`. The 273 bounds and normalisation assertions are in `test/test_normalization.jl`._

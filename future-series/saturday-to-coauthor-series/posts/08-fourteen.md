@@ -69,30 +69,34 @@ The module is unexciting. It is also why the second $p = 14$ run, with the memor
 The Phase 2 results to date, all on the Mac Studio M4 (64 GB unified memory, Julia 1.12.5), all for regular MaxCut ($k = 2$):
 
 ```
-k=2, D=3, p=14:  c̃ = 0.891384992947   wall = 32 343 s  (8.98 h)  peak RSS = 55.65 GB
-k=2, D=4, p=14:  c̃ = 0.831514625400   wall = 18 958 s  (5.27 h)  peak RSS = 56.51 GB
-k=2, D=5, p=14:  c̃ ≈ 0.7998 (best-so-far, optimiser still running)
+k=2, D=3, p=14:  c̃ = 0.891384992947   wall = 32 343 s  (8.98 h)   peak RSS = 55.65 GB
+k=2, D=4, p=14:  c̃ = 0.831514625400   wall = 18 958 s  (5.27 h)   peak RSS = 56.51 GB
+k=2, D=5, p=14:  c̃ = 0.801254018370   wall = 22 501 s  (6.25 h)   peak RSS = 56.39 GB
+k=2, D=6, p=14:  c̃ = 0.771627233507   wall = 17 859 s  (4.96 h)   peak RSS = 54.95 GB
+k=2, D=7, p=14:  c̃ = 0.752436836526   wall = 20 852 s  (5.79 h)   peak RSS = 55.05 GB
+k=2, D=8, p=12:  c̃ = 0.731075836176   wall = 26 498 s  (7.36 h)   (best-so-far; p=14 in flight)
+k=2, D=9, p=12:  c̃ = 0.717763513540   wall =  9 711 s  (2.70 h)   (best-so-far; p=14 in flight)
 ```
 
-That is the exact expected satisfaction fraction of depth-fourteen QAOA on infinite-graph 3-regular MaxCut, computed by an exact evaluator with a hand-derived manual adjoint, on a single workstation. Eight hours and fifty-nine minutes of wall clock for the $D = 3$ run, on a machine that fits under a desk.
+Those are exact expected satisfaction fractions of finite-depth QAOA on infinite-graph $D$-regular MaxCut, computed by an exact evaluator with a hand-derived manual adjoint, on a single workstation. The five $p = 14$ rows together account for about thirty-one hours of wall clock on a machine that fits under a desk. Eight hours and fifty-nine minutes of that is the $D = 3$ run. The $D = 8$ and $D = 9$ rows are the current best-so-far at $p = 12$ from the same Mac; the depth-fourteen runs for both are still in flight, and the table will update as they land.
 
 ## What this beats and by how much
 
-The relevant classical benchmarks for 3-regular MaxCut are tight. Comparison is worth making because comparison is what the field was waiting for.
+The relevant classical benchmarks for $D$-regular MaxCut are tight. Comparison is worth making because comparison is what the field was waiting for.
 
 - **Goemans–Williamson SDP worst case** on any MaxCut instance: $\tilde c \geq 0.8786$.
-- **DQI (Decoded Quantum Interferometry) explicit upper bound** for $D = 3$ regular MaxCut: $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D - 1}} = 0.854$.
+- **DQI (Decoded Quantum Interferometry) explicit upper bound** for $D$-regular MaxCut: $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D - 1}}$. At $D = 3$ this is $0.854$; at $D = 7$ it is $0.704$.
 - **Infinite-depth QAOA ceiling** for 3-regular MaxCut, from local-tree analysis: $\tilde c_\infty \approx 0.9326$.
 
-The $p = 14, D = 3$ value of $0.891384992947$ sits above the Goemans–Williamson worst-case guarantee by about 0.013, above the DQI explicit bound by about 0.037, and below the infinite-depth ceiling by about 0.041. The depth-fourteen QAOA value clears the strongest classical comparison on this family.
+Across the five $p = 14$ rows, the QAOA value clears the DQI explicit bound at every $D$, by between 0.038 ($D = 3$) and 0.051 ($D = 5$). At $D = 3$, the value of $0.891384992947$ additionally clears the Goemans–Williamson worst-case guarantee by about 0.013 and sits below the infinite-depth 3-regular ceiling by about 0.041.
 
-These are the precise statements. They are narrow. Three-regular MaxCut on the infinite-graph limit is a stylised setting; the Goemans–Williamson bound is a worst-case guarantee that holds on any graph, which is a stronger property than the expectation-value claim of QAOA on a regular family. The comparison the field has been waiting for is the one where *exact* numbers can be put side by side, because exactness is what stops both sides from over-claiming. The fact that the QAOA value beats the classical lower bounds on this family, by an amount that exceeds the numerical uncertainty in either, is the comparison.
+These are the precise statements. They are narrow. $D$-regular MaxCut on the infinite-graph limit is a stylised setting; the Goemans–Williamson bound is a worst-case guarantee that holds on any graph, which is a stronger property than the expectation-value claim of QAOA on a regular family. The comparison the field has been waiting for is the one where *exact* numbers can be put side by side, because exactness is what stops both sides from over-claiming. The fact that the QAOA value beats the strongest classical lower bound on this family at every $D$ we ran, by an amount that exceeds the numerical uncertainty in either, is the comparison.
 
 ## What I am not claiming
 
 The discipline of [Part 1](/tags/from-saturday-to-coauthor/) is the discipline I want to keep here.
 
-I am not claiming "QAOA beats classical algorithms." I am claiming "exact finite-depth QAOA at $p = 14$ on 3-regular MaxCut, in the infinite-graph limit, returns a value above the Goemans–Williamson worst-case guarantee and the DQI $D = 3$ upper bound on the same family." That sentence has every qualifier it needs.
+I am not claiming "QAOA beats classical algorithms." I am claiming "exact finite-depth QAOA at $p = 14$ on infinite-graph $D$-regular MaxCut clears the DQI explicit upper bound at every $D \in \{3, 4, 5, 6, 7\}$, and additionally clears the Goemans–Williamson worst-case guarantee at $D = 3$." That sentence has every qualifier it needs.
 
 I am not claiming that $p = 14$ on a Mac is a computational miracle. It is not. It is the consequence of three independent factor-of-$p$-class speedups stacked: the WHT factorisation from [Part 2](/tags/from-saturday-to-coauthor/), the charge decomposition from [Part 7](/tags/from-saturday-to-coauthor/), and the manual adjoint from [Part 3](/tags/from-saturday-to-coauthor/) and its charge variant. Each of those was a small piece of mathematics; the headline number is what happens when they compose.
 
@@ -100,16 +104,16 @@ I am not claiming that the diagnostics module is interesting. It is profoundly u
 
 What the project demonstrates, narrowly:
 
-- The depth ceiling that previously required cluster compute and GPU acceleration is reachable on a Mac with the right algorithmic stack.
-- The infrastructure is open. The code, the tests, the diagnostics, the memory-fix diffs, and the result files are public. Anyone who wants to reproduce $p = 14, D = 3$ can do so on the same kind of hardware.
-- The same engine that produced this number is the engine that produced the Phase 1 paper's fifteen-instance XORSAT sweep. One fold, two problem families, three precision regimes, four gradient strategies, two phases of the project, the same compiled code. That is the algebra from [Part 5](/tags/from-saturday-to-coauthor/) doing what it was for.
+- The depth ceiling that previously required cluster compute and GPU acceleration is reachable on a Mac, across multiple values of regularity, with the right algorithmic stack.
+- The infrastructure is open. The code, the tests, the diagnostics, the memory-fix diffs, and the result files are public. Anyone who wants to reproduce $p = 14$ at any $D \in \{3, 4, 5, 6, 7\}$ can do so on the same kind of hardware.
+- The same engine that produced these numbers is the engine that produced the Phase 1 paper's fifteen-instance XORSAT sweep. One fold, two problem families, three precision regimes, four gradient strategies, two phases of the project, the same compiled code. That is the algebra from [Part 5](/tags/from-saturday-to-coauthor/) doing what it was for.
 
 ---
 
-Everything in this post was built in conversation. Some of the conversations were with Stephen. Some were with the QOKit team's published code. Some were with an AI coding assistant whose role in this project has been substantial and continuous from day two, and which the next post is about, with all the honesty I can manage.
+Everything in this post was built in conversation. Some of the conversations were with Stephen. Some were with the JPM team's published code in QOKit. Some were with an AI coding assistant whose role in this project has been substantial and continuous from day two; the next post unpacks the disciplines that made working with that assistant productive.
 
 ---
 
-_Next: **The collaborator that never sleeps**, on what AI coding assistants did across eight weeks of this project, what they did not do, and what the human role looks like when the assistant can produce a tested module in twenty minutes._
+_Next: **The collaborator that never sleeps**, on the disciplines and techniques that made eight weeks of AI-assisted research productive, and the shape of the human contribution alongside an instrument that can produce a tested module in twenty minutes._
 
-_Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The five memory fixes are on branch `feature/charge-adjoint-memory-fix`, commit `74cf598`, in `src/charge_manual_adjoint.jl`. The diagnostics module is `src/diagnostics.jl`. The result files for $p = 14$ at $D = 3, 4$ and the in-flight $D = 5$ run are under `results/maxcut-k2-p14-*`._
+_Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The five memory fixes are on branch `feature/charge-adjoint-memory-fix`, commit `74cf598`, in `src/charge_manual_adjoint.jl`. The diagnostics module is `src/diagnostics.jl`. The $p = 14$ result files for $D \in \{3, 4, 5, 6, 7\}$ are under `results/maxcut-k2-p14-*`; the in-flight $D = 8$ and $D = 9$ runs are under `results/maxcut-k2-d{8,9}-sweep.csv`._

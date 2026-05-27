@@ -130,7 +130,7 @@ The first move, the catamorphism recognition, is a programming-language move rat
 
 The second move, the WHT factorisation, is a mathematical observation. The XOR-convolution structure was always in the recurrence; nobody hid it. But until the kernel was a function of its own, called once per node, looked at on its own page, the symmetry it had was decorative noise rather than something to exploit. **The naming made the symmetry visible. The visibility made the factorisation thinkable.**
 
-This is the thesis the series will keep returning to: *the language you write in shapes the theorems you can see*. It is not a claim about Julia in particular; the same exercise in F# or Haskell would have surfaced the same structure. It is a claim about clean, abstracted code as a research instrument.
+This is the thesis the series will keep returning to: *the language you think in shapes the theorems you can see*. It is not a claim about Julia in particular; the same exercise in F# or Haskell would have surfaced the same structure. It is a claim about clean, abstracted code as a research instrument.
 
 ---
 

@@ -75,7 +75,7 @@ I am not making a parochial case. I have worked in five language families and I 
 
 ### What came from borrowing
 
-The swarm optimiser came from Helmut Katzgraber. Five years before this project, he taught me about population-based search in rugged landscapes; the design of the swarm in this codebase descends from his BRKGA lineage. The charge decomposition came from the JPM team — Abid Khan, Ruslan Shaydulin, and Sami Boulebnane on the joint paper — who derived it, published it, and shipped it as part of QOKit, their open-source toolkit, clean enough that an outsider could learn the mathematics from the code.
+The swarm optimiser came from Helmut Katzgraber. Five years before this project, he taught me about population-based search in rugged landscapes; the design of the swarm in this codebase descends from his BRKGA lineage. The charge decomposition came from the JPM team (Abid Khan, Ruslan Shaydulin, and Sami Boulebnane on the joint paper), who derived it, published it, and shipped it as part of QOKit, their open-source toolkit, clean enough that an outsider could learn the mathematics from the code.
 
 I want to say something I think is sometimes neglected in computational science write-ups. The interesting question is not whether a piece of work is original. The interesting question is whether the work *acknowledges its sources*, and whether the new contribution is properly distinguished from what was borrowed. The JPM team's charge decomposition made [Part 8](/tags/from-saturday-to-coauthor/)'s headline numbers possible. My implementation in Julia made it accessible from inside a different test harness and a different algebra. Both are real contributions; neither is the same contribution.
 
@@ -116,7 +116,7 @@ For a final score-keeping in plain English, with FACTS-defendable numbers only:
 - **ForwardDiff via a type parameter** (Tue 24 Mar). The only gradient method that converged in the regime where finite differences fell below their noise floor; 31× faster than FD at $p = 5$.
 - **Manual Basso adjoint** (Tue 24 Mar). About $1.6\times$ a single forward evaluation, independent of $p$. At $p = 8$, about twelve times faster than ForwardDiff.
 - **Plateau detection v4** (late March). Cut the $p = 12, (3, 4)$ run from over two hours to about forty minutes for the same converged value $\tilde c \approx 0.877$.
-- **Charge decomposition** (post-paper, from the QOKit team). Strips a factor of $p$ from the forward cost.
+- **Charge decomposition** (post-paper, from the JPM team, via QOKit). Strips a factor of $p$ from the forward cost.
 - **Charge manual adjoint** (post-paper). About $4.5\times$ a single forward evaluation, independent of $p$.
 - **Test harness.** 22 files, 1875 assertions, seven layers.
 - **Phase 1, XORSAT campaign** (15 Mar – 27 Apr): fifteen $(k, D)$ instances; thirteen of fifteen beat the strongest classical comparison; arXiv submission on 27 April.
@@ -130,8 +130,8 @@ The Phase 2 campaign deserves a table of its own:
 | 5 | 14 | 0.801254 | 6.25 h | 56.39 GB | 0.75000 | +0.051 |
 | 6 | 14 | 0.771627 | 4.96 h | 54.95 GB | 0.72361 | +0.048 |
 | 7 | 14 | 0.752437 | 5.79 h | 55.05 GB | 0.70412 | +0.048 |
-| 8 | 12 | 0.731076 | 7.36 h | —        | 0.68898   | +0.042 |
-| 9 | 12 | 0.717764 | 2.70 h | —        | 0.67678   | +0.041 |
+| 8 | 12 | 0.731076 | 7.36 h | n/a      | 0.68898   | +0.042 |
+| 9 | 12 | 0.717764 | 2.70 h | n/a      | 0.67678   | +0.041 |
 
 Exact finite-depth QAOA expectations for $k = 2$ MaxCut on $D$-regular infinite-graph instances, all computed on a Mac Studio M4 (64 GB unified memory, Julia 1.12.5), in the campaign that began the day the Phase 1 paper was submitted. The five $p = 14$ rows account for about 31 hours of total wall clock. The DQI upper bound is $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D-1}}$, the strongest published classical comparison on this family; the QAOA value clears it at every $D$ in the table, by between 0.04 and 0.05. At $D = 3$ the value additionally clears the Goemans-Williamson worst-case guarantee of $\approx 0.8786$. The $D = 8$ and $D = 9$ rows are shown at their current best depth ($p = 12$); the Mac is still working towards $p = 14$ for both, and the table will update as those runs land.
 
@@ -149,17 +149,17 @@ The interpersonal arc, whose protagonist is Stephen: a person extended a hand to
 
 The way the technical arc happened the way it did is inseparable from how the interpersonal arc was conducted. The methodology document I sent on the Tuesday evening, the validation argument it made, the willingness to share code and tests, the AI involvement named openly on day two, the explicit acknowledgement of the JPM team's prior work: none of these are technical pieces. All of them mattered for whether the technical work landed where it did.
 
-This is why the series is dedicated to Stephen. The technical work is mine, the QOKit team's, the assistant's, Helmut's, and the people who built the Julia language and its ecosystem. The shape of the project is Stephen's, because the way he conducted the collaboration is what made the rest of it possible.
+This is why the series is dedicated to Stephen. The technical work is mine, the JPM team's, the assistant's, Helmut's, and the people who built the Julia language and its ecosystem. The shape of the project is Stephen's, because the way he conducted the collaboration is what made the rest of it possible.
 
 ## Thank You
 
 To **Stephen Jordan**, for the problem, the patience, and the eight days. The dedication on this series is the most concrete thank-you I have available.
 
-To the **JPM team** — **Abid Khan, Ruslan Shaydulin, and Sami Boulebnane** — for the charge decomposition, for QOKit (the open-source toolkit through which the mathematics was learnable from code), and for engaging directly with this work as co-authors on the joint paper. To Abid in particular for the verifier repo.
+To the **JPM team** (**Abid Khan, Ruslan Shaydulin, and Sami Boulebnane**), for the charge decomposition, for QOKit (the open-source toolkit through which the mathematics was learnable from code), and for engaging directly with this work as co-authors on the joint paper. To Abid in particular for the verifier repo.
 
 To **Helmut Katzgraber**, for teaching me about swarms in rugged landscapes five years before I needed them.
 
-To **Jairam Manjunathiah**, for the constant encouragement over these, lo, 4 decades - and for making the Mac Studio available for my work!
+To **Jairam Manjunathiah**, for the constant encouragement over these, lo, 4 decades - and for making the Mac Studio available for my work. I wish I'd splurged on the 128GB machine, but then this blog series would probably be considerably shorter! :)
 
 To the **AI assistants** that worked alongside me, whose contribution is in the previous post and not glossed here.
 
