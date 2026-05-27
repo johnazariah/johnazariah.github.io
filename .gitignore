@@ -187,3 +187,6 @@ _site
 .jekyll-metadata
 vendor
 
+
+# dotnet runfile (file-based apps) cache
+dotnet/

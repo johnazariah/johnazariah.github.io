@@ -13,8 +13,11 @@ This devcontainer provides a complete Jekyll development environment for the blo
 
 1. Open the blog folder in VS Code
 2. Press `F1` → "Dev Containers: Reopen in Container"
-3. Wait for the container to build and dependencies to install
-4. Run the Jekyll server:
+3. If prompted, pick the config that matches your engine:
+   - **Jekyll Blog Development** — Docker / Docker Desktop / OrbStack
+   - **Jekyll Blog Development (Podman)** — rootless Podman (adds `--userns=keep-id`)
+4. Wait for the container to build and dependencies to install
+5. Run the Jekyll server:
 
    ```bash
    bundle exec jekyll serve --livereload --host 0.0.0.0
@@ -93,3 +96,19 @@ bundle update github-pages
 
 Try rebuilding without cache:
 `F1` → "Dev Containers: Rebuild Container Without Cache"
+
+### `docker: --userns: invalid USER mode`
+
+You picked the Podman config but are running Docker / OrbStack. Reopen and choose the default **Jekyll Blog Development** config instead. The `--userns=keep-id` flag is Podman-specific.
+
+## Config layout
+
+```
+.devcontainer/
+├── devcontainer.json        # Default: Docker / OrbStack / Docker Desktop
+├── Dockerfile               # Shared image definition
+└── podman/
+    └── devcontainer.json    # Podman variant (--userns=keep-id)
+```
+
+Both configs share the same `Dockerfile`. Only `runArgs` differs.

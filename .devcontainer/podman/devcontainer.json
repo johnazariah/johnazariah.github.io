@@ -1,7 +1,7 @@
 {
-  "name": "Jekyll Blog Development",
+  "name": "Jekyll Blog Development (Podman)",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "../Dockerfile"
   },
   "customizations": {
     "vscode": {
@@ -42,5 +42,8 @@
   "remoteUser": "vscode",
   "containerEnv": {
     "JEKYLL_ENV": "development"
-  }
+  },
+  "runArgs": [
+    "--userns=keep-id"
+  ]
 }
