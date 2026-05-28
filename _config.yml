@@ -44,8 +44,8 @@ kramdown:
 
 mermaid: true
 
-future: true
 google_analytics: UA-73122642-1
+timezone: Australia/Sydney
 
 # Exclude from processing.
 # The following items will not be processed, by default.

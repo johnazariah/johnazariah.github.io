@@ -6,7 +6,7 @@
     summary: Part 10 of the project report. The two bookend emails, the ten innovations and where they came from, and the case that programming languages are research tools, not just implementation tools.
 ---
 
-_Part 10 of From Saturday to Co-Author. [Part 9 covered the AI collaboration honestly](/tags/from-saturday-to-coauthor/). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 10 of From Saturday to Co-Author. [Part 9 covered the AI collaboration honestly](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 This is the last post in the series. I want to set the technical work to one side for it, and tell the rest of the story plainly.
 
@@ -32,7 +32,7 @@ That recognition is the seed of everything else in the series.
 
 Eight days later, on the next Saturday morning, Stephen's reply to the draft I had sent the previous afternoon offered me a co-author position on the paper his team was preparing. The relevant beats in the message were not the offer; they were the reasons. The shared code mattered. The shared data mattered. The methodology document mattered. The sanity checks against published reference values mattered.
 
-The decision was structural. The work that had been done was the kind of work that could be brought into a published paper because it could be inspected, reproduced and trusted, independently of whether I was a known quantity to the broader collaboration; and that was the case because of the algebra from [Part 5](/tags/from-saturday-to-coauthor/), the test architecture from [Part 6](/tags/from-saturday-to-coauthor/), and the documentation discipline from [Part 9](/tags/from-saturday-to-coauthor/).
+The decision was structural. The work that had been done was the kind of work that could be brought into a published paper because it could be inspected, reproduced and trusted, independently of whether I was a known quantity to the broader collaboration; and that was the case because of the algebra from [Part 5](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html), the test architecture from [Part 6](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html), and the documentation discipline from [Part 9](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html).
 
 The two emails above are, by themselves, the entire arc this series is reporting. The middle eight posts are how the second email followed from the first.
 
@@ -59,11 +59,11 @@ Some of these are mine. Some belong to other people who built the foundations I 
 
 ### What came from code clarity
 
-The factorisation in [Part 2](/tags/from-saturday-to-coauthor/) was not the result of a derivation. It was the result of *reading my own code*. When the kernel was a separate function from the fold, and the fold was a separate function from the recurrence, the XOR convolution structure was visible in two lines. In a language where the kernel was inlined and the fold was a nested loop, the structure would have been there in principle and invisible in practice. Julia did not derive the Walsh-Hadamard factorisation; I did. But Julia made the structure of the code clear enough that I could.
+The factorisation in [Part 2](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html) was not the result of a derivation. It was the result of *reading my own code*. When the kernel was a separate function from the fold, and the fold was a separate function from the recurrence, the XOR convolution structure was visible in two lines. In a language where the kernel was inlined and the fold was a nested loop, the structure would have been there in principle and invisible in practice. Julia did not derive the Walsh-Hadamard factorisation; I did. But Julia made the structure of the code clear enough that I could.
 
 The same thing is true of the threshold normalisation. The reason I knew where to put the threshold was that the overflow point was a specific named function on a specific named tensor at a specific named level. Visible structure makes for visible diagnoses.
 
-The cost algebra of [Part 5](/tags/from-saturday-to-coauthor/) is the same lesson at the architectural scale. It is hard to see the difference between an `if`-tree and an open extension if the language gives them similar surface syntax; it is easy when the cost of the abstraction is zero and the cost of the `if`-tree shows up at every call site.
+The cost algebra of [Part 5](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html) is the same lesson at the architectural scale. It is hard to see the difference between an `if`-tree and an open extension if the language gives them similar surface syntax; it is easy when the cost of the abstraction is zero and the cost of the `if`-tree shows up at every call site.
 
 ### What came from Julia's type system
 
@@ -77,23 +77,23 @@ I am not making a parochial case. I have worked in five language families and I 
 
 The swarm optimiser came from Helmut Katzgraber. Five years before this project, he taught me about population-based search in rugged landscapes; the design of the swarm in this codebase descends from his BRKGA lineage. The charge decomposition came from the JPM team (Abid Khan, Ruslan Shaydulin, and Sami Boulebnane on the joint paper), who derived it, published it, and shipped it as part of QOKit, their open-source toolkit, clean enough that an outsider could learn the mathematics from the code.
 
-I want to say something I think is sometimes neglected in computational science write-ups. The interesting question is not whether a piece of work is original. The interesting question is whether the work *acknowledges its sources*, and whether the new contribution is properly distinguished from what was borrowed. The JPM team's charge decomposition made [Part 8](/tags/from-saturday-to-coauthor/)'s headline numbers possible. My implementation in Julia made it accessible from inside a different test harness and a different algebra. Both are real contributions; neither is the same contribution.
+I want to say something I think is sometimes neglected in computational science write-ups. The interesting question is not whether a piece of work is original. The interesting question is whether the work *acknowledges its sources*, and whether the new contribution is properly distinguished from what was borrowed. The JPM team's charge decomposition made [Part 8](/2026/06/22/saturday-to-coauthor-08-fourteen.html)'s headline numbers possible. My implementation in Julia made it accessible from inside a different test harness and a different algebra. Both are real contributions; neither is the same contribution.
 
 ### What came from engineering
 
-Plateau detection v4, the multi-machine orchestration, the threshold rule, the five memory fixes from [Part 8](/tags/from-saturday-to-coauthor/), the diagnostics module. None of these is mathematics. All of them are the difference between the work producing numbers and the work producing a missing process and a shrug. The full case for engineering as a first-class research contribution is one of the standalone sections below.
+Plateau detection v4, the multi-machine orchestration, the threshold rule, the five memory fixes from [Part 8](/2026/06/22/saturday-to-coauthor-08-fourteen.html), the diagnostics module. None of these is mathematics. All of them are the difference between the work producing numbers and the work producing a missing process and a shrug. The full case for engineering as a first-class research contribution is one of the standalone sections below.
 
 ---
 
 ## Three sentences
 
-If the eight weeks of work have a thesis about programming languages, it is the following three sentences. The first I have used in this series before, at the end of [Part 2](/tags/from-saturday-to-coauthor/). The second is its companion at the operational scale. The third is the one that did not exist five years ago.
+If the eight weeks of work have a thesis about programming languages, it is the following three sentences. The first I have used in this series before, at the end of [Part 2](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html). The second is its companion at the operational scale. The third is the one that did not exist five years ago.
 
 **The language you think in shapes the theorems you can see.** The recognition of the Basso recurrence as a catamorphism, and of the constraint kernel as an XOR convolution, did not require the language. They required the language to put the structure where I could see it. In a less expressive language I would have written equivalent code that hid the structure under indexing arithmetic, and the structure might have stayed hidden.
 
-**The language you write in shapes the experiments you can run.** The three-way gradient comparison from [Part 3](/tags/from-saturday-to-coauthor/) was cheap because the language made it cheap. The `Double64` fix in [Part 4](/tags/from-saturday-to-coauthor/) was cheap because the same parametric type carried it. The cross-evaluator congruence in [Part 6](/tags/from-saturday-to-coauthor/) is cheap because both evaluators are parametrised over the same algebra. When experiments are cheap, you run them. When you run them, you learn things you would not have predicted.
+**The language you write in shapes the experiments you can run.** The three-way gradient comparison from [Part 3](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html) was cheap because the language made it cheap. The `Double64` fix in [Part 4](/2026/06/08/saturday-to-coauthor-04-the-walls.html) was cheap because the same parametric type carried it. The cross-evaluator congruence in [Part 6](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html) is cheap because both evaluators are parametrised over the same algebra. When experiments are cheap, you run them. When you run them, you learn things you would not have predicted.
 
-**The language you write in shapes how efficient the LLM is.** This is the claim [Part 9](/tags/from-saturday-to-coauthor/) made in detail: when a substantial fraction of the code is generated by an LLM, the language's value is measured in compiler feedback per generation cycle. Strongly typed, immutable-by-default, functional-leaning languages compress the LLM's feedback loop; weakly typed, mutable-by-default languages stretch it. The calculus on language choice has shifted, because the producer of the code is shifting. Julia sits on the right side of that line; F#, Haskell, OCaml, and Rust sit beside it. The work in this series moved at the pace it did partly because the language and the new producer agreed about what *correct* looks like.
+**The language you write in shapes how efficient the LLM is.** This is the claim [Part 9](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html) made in detail: when a substantial fraction of the code is generated by an LLM, the language's value is measured in compiler feedback per generation cycle. Strongly typed, immutable-by-default, functional-leaning languages compress the LLM's feedback loop; weakly typed, mutable-by-default languages stretch it. The calculus on language choice has shifted, because the producer of the code is shifting. Julia sits on the right side of that line; F#, Haskell, OCaml, and Rust sit beside it. The work in this series moved at the pace it did partly because the language and the new producer agreed about what *correct* looks like.
 
 Three claims, three scales: cognitive, operational, conversational. Each is a different shape of the same observation. The language is part of the work; the work changes when the language changes; and what counts as "the right language" changes when who is writing changes.
 
@@ -101,7 +101,7 @@ Three claims, three scales: cognitive, operational, conversational. Each is a di
 
 ## Engineering is research
 
-The boundary between "scientific contribution" and "engineering work" does not exist in projects like this. The plateau detector, the threshold rule, the five memory fixes from [Part 8](/tags/from-saturday-to-coauthor/), the diagnostics module: every one of these is engineering. Every one of them is also the reason a number in the paper means what it means. Treating engineering as separate from the research is a category error of the publication system, not of the work.
+The boundary between "scientific contribution" and "engineering work" does not exist in projects like this. The plateau detector, the threshold rule, the five memory fixes from [Part 8](/2026/06/22/saturday-to-coauthor-08-fourteen.html), the diagnostics module: every one of these is engineering. Every one of them is also the reason a number in the paper means what it means. Treating engineering as separate from the research is a category error of the publication system, not of the work.
 
 Computational science is research *because of* the engineering, in exact proportion to how much of its claim depends on what the code did. A result that cannot be reproduced because the infrastructure was not described is a result that has not been published; it has only been announced. The discipline that closes that gap is, in plain English, engineering. The community knows this. The journal system does not always reward it. A blog series is one place where it can be written down without varnish.
 
@@ -169,18 +169,18 @@ To **Julia and its ecosystem**, for being expressive enough that the mathematics
 
 ## The series
 
-> 1. [Saturday](/tags/from-saturday-to-coauthor/)
-> 2. [The fold under the tree](/tags/from-saturday-to-coauthor/)
-> 3. [Three gradients in one codebase](/tags/from-saturday-to-coauthor/)
-> 4. [The walls](/tags/from-saturday-to-coauthor/)
-> 5. [The algebra that runs itself](/tags/from-saturday-to-coauthor/)
-> 6. [Eighteen hundred reasons](/tags/from-saturday-to-coauthor/)
-> 7. [Learning from the masters](/tags/from-saturday-to-coauthor/)
-> 8. [Fourteen](/tags/from-saturday-to-coauthor/)
-> 9. [The collaborator that never sleeps](/tags/from-saturday-to-coauthor/)
+> 1. [Saturday](/2026/05/29/saturday-to-coauthor-01-saturday.html)
+> 2. [The fold under the tree](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html)
+> 3. [Three gradients in one codebase](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html)
+> 4. [The walls](/2026/06/08/saturday-to-coauthor-04-the-walls.html)
+> 5. [The algebra that runs itself](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html)
+> 6. [Eighteen hundred reasons](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html)
+> 7. [Learning from the masters](/2026/06/18/saturday-to-coauthor-07-learning-from-the-masters.html)
+> 8. [Fourteen](/2026/06/22/saturday-to-coauthor-08-fourteen.html)
+> 9. [The collaborator that never sleeps](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html)
 > 10. What language taught us about mathematics
 
-[Part 1](/tags/from-saturday-to-coauthor/) ended on "wear a wetsuit and bring a torch". This last post does not need either. The torch has done its work. The cave system is mapped.
+[Part 1](/2026/05/29/saturday-to-coauthor-01-saturday.html) ended on "wear a wetsuit and bring a torch". This last post does not need either. The torch has done its work. The cave system is mapped.
 
 Thank you for coming spelunking.
 

@@ -38,8 +38,8 @@ The work was not done alone. The "we" you will read across these posts includes:
 
 - Stephen, whose questions, encouragement, and editorial steering shaped every part of it.
 - The team at Google Quantum AI whose prior published work made the problem statable in the first place.
-- Researchers at JPMorganChase, whose open-source code we later learnt from, whose answers we cross-validated against, and who appear with us as co-authors on the paper that came out the other side.
-- AI coding assistants (Gemini, Claude, Copilot), called out to Stephen right from the second day, without which this would not have shipped on the timeline it did.
+- Researchers at JPMorganChase, whose open-source code we later learnt from, whose answers we cross-validated against, and who appear as co-authors on the paper that came out the other side.
+- AI coding assistants (Gemini, Claude, Copilot) without which this would not have shipped on the timeline it did.
 - The tools: Julia, a 64GB Mac Studio, a 2016-vintage 128GB dual-Xeon workstation sans GPU, fifteen nodes of a SLURM cluster Stephen runs, and fifty dollars of Azure spend that did not pan out.
 
 The series does not use "we" loosely. Where the work was done by a person, it says so. Where it was done with a tool or a paper or someone else's code, it says so. The point of the record is the receipt.
@@ -78,7 +78,7 @@ That's where the "race" ended, and the collaboration began.
 
 ## What the contribution actually was
 
-It is tempting, with this kind of arc, to write the eight weeks that followed as a comeback story. It was not a comeback. JPMorganChase had the bigger cluster and got the further numbers, and they appear with us as co-authors on the paper.
+It is tempting, with this kind of arc, to write the eight weeks that followed as a comeback story. It was not a comeback. JPMorganChase had the bigger cluster and got the further numbers, and they appear as co-authors on the paper.
 
 The contribution from this side was different in kind, not in scale: independent verification on commodity hardware, with open code, with cross-checks against published baseline numbers. Two computations, by two groups, on very different setups, agreeing to the precision the paper required. That is the framing the series carries from here on.
 
@@ -120,7 +120,7 @@ There is plenty in here that I find funny, and where it is funny I am happy to s
 
 ## Come spelunking
 
-This trailer was the dry bit. From here we go deep-diving down the cave system: folds, gradients, walls, tests, algebras, masterclasses, manual adjoints, a stubborn Mac, the price of ~memory~ performance. We encounter a tireless, game-changing, collaborator; and we close with reflections.
+This trailer was the dry bit. From here we go deep-diving down the cave system: folds, gradients, walls, tests, algebras, masterclasses, manual adjoints, a stubborn Mac, the price of ~~memory~~ performance. We encounter a tireless, game-changing, collaborator; and we close with reflections.
 
 There are equations. There is Julia. There is at least one place where I admit that my first three attempts to detect a flat optimisation landscape were all wrong. Wear a wetsuit and bring a torch.
 
