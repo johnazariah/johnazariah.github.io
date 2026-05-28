@@ -544,3 +544,5 @@ That's the next post.
 ---
 
 *This is Part 2 of the series **"Your Clean Architecture Has a Dirty Secret."** The [full series](/tags/software-architecture/) explores separating intent from process using techniques from functional programming — Tagless Final, Free Monads, and the mathematical foundations that make them trustworthy.*
+
+*__Update (May 2026):__ [Mitchell Wand](https://www.khoury.northeastern.edu/people/mitchell-wand/) pointed out that `Then` in the algebra is actually monadic bind — Kleisli composition — not part of the domain vocabulary. The domain operations and the sequencing plumbing are structurally different things. See [What Mitchell Wand Taught Me About Intent](/2026/05/28/what-mitchell-wand-taught-me-about-intent.html) for the full discussion, and [Post 4](/2026/03/05/04-two-sides-of-the-same-coin.html) for the updated category-theoretic treatment.*
