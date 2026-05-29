@@ -138,7 +138,7 @@ John
 ## Notes
 
 - The Thread 1 fixes (category definition, `OrderStep<T>` functor, Mitch acknowledgement) were **already applied** in [Post 4: Two Sides of the Same Coin](../_posts/2026-03-05-04-two-sides-of-the-same-coin.md) — using $\mathcal{V}(\texttt{t})$ formulation, explicit functor treatment via continuation pairing, and a thanks line crediting Mitch.
-- The Thread 2 material (`Then` as monadic bind, applicative vs monadic distinction, connection to Ahuja/Bell) is addressed in the follow-up draft: [What Mitchell Wand Taught Me About Intent](../_drafts/2026-05-28-what-mitchell-wand-taught-me-about-intent.md).
+- The Thread 2 material (`Then` as monadic bind, applicative vs monadic distinction, connection to Ahuja/Bell) is addressed in the published follow-up: [What Mitchell Wand Taught Me About Intent](../_posts/2026-05-28-what-mitchell-wand-taught-me-about-intent.md) — live at https://johnazariah.github.io/2026/05/28/what-mitchell-wand-taught-me-about-intent.html
 - A footnote was added to the end of [Post 2](../_posts/2026-03-05-02-the-algebra-of-intent.md) pointing readers to the follow-up and to Post 4.
 - The "errors first" thread Mitch raised (senior devs starting with failure modes) is left open intentionally — it's a potential future post direction.
 - The QAOA reference points to the `saturday-to-coauthor` series in `future-series/` — pending Stephen's sign-off.
