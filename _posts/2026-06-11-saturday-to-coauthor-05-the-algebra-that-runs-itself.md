@@ -82,7 +82,7 @@ I did not set out to implement tagless final here. I set out to avoid copying th
 
 ### Evaluation
 
-The forward pass takes any `CostAlgebra`. The Phase 1 paper exercised it on fifteen Max-$k$-XORSAT instances. The Phase 2 follow-on exercised it on MaxCut at $D = 3, 4, 5, 6, 7$ at $p = 14$ on a Mac (and at $D = 8, 9$ at lower $p$ with the depth-fourteen runs in flight). No engine changes between the two phases. The same compiled code, with a different concrete algebra, produces results for a different problem family.
+The forward pass takes any `CostAlgebra`. The Phase 1 paper exercised it on fifteen Max-$k$-XORSAT instances. The Phase 2 follow-on exercised it on MaxCut at $D = 3, 4, 5, 6, 7, 8$ at $p = 14$ on a Mac (and at $D = 9$ at lower $p$ with the depth-fourteen run in flight). No engine changes between the two phases. The same compiled code, with a different concrete algebra, produces results for a different problem family.
 
 This is not a feature you appreciate until you need it. The moment Stephen and I started talking about Phase 2, the cost of starting was zero. There was no port. There was no re-validation of the fold. There was a new test file that asserted the engine returned the published Farhi value at $(k = 2, D = 3, p = 1)$, and then we were running.
 
