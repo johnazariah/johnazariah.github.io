@@ -124,13 +124,23 @@ Both numbers are the right answer to different questions. They are quoted togeth
 
 ## What was actually discovered, and where
 
-Two things are easy to misread in the previous section, and I want to be honest about both.
+Two things are easy to misread in the previous section, so it is worth separating them.
 
 The first move, the catamorphism recognition, is a programming-language move rather than a mathematical one. The recurrence in the paper is already mathematically correct. Recognising it as a fold over a tree, with a separable algebra, is what a functional programmer brings to it. That recognition does not produce a faster algorithm by itself. What it produces is a *vocabulary*: a way of writing the algorithm in which each part has a name, and each part can be questioned independently.
 
 The second move, the WHT factorisation, is a mathematical observation. The XOR-convolution structure was always in the recurrence; nobody hid it. But until the kernel was a function of its own, called once per node, looked at on its own page, the symmetry it had was decorative noise rather than something to exploit. **The naming made the symmetry visible. The visibility made the factorisation thinkable.**
 
 This is the thesis the series will keep returning to: *the language you think in shapes the theorems you can see*. It is not a claim about Julia in particular; the same exercise in F# or Haskell would have surfaced the same structure. It is a claim about clean, abstracted code as a research instrument.
+
+---
+
+## AI for Insight
+
+This discovery started in conversations with Claude and Gemini while I was still getting familiar with the mechanics of the computation.
+
+I kept asking for clarifications about the branch recurrence, and two things became clearer. First, locally, the light-cone tree has exchangeable child subproblems, so the evaluator should compute one representative contribution and reuse it for the other copies. Second, globally, the contraction was not just a contraction: it was a bottom-up traversal of the tree. It was a fold.
+
+That was the useful shape of the AI interaction here: Socratic coaching, not delegated agency. The functional-programming pattern was mine, but the conversation helped sharpen the explanation until the pieces separated cleanly enough to inspect. Once that happened, the next question became visible: what exactly is the combine step doing?
 
 ---
 
