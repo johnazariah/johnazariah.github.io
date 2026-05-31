@@ -75,10 +75,14 @@ k=2, D=5, p=14:  c̃ = 0.801254018370   wall = 22 501 s  (6.25 h)   peak RSS = 5
 k=2, D=6, p=14:  c̃ = 0.771627233507   wall = 17 859 s  (4.96 h)   peak RSS = 54.95 GB
 k=2, D=7, p=14:  c̃ = 0.752436836526   wall = 20 852 s  (5.79 h)   peak RSS = 55.05 GB
 k=2, D=8, p=14:  c̃ = 0.735341340823   wall = 14 489 s  (4.02 h)   peak RSS = 56.50 GB
-k=2, D=9, p=12:  c̃ = 0.717763513540   wall =  9 711 s  (2.70 h)   (best-so-far; p=14 in flight)
+k=2, D=9, p=14:  c̃ = 0.721906666140   wall = 17 512 s  (4.86 h)   peak RSS = 52.53 GB
 ```
 
-Those are exact expected satisfaction fractions of finite-depth QAOA on infinite-graph $D$-regular MaxCut, computed by an exact evaluator with a hand-derived manual adjoint, on a single workstation. The six $p = 14$ rows together account for about thirty-five hours of wall clock on a machine that fits under a desk. Eight hours and fifty-nine minutes of that is the $D = 3$ run. The $D = 9$ row is the current best-so-far at $p = 12$ from the same Mac; the depth-fourteen run is still in flight, and the table will update when it lands.
+Those are exact expected satisfaction fractions of depth-fourteen QAOA on infinite-graph $D$-regular MaxCut, computed by an exact evaluator with a hand-derived manual adjoint, on a single workstation. The seven $p = 14$ rows together account for about forty hours of wall clock on a machine that fits under a desk. Eight hours and fifty-nine minutes of that is the $D = 3$ run.
+
+![MaxCut D=9 trajectory: expected cut fraction and wall time as QAOA depth increases](/assets/images/2026-06-22-saturday-to-coauthor-08/maxcut-d9-p-trajectory.png)
+
+The $D = 9$ trajectory shows the shape of the tradeoff. The value improves steadily but by smaller increments as $p$ grows, while wall time moves onto a log scale. Peak RSS is only recorded for the final $p = 14$ production run, so the memory number appears as an annotation rather than a false memory-vs-depth curve. The $p = 13$ and $p = 14$ wall times come from different production runs, so the wall-time curve should be read as observed runtime, not a smooth scaling fit.
 
 ## What this beats and by how much
 
@@ -88,7 +92,7 @@ The relevant classical benchmarks for $D$-regular MaxCut are tight. Comparison i
 - **DQI (Decoded Quantum Interferometry) explicit upper bound** for $D$-regular MaxCut: $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D - 1}}$. At $D = 3$ this is $0.854$; at $D = 7$ it is $0.704$.
 - **Infinite-depth QAOA ceiling** for 3-regular MaxCut, from local-tree analysis: $\tilde c_\infty \approx 0.9326$.
 
-Across the six $p = 14$ rows, the QAOA value clears the DQI explicit bound at every $D$, by between 0.038 ($D = 3$) and 0.051 ($D = 5$). At $D = 3$, the value of $0.891384992947$ additionally clears the Goemans–Williamson worst-case guarantee by about 0.013 and sits below the infinite-depth 3-regular ceiling by about 0.041.
+Across the seven $p = 14$ rows, the QAOA value clears the DQI explicit bound at every $D$, by between 0.038 ($D = 3$) and 0.051 ($D = 5$). At $D = 3$, the value of $0.891384992947$ additionally clears the Goemans–Williamson worst-case guarantee by about 0.013 and sits below the infinite-depth 3-regular ceiling by about 0.041.
 
 These are the precise statements. They are narrow. $D$-regular MaxCut on the infinite-graph limit is a stylised setting; the Goemans–Williamson bound is a worst-case guarantee that holds on any graph, which is a stronger property than the expectation-value claim of QAOA on a regular family. The comparison the field has been waiting for is the one where *exact* numbers can be put side by side, because exactness is what stops both sides from over-claiming. The fact that the QAOA value beats the strongest classical lower bound on this family at every $D$ we ran, by an amount that exceeds the numerical uncertainty in either, is the comparison.
 
@@ -96,7 +100,7 @@ These are the precise statements. They are narrow. $D$-regular MaxCut on the inf
 
 The discipline of [Part 1](/2026/05/29/saturday-to-coauthor-01-saturday.html) is the discipline I want to keep here.
 
-I am not claiming "QAOA beats classical algorithms." I am claiming "exact finite-depth QAOA at $p = 14$ on infinite-graph $D$-regular MaxCut clears the DQI explicit upper bound at every $D \in \{3, 4, 5, 6, 7\}$, and additionally clears the Goemans–Williamson worst-case guarantee at $D = 3$." That sentence has every qualifier it needs.
+I am not claiming "QAOA beats classical algorithms." I am claiming "exact finite-depth QAOA at $p = 14$ on infinite-graph $D$-regular MaxCut clears the DQI explicit upper bound at every $D \in \{3, 4, 5, 6, 7, 8, 9\}$, and additionally clears the Goemans–Williamson worst-case guarantee at $D = 3$." That sentence has every qualifier it needs.
 
 I am not claiming that $p = 14$ on a Mac is a computational miracle. It is not. It is the consequence of three independent factor-of-$p$-class speedups stacked: the WHT factorisation from [Part 2](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html), the charge decomposition from [Part 7](/2026/06/18/saturday-to-coauthor-07-learning-from-the-masters.html), and the manual adjoint from [Part 3](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html) and its charge variant. Each of those was a small piece of mathematics; the headline number is what happens when they compose.
 
@@ -105,7 +109,7 @@ I am not claiming that the diagnostics module is interesting. It is profoundly u
 What the project demonstrates, narrowly:
 
 - The depth ceiling that previously required cluster compute and GPU acceleration is reachable on a Mac, across multiple values of regularity, with the right algorithmic stack.
-- The infrastructure is open. The code, the tests, the diagnostics, the memory-fix diffs, and the result files are public. Anyone who wants to reproduce $p = 14$ at any $D \in \{3, 4, 5, 6, 7\}$ can do so on the same kind of hardware.
+- The infrastructure is open. The code, the tests, the diagnostics, the memory-fix diffs, and the result files are public. Anyone who wants to reproduce $p = 14$ at any $D \in \{3, 4, 5, 6, 7, 8, 9\}$ can do so on the same kind of hardware.
 - The same engine that produced these numbers is the engine that produced the Phase 1 paper's fifteen-instance XORSAT sweep. One fold, two problem families, three precision regimes, four gradient strategies, two phases of the project, the same compiled code. That is the algebra from [Part 5](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html) doing what it was for.
 
 ---
@@ -116,4 +120,4 @@ Everything in this post was built in conversation. Some of the conversations wer
 
 _Next: **The collaborator that never sleeps**, on the disciplines and techniques that made eight weeks of AI-assisted research productive, and the shape of the human contribution alongside an instrument that can produce a tested module in twenty minutes._
 
-_Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The five memory fixes are on branch `feature/charge-adjoint-memory-fix`, commit `74cf598`, in `src/charge_manual_adjoint.jl`. The diagnostics module is `src/diagnostics.jl`. The $p = 14$ result files for $D \in \{3, 4, 5, 6, 7, 8\}$ are under `results/maxcut-k2-p14-*`; the in-flight $D = 9$ run is under `results/maxcut-k2-d9-sweep.csv`._
+_Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The five memory fixes are on branch `feature/charge-adjoint-memory-fix`, commit `74cf598`, in `src/charge_manual_adjoint.jl`. The diagnostics module is `src/diagnostics.jl`. The $p = 14$ result summary is `results/maxcut-k2-p14-timing.csv`; the individual $D = 8$ and $D = 9$ traces are under `results/maxcut-k2-d{8,9}-p14-*`._

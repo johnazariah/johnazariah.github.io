@@ -121,6 +121,6 @@ The charge evaluator and its manual adjoint were what made depth fourteen on a M
 
 ---
 
-_Next: **Fourteen**, on what it took to compute $p = 14$ MaxCut at $D = 3, 4, 5, 6, 7, 8$ on a sixty-four-gigabyte Mac Studio, the five memory fixes that brought a hundred-and-twenty-gigabyte projected working set down inside the machine, and the diagnostics module that was born from an earlier silent failure._
+_Next: **Fourteen**, on what it took to compute $p = 14$ MaxCut at $D = 3, 4, 5, 6, 7, 8, 9$ on a sixty-four-gigabyte Mac Studio, the five memory fixes that brought a hundred-and-twenty-gigabyte projected working set down inside the machine, and the diagnostics module that was born from an earlier silent failure._
 
 _Code: [github.com/johnazariah/qaoa-xorsat](https://github.com/johnazariah/qaoa-xorsat). The charge evaluator is in `src/charge.jl`; the manual charge adjoint is in `src/charge_manual_adjoint.jl`; the 76-assertion adjoint test set is in `test/test_charge_adjoint.jl`. The QOKit codebase, whose mathematics this post is built on, is at [github.com/jpmorganchase/QOKit](https://github.com/jpmorganchase/QOKit)._

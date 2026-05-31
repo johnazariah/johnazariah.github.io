@@ -131,9 +131,9 @@ The Phase 2 campaign deserves a table of its own:
 | 6 | 14 | 0.771627 | 4.96 h | 54.95 GB | 0.72361 | +0.048 |
 | 7 | 14 | 0.752437 | 5.79 h | 55.05 GB | 0.70412 | +0.048 |
 | 8 | 14 | 0.735341 | 4.02 h | 56.50 GB | 0.68898   | +0.046 |
-| 9 | 12 | 0.717764 | 2.70 h | n/a      | 0.67678   | +0.041 |
+| 9 | 14 | 0.721907 | 4.86 h | 52.53 GB | 0.67678   | +0.045 |
 
-Exact finite-depth QAOA expectations for $k = 2$ MaxCut on $D$-regular infinite-graph instances, all computed on a Mac Studio M4 (64 GB unified memory, Julia 1.12.5), in the campaign that began the day the Phase 1 paper was submitted. The six $p = 14$ rows account for about 35 hours of total wall clock. The DQI upper bound is $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D-1}}$, the strongest published classical comparison on this family; the QAOA value clears it at every $D$ in the table, by between 0.04 and 0.05. At $D = 3$ the value additionally clears the Goemans-Williamson worst-case guarantee of $\approx 0.8786$. The $D = 9$ row is shown at its current best depth ($p = 12$); the Mac is still working towards $p = 14$ for it, and the table will update when that run lands.
+Exact finite-depth QAOA expectations for $k = 2$ MaxCut on $D$-regular infinite-graph instances, all computed on a Mac Studio M4 (64 GB unified memory, Julia 1.12.5), in the campaign that began the day the Phase 1 paper was submitted. The seven $p = 14$ rows account for about 40 hours of total wall clock. The DQI upper bound is $\tfrac{1}{2} + \tfrac{1}{2\sqrt{D-1}}$, the strongest published classical comparison on this family; the QAOA value clears it at every $D$ in the table, by between 0.04 and 0.05. At $D = 3$ the value additionally clears the Goemans-Williamson worst-case guarantee of $\approx 0.8786$.
 
 I am stating these because they are defensible and because someone can check them. They are not stated as a victory lap. The point is that the work survives inspection.
 

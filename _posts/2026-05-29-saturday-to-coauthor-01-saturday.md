@@ -90,7 +90,7 @@ On 27 April 2026, [the paper](https://arxiv.org/pdf/2604.24633) went to arXiv. S
 
 The paper was a finish line for the first question. It was also a starting line for the next one: a single number, in a closely related family of optimisation problems, pushed to the highest depth a 64-gigabyte machine could be persuaded to hold without crashing.
 
-That number, as of this week, is depth fourteen on the smallest non-trivial graph: $\tilde c = 0.891384992947$, computed on the Mac Studio in eight hours and fifty-nine minutes, peak memory fifty-five and a half gigabytes. Four further values of regularity now have depth-fourteen numbers from the same Mac; two more are in flight. It is the answer to a question that several groups have been trying to compute. I do not know of another group that has computed it at depth fourteen on a single workstation. It is also, on its face, just a number; the eight posts between this one and the one that explains it are what make it meaningful.
+That number, as of this week, is depth fourteen on the smallest non-trivial graph: $\tilde c = 0.891384992947$, computed on the Mac Studio in eight hours and fifty-nine minutes, peak memory fifty-five and a half gigabytes. Six further values of regularity now have depth-fourteen numbers from the same Mac. It is the answer to a question that several groups have been trying to compute. I do not know of another group that has computed it at depth fourteen on a single workstation. It is also, on its face, just a number; the eight posts between this one and the one that explains it are what make it meaningful.
 
 ---
 
