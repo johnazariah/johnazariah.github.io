@@ -3,7 +3,7 @@
     title: "The Parseltongue Chronicles: Sinuous Strongly-Typed Pipelines"
     date: 2025-01-07
     categories: [Python, Pipelines, Type Safety]
-    tags: [Python, programming, idioms]
+    tags: [Python, programming, idioms, parseltongue-chronicles]
     author: johnazariah
     summary: My learnings on Python - how to use type hints, metaclasses, fat-functions, and type-wrangling
 ---

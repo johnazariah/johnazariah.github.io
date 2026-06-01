@@ -6,7 +6,7 @@
     summary: Part 9 of the project report. The disciplines and techniques that made eight weeks of AI-assisted research productive. Journals, learning materials, tests, and the conversational patterns that kept the engine running.
 ---
 
-_Part 9 of From Saturday to Co-Author. [Part 8 covered $p = 14$ on a Mac](/2026/06/22/saturday-to-coauthor-08-fourteen.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 9 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 8 covered $p = 14$ on a Mac](/2026/06/22/saturday-to-coauthor-08-fourteen.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 LaTeX replaced hand-set type. Google Scholar replaced the index catalogues at the back of bound journal volumes. Git replaced the practice of mailing each other tarballs. Each of those instruments, when it arrived, was treated for a while as something to be disclosed: "this paper was prepared with LaTeX." None of them are disclosed any more, because they are now part of how the work is done.
 

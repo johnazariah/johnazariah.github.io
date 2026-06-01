@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 2: Maps, Branches, and Choices"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Introducing nondeterminism to our Froggy DSL - exploring multiple paths through the multiverse.
 ---

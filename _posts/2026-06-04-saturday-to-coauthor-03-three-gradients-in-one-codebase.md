@@ -6,7 +6,7 @@
     summary: Part 3 of the project report. Why optimising over angles needs gradients, why three different ways of computing them ended up in the same codebase, and what Julia's type system did to keep them honest.
 ---
 
-_Part 3 of From Saturday to Co-Author. [Part 2 covered the fold under the tree](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 3 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 2 covered the fold under the tree](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 By Monday evening the evaluator from [Part 2](/2026/06/01/saturday-to-coauthor-02-the-fold-under-the-tree.html) computed $\tilde c(p)$ at usable depths in seconds. That was the engine for evaluating a fixed set of angles. The science of the project, though, was a maximum: for each $(k, D, p)$, what is the largest $\tilde c$ that QAOA can reach by choosing the angles well? The answer is not a single evaluation. It is an optimisation, over $2p$ real numbers, of a smooth non-convex function, and the workhorse method for that kind of optimisation needs gradients.
 

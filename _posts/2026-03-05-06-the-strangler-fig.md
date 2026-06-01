@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Intent vs Process - Part 6: The Strangler Fig"
-    tags: [C#, software-architecture, dependency-injection, tagless-final, free-monad, functional-programming]
+    tags: [C#, software-architecture, dependency-injection, tagless-final, free-monad, functional-programming, intent-vs-process]
     author: johnazariah
     summary: "You've seen the theory. Now here's the Monday morning plan: how to migrate a legacy codebase from fused intent-and-process to separated, without a rewrite."
 ---

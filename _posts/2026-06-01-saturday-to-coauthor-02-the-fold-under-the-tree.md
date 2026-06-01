@@ -6,7 +6,7 @@
     summary: "Part 2 of the project report. The first algorithmic insight: a recurrence turned out to be a fold over a tree, and a fold turned out to be a Walsh-Hadamard transform."
 ---
 
-_Part 2 of From Saturday to Co-Author. [Part 1 sets the scene](/2026/05/29/saturday-to-coauthor-01-saturday.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 2 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 1 sets the scene](/2026/05/29/saturday-to-coauthor-01-saturday.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 In Part 1 we left Saturday morning with three papers, a 03:47 email, and no idea what quantum approximate optimisation was. This post is about what happened between then and Monday evening.
 

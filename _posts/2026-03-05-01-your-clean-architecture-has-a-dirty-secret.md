@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Intent vs Process - Part 1: Your Clean Architecture Has a Dirty Secret"
-    tags: [C#, software-architecture, clean-architecture, CQRS, dependency-injection, functional-programming]
+    tags: [C#, software-architecture, clean-architecture, CQRS, dependency-injection, functional-programming, intent-vs-process]
     author: johnazariah
     summary: "N-tier, Clean Architecture, CQRS, microservices, vertical slices — they all share the same unspoken coupling. This post names it."
 ---

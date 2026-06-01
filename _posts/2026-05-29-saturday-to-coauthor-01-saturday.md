@@ -6,7 +6,7 @@
     summary: A sixteen-week project report dedicated to Stephen Jordan, in ten parts. This is the first.
 ---
 
-_Part 1 of From Saturday to Co-Author. This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 1 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 On Saturday 21 March 2026, at 03:47, an email arrived from Stephen. By the following Saturday, he had offered me co-authorship on a paper I had walked into not knowing the first thing about. Five weeks later the paper went to arXiv. Eight weeks after that, on a Mac Studio that fits under a desk, we computed the answer to the next-hardest version of the same question.
 

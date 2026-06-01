@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 6: The Power of Tagless-Final: Code as Model"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Why Tagless-Final works - closing the gap between specification and implementation, and when to use this pattern.
 ---

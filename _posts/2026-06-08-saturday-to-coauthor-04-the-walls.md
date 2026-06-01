@@ -6,7 +6,7 @@
     summary: Part 4 of the project report. Four walls between the evaluator and the table the paper needed, and when each wall asked us to push through versus walk away.
 ---
 
-_Part 4 of From Saturday to Co-Author. [Part 3 covered the gradient story](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 4 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 3 covered the gradient story](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 By the end of [Part 3](/2026/06/04/saturday-to-coauthor-03-three-gradients-in-one-codebase.html), the evaluator and the manual adjoint together produced trustworthy QAOA values at moderate $(k, D)$ and moderate $p$ in seconds. The Wednesday-morning emails were behind us. The paper Stephen's team was assembling needed the same set of numbers at high $(k, D)$ and the highest $p$ we could reach.
 

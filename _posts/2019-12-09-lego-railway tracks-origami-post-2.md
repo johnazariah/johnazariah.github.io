@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Lego, Railway Tracks, and Origami - Post 2"
-    tags: [functional-programming, functors, applicatives, monads, composition, F#]
+    tags: [functional-programming, functors, applicatives, monads, composition, F#, lego-railway-tracks-origami]
     author: johnazariah
     summary: This is Post 2 in a series of posts contributing to FsAdvent 2019
     excerpt: A post about how the foundations of functional programming have neat effects on real-life programming

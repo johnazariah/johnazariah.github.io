@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 1: Froggy Tree House"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Building a tiny DSL for a tiny game using F# Computation Expressions and the Tagless-Final pattern.
 ---

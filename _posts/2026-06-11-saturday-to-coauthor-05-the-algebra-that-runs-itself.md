@@ -6,7 +6,7 @@
     summary: Part 5 of the project report. The cost algebra as a tagless final encoding, and how the same fold engine ended up running two unrelated problem families and four gradient strategies without modification.
 ---
 
-_Part 5 of From Saturday to Co-Author. [Part 4 covered the walls](/2026/06/08/saturday-to-coauthor-04-the-walls.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 5 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 4 covered the walls](/2026/06/08/saturday-to-coauthor-04-the-walls.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 [Part 4](/2026/06/08/saturday-to-coauthor-04-the-walls.html) closed on a question it had been quietly raising for three posts: the same fold engine had absorbed three gradient strategies, two precision regimes, a swarm wrapper, fifteen $(k, D)$ instances of Max-$k$-XORSAT, and (Phase 2 would later add) a second problem family entirely. None of those additions had required modifying the engine. The natural question is why.
 

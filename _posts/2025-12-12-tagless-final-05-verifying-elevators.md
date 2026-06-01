@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 5: Verifying the Elevator"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Using our Froggy infrastructure to detect safety violations in elevator control programs.
 ---

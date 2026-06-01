@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "The Parseltongue Chronicles: My Journey Into Python"
-    tags: [Python, programming, idioms]
+    tags: [Python, programming, idioms, parseltongue-chronicles]
     author: johnazariah
     summary: A reflection on transitioning to Python development, this post series explores the challenges and surprising strengths I encountered while working on a RAG-based copilot solution. From list comprehensions to Python notebooks, I share key learnings and insights for programmers curious about Python.
 ---

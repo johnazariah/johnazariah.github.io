@@ -6,7 +6,7 @@
     summary: Part 6 of the project report. The seven-layer test architecture that made the numbers publishable when there was no external reference except the ones the engine produced itself, four different ways, that had to agree.
 ---
 
-_Part 6 of From Saturday to Co-Author. [Part 5 covered the cost algebra](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 6 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 5 covered the cost algebra](/2026/06/11/saturday-to-coauthor-05-the-algebra-that-runs-itself.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 Here is the uncomfortable shape of the problem this post exists to solve.
 

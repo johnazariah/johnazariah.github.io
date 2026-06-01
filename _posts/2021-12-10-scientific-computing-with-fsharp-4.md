@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Scientific Computing with F# - Post 4 : Solving TSP with BRKGA"
-    tags: [functional-programming, scientific-computing, evolutionary-algorithms, TSP, BRKGA, Ising, F#] 
+    tags: [functional-programming, scientific-computing, evolutionary-algorithms, TSP, BRKGA, Ising, F#, scientific-computing-with-fsharp]
     author: johnazariah
     summary: This is my contribution to FsAdvent 2021
     excerpt: A series of posts outlining how we can use F# for solving some interesting scientific computing problems

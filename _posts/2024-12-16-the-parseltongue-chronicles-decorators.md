@@ -3,7 +3,7 @@
     title: "The Parseltongue Chronicles: Enchanting Embeddings with Python Decorators"
     date: 2024-12-16
     categories: [Python, Decorators, Machine Learning]
-    tags: [embeddings, Python, decorators, optimization]
+    tags: [embeddings, Python, decorators, optimization, parseltongue-chronicles]
     author: johnazariah
     summary: My learnings on Python - how to use decorators
 ---

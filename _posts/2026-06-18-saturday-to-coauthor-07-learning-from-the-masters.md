@@ -6,7 +6,7 @@
     summary: Part 7 of the project report. Studying QOKit, the JPM team's published implementation, finding a deeper mathematical structure than we had derived on our own, and reimplementing it from first principles in Julia.
 ---
 
-_Part 7 of From Saturday to Co-Author. [Part 6 covered the test architecture](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 7 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 6 covered the test architecture](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 The Phase 1 paper was submitted to arXiv on Monday 27 April. The XORSAT campaign was done. Fifteen $(k, D)$ instances of Max-$k$-XORSAT had been swept; thirteen of them beat the strongest classical baseline in the comparison; the methodology held under cross-evaluator review.
 

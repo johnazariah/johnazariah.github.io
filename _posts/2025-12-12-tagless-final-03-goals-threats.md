@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 3: Goals, Threats, and Getting Stuck"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Adding win conditions and failure states to our DSL, plus building safety inspectors and coroners.
 ---

@@ -6,7 +6,7 @@
     summary: Part 8 of the project report. What it took to compute exact finite-depth QAOA at p=14 for regular MaxCut on a single Mac Studio with 64 GB of memory.
 ---
 
-_Part 8 of From Saturday to Co-Author. [Part 7 covered the charge decomposition](/2026/06/18/saturday-to-coauthor-07-learning-from-the-masters.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 8 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 7 covered the charge decomposition](/2026/06/18/saturday-to-coauthor-07-learning-from-the-masters.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 Everything in this series so far has been infrastructure. The fold, the gradient, the cost algebra, the test harness, the charge decomposition, the manual adjoint. This post is about a single number that all of it was for: the expected satisfaction fraction $\tilde c$ of exact finite-depth QAOA at depth fourteen on regular MaxCut, computed on a Mac.
 

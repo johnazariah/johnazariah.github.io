@@ -6,7 +6,7 @@
     summary: Part 10 of the project report. The two bookend emails, the ten innovations and where they came from, and the case that programming languages are research tools, not just implementation tools.
 ---
 
-_Part 10 of From Saturday to Co-Author. [Part 9 covered the AI collaboration honestly](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
+_Part 10 of [From Saturday to Co-Author](/tags/from-saturday-to-coauthor/). [Part 9 covered the AI collaboration honestly](/2026/06/25/saturday-to-coauthor-09-the-collaborator-that-never-sleeps.html). This series is dedicated to [Stephen Jordan](https://scholar.google.com/citations?user=dcSsY4cAAAAJ&hl=en&oi=ao)._
 
 This is the last post in the series. I want to set the technical work to one side for it, and tell the rest of the story plainly.
 

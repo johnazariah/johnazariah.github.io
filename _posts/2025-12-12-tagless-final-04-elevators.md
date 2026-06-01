@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Tagless Final in F# - Part 4: A Surprising New DSL: Elevators"
-    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions]
+    tags: [F#, functional-programming, tagless-final, dsl, computation-expressions, tagless-final-series]
     author: johnazariah
     summary: Discovering that frogs and elevators share the same algebraic structure - and building a translator between them.
 ---

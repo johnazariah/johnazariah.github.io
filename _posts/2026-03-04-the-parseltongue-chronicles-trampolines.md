@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "The Parseltongue Chronicles: Taming Recursion with Trampolines"
-    tags: [Python, functional-programming, recursion, trampolines, programming]
+    tags: [Python, functional-programming, recursion, trampolines, programming, parseltongue-chronicles]
     author: johnazariah
     summary: A step-by-step guide to writing elegant, stack-safe recursive code in Python—using tail recursion, continuations, and trampolines.
 ---

@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Intent vs Process - Part 4: Two Sides of the Same Coin"
-    tags: [C#, F#, software-architecture, tagless-final, free-monad, functional-programming, category-theory]
+    tags: [C#, F#, software-architecture, tagless-final, free-monad, functional-programming, category-theory, intent-vs-process]
     author: johnazariah
     summary: "Interfaces vs data structures. Method dispatch vs pattern matching. These aren't competing approaches — they're mathematically dual. Here's what that means and when to choose which."
     update_date: 2026-03-18

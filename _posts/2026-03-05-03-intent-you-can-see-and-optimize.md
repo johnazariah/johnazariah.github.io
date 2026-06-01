@@ -1,7 +1,7 @@
 ---
     layout: post
     title: "Intent vs Process - Part 3: Intent You Can See (and Optimize)"
-    tags: [C#, software-architecture, free-monad, LINQ, functional-programming, optimization]
+    tags: [C#, software-architecture, free-monad, LINQ, functional-programming, optimization, intent-vs-process]
     author: johnazariah
     summary: "What if your program was data you could walk, analyze, and transform — like SQL EXPLAIN for your business logic? Enter the Free Monad: programs as inspectable, optimizable values."
 ---
