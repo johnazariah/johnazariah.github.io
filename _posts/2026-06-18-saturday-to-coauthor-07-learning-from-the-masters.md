@@ -38,7 +38,7 @@ This is exactly the kind of mathematical structure I would not have found on my 
 
 The JPM team derived the charge decomposition. They published the mathematics. They open-sourced clean, readable code in Python and JAX. When the dust settled, what we owed them was the entire structural speedup that made Phase 2 thinkable on commodity hardware.
 
-What we could add, on the other side, was independence of the implementation. Their evaluator and ours, sharing no code, agreeing to ten digits, is a stronger validation of both than any single implementation could be on its own. That is the Layer 3 argument from [Part 6](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html) in action. The cross-validation is not a courtesy; it is the structural reason their numbers and ours both deserve to be trusted in a joint paper.
+What I could add, on my side, was a second, independent implementation. Our charge evaluator and our original Basso evaluator share no code, and they agree to ten digits. That is the Layer 3 argument from [Part 6](/2026/06/15/saturday-to-coauthor-06-eighteen-hundred-reasons.html) in action: two implementations of the same quantity, sharing nothing but the mathematics they both encode, agreeing. The cross-validation is not a courtesy; it is the structural reason the MaxCut-at-depth numbers I went on to compute deserve to be trusted. The Phase 1 XORSAT paper had already shipped, on the Basso engine alone; this reimplementation was for what came next.
 
 The reimplementation also gave us the algebra integration. The charge evaluator plugs into the same `CostAlgebra` as the Basso evaluator. The same optimiser, the same test harness, the same diagnostics. Adding it to the codebase was adding a new gradient backend; nothing else changed.
 
@@ -109,7 +109,7 @@ Measured cost of the charge manual adjoint after this fix: **about 4.5 times a s
 
 This is the post that most embodies the dedication at the top of the series.
 
-The mathematics of the charge decomposition is the JPM team's. They derived it; they implemented it; they published it; they made the code clean enough that someone outside their group could read it. What we contributed was an independent Julia implementation, the cross-evaluator congruence proof, and the algebra integration that let the rest of the pipeline absorb it. The joint paper is stronger because both implementations agree, not because either of them is the canonical one.
+The mathematics of the charge decomposition is the JPM team's. They derived it; they implemented it; they published it; they made the code clean enough that someone outside their group could read it. What I built was an independent Julia implementation, a cross-evaluator congruence proof against our own Basso engine, and the algebra integration that let the rest of the pipeline absorb it. My MaxCut results are stronger because two implementations agree, not because either of them is the canonical one. The Phase 1 XORSAT paper, by contrast, had already shipped on the Basso engine; this work was for the MaxCut-at-depth campaign that follows.
 
 Studying a colleague's implementation is a research skill in its own right. It takes humility: they solved something you did not. It takes patience: their conventions are not your conventions, and every difference is a potential bug. It takes a test harness, because the differences will not all be visible at $p = 1$. The payoff is that you get to stand on someone's shoulders rather than dig your own foundation.
 
