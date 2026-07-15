@@ -89,8 +89,8 @@ Posts use indented front matter (blog convention):
 
 ## Series in Progress
 
-Active series are currently on the companion **Quantum Workbooks** sub-blog
-(`../quantum-workbooks`, published under `/quantum-workbooks/`), rolling out weekly on Tuesdays:
+Active series are currently on the companion **Quantum** sub-blog
+(`../quantum`, published under `/quantum/`), rolling out weekly on Tuesdays:
 
 - **Linear Algebra for Fun and Profit** - the linear algebra behind quantum computing and machine learning
   - Part 1 (2026-07-14, live): How to Raise `e` to a Matrix
