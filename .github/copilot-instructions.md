@@ -37,7 +37,6 @@ Reference these prompts in `.github/prompts/` for detailed workflows (all prefix
 - `blog.customize-theme.prompt.md` - Theme customization guide
 - `blog.conventions.prompt.md` - Style guide reference
 - `blog.refresh-context.prompt.md` - Refresh context and analyze blog state
-- `blog.publish-aura-series.prompt.md` - Publish from the Aura series (AI development accelerator)
 
 ## Front Matter Format
 
@@ -90,23 +89,16 @@ Posts use indented front matter (blog convention):
 
 ## Series in Progress
 
-- **The Parseltongue Chronicles** - Python idioms and patterns (3 posts published)
-- **Aura Series** (in `future-series/aura-series/posts/`) - Building an AI development accelerator using story-driven development
-  - 01-can-ai-accelerate.md - A skeptic's journey from "fancy autocomplete"
-  - 02-the-missing-piece.md - Why LLMs need structure, stories provide it
-  - 03-aura-architecture.md - Local-first architecture, agents, orchestration
-  - 04-graphrag-case-study.md - Teaching AI codebase understanding with GraphRAG
-  - 05-code-i-didnt-write.md - 17 projects, 294 files, zero implementation code
-  - 06-the-challenges.md - What went wrong, honest lessons
-  - 07-recursive-improvement.md - Aura improving itself
-  - 08-getting-started.md - Practical guide to story-driven development
-- **Tagless Final Series** (in `future-series/tagless-final-series/posts/`) - DSLs in F#
-  - 01-froggy-tree-house.md
-  - 02-maps-branches-choices.md
-  - 03-goals-threats.md
-  - 04-elevators.md
-  - 05-verifying-elevators.md
-  - 06-model-verification.md
+Active series are currently on the companion **Quantum Workbooks** sub-blog
+(`../quantum-workbooks`, published under `/quantum-workbooks/`), rolling out weekly on Tuesdays:
+
+- **Linear Algebra for Fun and Profit** - the linear algebra behind quantum computing and machine learning
+  - Part 1 (2026-07-14, live): How to Raise `e` to a Matrix
+  - Part 2 (2026-07-21): Machine Learning and Quantum Computing: What a Difference `i` Makes
+- **The Quantum Bottleneck** - quantum computing through real-world bottlenecks, with runnable notebooks (8 parts, 2026-07-28 through 2026-09-15)
+
+The main-blog `future-series/` folder is currently empty; recent series
+(Tagless Final, From Saturday to Co-Author) have been published to `_posts/`.
 
 ## Publishing Workflow
 

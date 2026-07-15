@@ -4,15 +4,14 @@ Take a draft post from `future-series/<series>/posts/` and prepare it for public
 
 ## Available Series
 
-Check `future-series/` for available series:
-- `tagless-final-series/posts/` - Posts about tagless final pattern in F#
-  - `01-froggy-tree-house.md`
-  - `02-maps-branches-choices.md`
-  - `03-goals-threats.md`
-  - `04-elevators.md`
-  - `05-verifying-elevators.md`
-  - `06-model-verification.md`
-- `aura-series/` - (Planning stage)
+Check `future-series/` for available draft series:
+
+```bash
+ls future-series/
+```
+
+The folder is currently empty. Start a new series by adding drafts under
+`future-series/<series-name>/posts/NN-<title>.md`.
 
 ## Instructions
 

@@ -64,9 +64,7 @@ johnazariah.github.io/
 │   └── images/YYYY-MM-DD/     # Post images by date
 ├── code/YYYY-MM-DD/           # External code samples
 ├── tags/<tag-name>/           # Tag index pages
-├── future-series/             # Unpublished draft series
-│   ├── tagless-final-series/  # 6-part F# DSL series
-│   └── aura-series/           # Planning stage
+├── future-series/             # Unpublished draft series (currently empty)
 ├── .github/
 │   ├── prompts/               # All blog.*.prompt.md files
 │   └── copilot-instructions.md
