@@ -29,13 +29,3 @@ ENV PATH="/root/.local/bin:${PATH}"
 RUN cp /root/.local/bin/uv /usr/local/bin/uv \
     && cp /root/.local/bin/uvx /usr/local/bin/uvx \
     && cp /root/.local/bin/ruff /usr/local/bin/ruff
-
-# Install Haskell (GHCup, GHC, Cabal) for the vscode user
-USER vscode
-RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
-    | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
-      BOOTSTRAP_HASKELL_GHC_VERSION=9.6.4 \
-      BOOTSTRAP_HASKELL_CABAL_VERSION=3.10.2.1 \
-      sh
-ENV PATH="/home/vscode/.ghcup/bin:${PATH}"
-USER root
